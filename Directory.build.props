@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>AUTHOR</Authors>
+    <Company>Your Company</Company>
+    <Product>Your Product</Product>
+
+    <CurrentYear>$([System.DateTime]::Now.ToString("yyyy"))</CurrentYear>
+    <Copyright>Copyright © $(Company) $(CurrentYear)</Copyright>    
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Core namespace of your application</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moryx" />
+  </ItemGroup>
+
+</Project>
