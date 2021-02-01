@@ -11,7 +11,7 @@
 
 **Public API definitions for MORYX Factory applications.**
 
-This repository contains the APIs, domain objects and developer documentation for the MORYX factory scope. They are licensed under the [Apache 2.0 license](LICENSE) to ensure compatibility of packages from different vendors.
+This repository contains the APIs, domain objects and developer documentation for the MORYX factory scope. They are licensed under the [Apache 2.0 license](LICENSE) to ensure compatibility of packages from different vendors. This repository also contains the necessary developer documentation to use the different APIs.
 
 ## Packages
 
@@ -21,4 +21,4 @@ This repository contains the APIs, domain objects and developer documentation fo
 
 ## Contribute
 
-You can contribute to the MORYX Factory Domain by reporting bugs and suggesting extensions to APIs.
+You can contribute to the MORYX Factory Domain by reporting bugs and suggesting extensions to APIs. 
