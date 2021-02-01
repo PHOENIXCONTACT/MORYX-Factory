@@ -4,12 +4,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Authors>AUTHOR</Authors>
-    <Company>Your Company</Company>
-    <Product>Your Product</Product>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
-    <CurrentYear>$([System.DateTime]::Now.ToString("yyyy"))</CurrentYear>
-    <Copyright>Copyright © $(Company) $(CurrentYear)</Copyright>    
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
-
 </Project>

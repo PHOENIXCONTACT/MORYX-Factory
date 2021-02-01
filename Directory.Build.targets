@@ -3,11 +3,18 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxPlatformVersion>3.0.0-dev.232</MoryxPlatformVersion>
-    <MoryxClientFrameworkVersion>3.0.0-dev.66</MoryxClientFrameworkVersion>
-    <MoryxMaintenanceWebVersion>3.0.0-dev.57</MoryxMaintenanceWebVersion>    
-    <MoryxAbstractionLayerVersion>5.0.0-dev.171</MoryxAbstractionLayerVersion>
+    <MoryxPlatformVersion>3.0.0</MoryxPlatformVersion>
+    <MoryxClientFrameworkVersion>3.0.0</MoryxClientFrameworkVersion>
+    <MoryxMaintenanceWebVersion>3.0.0</MoryxMaintenanceWebVersion>    
+    <MoryxAbstractionLayerVersion>5.0.0</MoryxAbstractionLayerVersion>
   </PropertyGroup>
+
+  <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
+
+  <!-- Package refereces for all projects if CreatePackage=true -->
+  <ItemGroup Condition="'$(CreatePackage)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
 
   <!-- Package versions for package references across all projects -->
   <ItemGroup>

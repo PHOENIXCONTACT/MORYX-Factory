@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartProject", "src\StartProject\StartProject.csproj", "{8F6449AB-4560-40B1-835E-308F1534734C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApplication", "src\MyApplication\MyApplication.csproj", "{DF4730D4-5DB2-46A5-9F2B-C7B22E61268B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moryx.ControlSystem", "src\Moryx.ControlSystem\Moryx.ControlSystem.csproj", "{DF4730D4-5DB2-46A5-9F2B-C7B22E61268B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
