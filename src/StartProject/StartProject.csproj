@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>  
-    <ProjectReference Include="..\MyApplication\MyApplication.csproj" />
+    <ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
   </ItemGroup>
 
   <ItemGroup>

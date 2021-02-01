@@ -3,11 +3,13 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>Core namespace of your application</Description>
+    <Description>Bundle assembly for ControlSystem and extensions</Description>
+    <CreatePackage>true</CreatePackage>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Moryx" />
+    <PackageReference Include="Moryx.AbstractionLayer" />
   </ItemGroup>
 
 </Project>
+
