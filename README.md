@@ -17,7 +17,7 @@ This repository contains the APIs, domain objects and developer documentation fo
 
 | Package | Docs | Stable | Preview |
 |--|--|--|--|
-|Moryx.ControlSystem|[ControlSystem](docs/ControlSystem.md)| | |
+|Moryx.ControlSystem|[ControlSystem](docs/ControlSystem.md)| | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ControlSystem) |
 
 ## Contribute
 
