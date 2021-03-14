@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
-using Moryx.AbstractionLayer;
 using Moryx.AbstractionLayer.Recipes;
 using Moryx.ControlSystem.Setups;
 
@@ -14,7 +13,7 @@ namespace Moryx.ControlSystem.Recipes
     public class SetupRecipe : WorkplanRecipe, ISetupRecipe
     {
         /// <inheritdoc />
-        public IProductionRecipe TargetRecipe { get; set; }
+        public IProductRecipe TargetRecipe { get; set; }
 
         /// <inheritdoc />
         public SetupExecution Execution { get; set; }

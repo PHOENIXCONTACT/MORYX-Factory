@@ -7,25 +7,6 @@ using Moryx.ControlSystem.Activities;
 namespace Moryx.ControlSystem.Cells
 {
     /// <summary>
-    /// Different request types for ReadyToWork
-    /// </summary>
-    public enum ReadyToWorkType
-    {
-        /// <summary>
-        /// Define a special default to avoid default=Push
-        /// </summary>
-        Unset,
-        /// <summary>
-        /// The push
-        /// </summary>
-        Push,
-        /// <summary>
-        /// The pull
-        /// </summary>
-        Pull
-    }
-
-    /// <summary>
     /// Message send by the resource when it
     /// </summary>
     public class ReadyToWork : Session, ICompletableSession

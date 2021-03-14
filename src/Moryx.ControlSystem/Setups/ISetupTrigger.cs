@@ -23,11 +23,11 @@ namespace Moryx.ControlSystem.Setups
         /// Determine the necessary setup action and optionally the capabilities
         /// If capabilities are not used, they should be set to <see cref="NullCapabilities.Instance"/>
         /// </summary>
-        SetupEvaluation Evaluate(IProductionRecipe recipe);
+        SetupEvaluation Evaluate(IProductRecipe recipe);
 
         /// <summary>
         /// Create a setup task that performs the necessary setup actions
         /// </summary>
-        IWorkplanStep CreateStep(IProductionRecipe recipe);
+        IWorkplanStep CreateStep(IProductRecipe recipe);
     }
 }

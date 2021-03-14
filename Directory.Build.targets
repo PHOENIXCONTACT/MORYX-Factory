@@ -4,7 +4,7 @@
   <!-- Central package version management -->
   <PropertyGroup>
     <MoryxPlatformVersion>3.0.0</MoryxPlatformVersion>
-    <MoryxAbstractionLayerVersion>5.1.0</MoryxAbstractionLayerVersion>
+    <MoryxAbstractionLayerVersion>5.2.1</MoryxAbstractionLayerVersion>
   </PropertyGroup>
 
   <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />

@@ -3,7 +3,6 @@
 
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Moryx.AbstractionLayer;
 using Moryx.Collections;
 using Moryx.Modules;
 using Moryx.Serialization;

@@ -57,9 +57,9 @@ namespace Moryx.ControlSystem.Setups
         }
 
         /// <inheritdoc />
-        public abstract SetupEvaluation Evaluate(IProductionRecipe recipe);
+        public abstract SetupEvaluation Evaluate(IProductRecipe recipe);
 
         /// <inheritdoc />
-        public abstract IWorkplanStep CreateStep(IProductionRecipe recipe);
+        public abstract IWorkplanStep CreateStep(IProductRecipe recipe);
     }
 }

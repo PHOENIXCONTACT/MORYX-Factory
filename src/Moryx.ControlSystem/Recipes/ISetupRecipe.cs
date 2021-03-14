@@ -14,7 +14,7 @@ namespace Moryx.ControlSystem.Recipes
         /// <summary>
         /// Recipe of the next job prepared by this
         /// </summary>
-        IProductionRecipe TargetRecipe { get; set; }
+        IProductRecipe TargetRecipe { get; set; }
 
         /// <summary>
         /// Flag if this setup is a cleanup
