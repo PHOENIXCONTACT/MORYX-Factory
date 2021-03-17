@@ -31,4 +31,4 @@ This repository contains the APIs, domain objects and developer documentation fo
 
 ## Contribute
 
-You can contribute to the MORYX Factory Domain by reporting bugs and suggesting extensions to APIs. 
+You can contribute to the MORYX Factory Domain by reporting bugs and suggesting extensions to APIs.

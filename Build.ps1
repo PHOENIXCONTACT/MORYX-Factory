@@ -4,6 +4,7 @@
     [switch]$UnitTests,
 
     [switch]$CoverReport,
+    [switch]$GenerateDocs,
 
     [switch]$Pack,
     [switch]$Publish
@@ -25,6 +26,10 @@ if ($UnitTests) {
 
 if ($CoverReport) {
     Invoke-CoverReport
+}
+
+if ($GenerateDocs) {
+    Invoke-DocFx
 }
 
 if ($Pack) {
