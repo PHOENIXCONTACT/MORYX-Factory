@@ -1,5 +1,4 @@
 ﻿param (
-    [switch]$SetAssemblyVersion,
     [switch]$Build,
 
     [switch]$UnitTests,
