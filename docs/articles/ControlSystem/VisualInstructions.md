@@ -1,6 +1,6 @@
 # Visual Instructions
 
-Defines the types and API for resources, that display visual instructions to users. 
+Defines the types and API for resources, that display visual instructions to users.
 
 ## Content-Types
 
