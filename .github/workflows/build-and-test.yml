@@ -39,9 +39,31 @@ jobs:
           name: packages
           path: artifacts/Packages/
           retention-days: 1
+            
+  UnitTests:       
+    needs: [Build]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.dotnet_sdk_version }}
+
+      - name: Execute Unit Tests
+        shell: pwsh
+        run: ./Build.ps1 -UnitTests
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: artifacts/Tests/
+          retention-days: 1
 
   Documentation:
-    needs: [Build]
+    needs: [UnitTests]
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -58,7 +80,7 @@ jobs:
           retention-days: 1
 
   Publish:
-    needs: [Build]
+    needs: [UnitTests]
     if: ${{ github.event_name == 'push' }}
     runs-on: windows-latest
     steps:

@@ -22,6 +22,7 @@
     <PackageReference Update="NUnit" Version="3.12.0" />
 
     <!--Platform dependencies-->
+	<PackageReference Update="Moryx.Model.InMemory" Version="$(MoryxPlatformVersion)" />
 
     <!--AbstractionLayer dependencies-->
     <PackageReference Update="Moryx.AbstractionLayer" Version="$(MoryxAbstractionLayerVersion)" />
