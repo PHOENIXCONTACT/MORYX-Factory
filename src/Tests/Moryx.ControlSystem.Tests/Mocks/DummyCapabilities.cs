@@ -1,4 +1,7 @@
-﻿using Moryx.AbstractionLayer.Capabilities;
+﻿// Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
+
+using Moryx.AbstractionLayer.Capabilities;
 
 namespace Moryx.ControlSystem.Tests.Mocks
 {
