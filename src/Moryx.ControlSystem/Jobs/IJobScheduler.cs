@@ -25,7 +25,7 @@ namespace Moryx.ControlSystem.Jobs
         /// <summary>
         /// Job was updated
         /// </summary>
-        void JobUpdated(Job jobData, JobClassification classification);
+        void JobUpdated(Job job, JobClassification classification);
 
         /// <summary>
         /// Raised if the scheduler has a slot for the job

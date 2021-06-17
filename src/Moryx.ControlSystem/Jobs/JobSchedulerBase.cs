@@ -101,7 +101,7 @@ namespace Moryx.ControlSystem.Jobs
         public abstract void JobsReady(IEnumerable<Job> startableJobs);
 
         /// <inheritdoc />
-        public abstract void JobUpdated(Job jobData, JobClassification classification);
+        public abstract void JobUpdated(Job job, JobClassification classification);
 
         /// <inheritdoc />
         public event EventHandler SlotAvailable;

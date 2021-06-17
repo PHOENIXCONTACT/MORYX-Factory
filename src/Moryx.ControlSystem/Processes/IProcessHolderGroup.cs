@@ -7,20 +7,31 @@ using Moryx.AbstractionLayer.Resources;
 namespace Moryx.ControlSystem.Processes
 {
     /// <summary>
-    /// Generic interface for groups of types derived from <see cref="IProcessHolderPosition"/>
+    /// Standard interface for groups of types derived from <see cref="IProcessHolderPosition"/>
     /// </summary>
-    /// <typeparam name="TPosition"></typeparam>
-    public interface IProcessHolderGroup<out TPosition> : IResource
-        where TPosition : IProcessHolderPosition
+    public interface IProcessHolderGroup : IResource
     {
         /// <summary>
         /// All positions of the group
         /// </summary>
-        IEnumerable<TPosition> Positions { get; }
+        IEnumerable<IProcessHolderPosition> Positions { get; }
 
         /// <summary>
         /// The entire group is reset
         /// </summary>
         void Reset();
+    }
+
+    /// <summary>
+    /// Generic interface for groups of types derived from <see cref="IProcessHolderPosition"/>
+    /// </summary>
+    /// <typeparam name="TPosition"></typeparam>
+    public interface IProcessHolderGroup<out TPosition> : IProcessHolderGroup
+        where TPosition : IProcessHolderPosition
+    {
+        /// <summary>
+        /// All positions of the group
+        /// </summary>
+        new IEnumerable<TPosition> Positions { get; }
     }
 }

@@ -9,16 +9,16 @@ namespace Moryx.ControlSystem.Processes
     /// <summary>
     /// Default implementation for <see cref="IProcessHolderGroup{IProcessHolderPosition}"/>
     /// </summary>
-    public class ProcessHolderGroup : Resource, IProcessHolderGroup<ProcessHolderPosition>
+    public class ProcessHolderGroup : Resource, IProcessHolderGroup
     {
         /// <summary>
         /// All positions of this carrier
         /// </summary>
         [ReferenceOverride(nameof(Children))]
-        public IReferences<ProcessHolderPosition> Positions { get; set; }
+        public IReferences<IProcessHolderPosition> Positions { get; set; }
 
         /// <inheritdoc />
-        IEnumerable<ProcessHolderPosition> IProcessHolderGroup<ProcessHolderPosition>.Positions => Positions;
+        IEnumerable<IProcessHolderPosition> IProcessHolderGroup.Positions => Positions;
 
         /// <inheritdoc />
         public void Reset()

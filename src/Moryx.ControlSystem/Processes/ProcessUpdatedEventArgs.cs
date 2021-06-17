@@ -21,13 +21,13 @@ namespace Moryx.ControlSystem.Processes
         /// </summary>
         Running,
         /// <summary>
+        /// Process was not completed, but is no longer executed
+        /// </summary>
+        Interrupted,
+        /// <summary>
         /// Process was completed successfully
         /// </summary>
-        Success,
-        /// <summary>
-        /// Process execution was not successful
-        /// </summary>
-        Failed
+        Completed,
     }
 
     /// <summary>

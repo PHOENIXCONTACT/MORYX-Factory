@@ -56,6 +56,15 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
+        /// Executes the instructions of an activity with defining own results
+        /// </summary>
+        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, IInstructionResults results)
+        {
+            var instructions = GetInstructions(activityStart);
+            return instructor.Execute(sender, instructions, results);
+        }
+
+        /// <summary>
         /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
         /// Parameters can be set manually
         /// </summary>
@@ -79,7 +88,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             if (!attr.ResultEnum.IsEnum)
                 throw new ArgumentException("Result type is not an enum!");
 
-            var results = new ActivityInstructionResult(attr.ResultEnum, callback, activityStart);
+            var results = new EnumInstructionResult(attr.ResultEnum, result => callback(result, activityStart));
             return instructor.Execute(sender, parameters, results);
         }
 
