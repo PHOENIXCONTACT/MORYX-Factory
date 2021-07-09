@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Moryx.AbstractionLayer.Recipes;
+using Moryx.AbstractionLayer.Resources;
 
 namespace Moryx.ControlSystem.Jobs
 {
@@ -18,6 +19,14 @@ namespace Moryx.ControlSystem.Jobs
         /// current machine states. This estimation may change
         /// </summary>
         JobEvaluation Evaluate(IProductRecipe recipe, int amount);
+
+        /// <summary>
+        /// Estimate effort to produce the given amount of a certain product
+        /// including estimations for setup and material refill based on the
+        /// given ResourceManagement. This estimation may change. Capabilities are
+        /// changed to their state after setup
+        /// </summary>
+        JobEvaluation Evaluate(IProductRecipe recipe, int amount, IResourceManagement resourceManagement);
 
         /// <summary>
         /// Creates multiple jobs at once
@@ -48,9 +57,15 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         void Abort(Job job);
 
+
+        /// <summary>
+        /// A jobs progress has changed
+        /// </summary>
+        event EventHandler<Job> ProgressChanged;
+
         /// <summary>
         /// Raised whenever a job has changes.
         /// </summary>
-        event EventHandler<Job> Updated;
+        event EventHandler<JobStateChangedEventArgs> StateChanged;
     }
 }

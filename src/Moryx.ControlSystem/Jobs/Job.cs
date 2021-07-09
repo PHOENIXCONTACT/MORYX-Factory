@@ -1,6 +1,7 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System;
 using System.Collections.Generic;
 using Moryx.AbstractionLayer;
 using Moryx.AbstractionLayer.Recipes;
@@ -55,15 +56,25 @@ namespace Moryx.ControlSystem.Jobs
         /// Classification of the job
         /// </summary>
         public JobClassification Classification { get; set; }
-
+        
+        private IReadOnlyList<IProcess> _runningProcesses;
         /// <summary>
         /// Currently running processes of the job
         /// </summary>
-        public IReadOnlyList<IProcess> RunningProcesses { get; protected set; }
-
+        public IReadOnlyList<IProcess> RunningProcesses
+        {
+            get => _runningProcesses ?? new IProcess[0];
+            protected set => _runningProcesses = value;
+        }
+        
+        private IReadOnlyList<IProcess> _allProcesses;
         /// <summary>
         /// All processes of the job including running and completed processes
         /// </summary>
-        public IReadOnlyList<IProcess> AllProcesses { get; protected set; }
+        public IReadOnlyList<IProcess> AllProcesses
+        {
+            get => _allProcesses ?? new IProcess[0];
+            protected set => _allProcesses = value;
+        }
     }
 }
