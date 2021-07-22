@@ -57,6 +57,10 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         void Abort(Job job);
 
+        /// <summary>
+        /// Latest evaluations are outdated and should be evaluated by <see cref="Evaluate(IProductRecipe,int)"/>
+        /// </summary>
+        event EventHandler EvaluationsOutdated;
 
         /// <summary>
         /// A jobs progress has changed
