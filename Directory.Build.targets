@@ -3,7 +3,7 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxPlatformVersion>3.0.0</MoryxPlatformVersion>
+    <MoryxCoreVersion>3.0.0</MoryxCoreVersion>
     <MoryxAbstractionLayerVersion>5.2.1</MoryxAbstractionLayerVersion>
   </PropertyGroup>
 
@@ -22,7 +22,8 @@
     <PackageReference Update="NUnit" Version="3.12.0" />
 
     <!--Platform dependencies-->
-	<PackageReference Update="Moryx.Model.InMemory" Version="$(MoryxPlatformVersion)" />
+    <PackageReference Update="Moryx" Version="$(MoryxCoreVersion)" />
+    <PackageReference Update="Moryx.Model.InMemory" Version="$(MoryxCoreVersion)" />
 
     <!--AbstractionLayer dependencies-->
     <PackageReference Update="Moryx.AbstractionLayer" Version="$(MoryxAbstractionLayerVersion)" />

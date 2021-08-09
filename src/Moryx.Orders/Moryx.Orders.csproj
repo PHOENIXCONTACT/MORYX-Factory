@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45;net5.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Moryx.Orders</Description>
+    <CreatePackage>true</CreatePackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moryx.AbstractionLayer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
+    <ProjectReference Include="..\Moryx.Users\Moryx.Users.csproj" />
+  </ItemGroup>
+
+</Project>
