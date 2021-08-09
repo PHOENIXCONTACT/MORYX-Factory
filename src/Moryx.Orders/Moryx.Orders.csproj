@@ -3,8 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net45;net5.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>Moryx.Orders</Description>
+    <Description>Bundle assembly for Orders and extensions</Description>
     <CreatePackage>true</CreatePackage>
+    <PackageTags>MORYX;Manufacturing;Industrial</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
