@@ -4,13 +4,13 @@
 using System;
 using Moryx.ControlSystem.Processes;
 
-namespace Moryx.ControlSystem.Routing
+namespace Moryx.ControlSystem.Transport
 {
     /// <summary>
     /// Flags of supported routing modes
     /// </summary>
     [Flags]
-    public enum RoutingMode
+    public enum TransportMode
     {
         /// <summary>
         /// No supported routing
