@@ -6,17 +6,17 @@ using System.Collections.Generic;
 using Moryx.AbstractionLayer.Resources;
 using Moryx.ControlSystem.Processes;
 
-namespace Moryx.ControlSystem.Routing
+namespace Moryx.ControlSystem.Transport
 {
     /// <summary>
     /// Resource that can route products or workpiece groups within the machine
     /// </summary>
-    public interface IRoutingResource : IPublicResource
+    public interface ITransportSystem : IPublicResource
     {
         /// <summary>
         /// Modes supported by this routing resource
         /// </summary>
-        RoutingMode SupportedModes { get; }
+        TransportMode SupportedModes { get; }
 
         /// <summary>
         /// Get all process groups managed by this resource

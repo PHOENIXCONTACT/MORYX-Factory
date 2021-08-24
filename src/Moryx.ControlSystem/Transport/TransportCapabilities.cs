@@ -4,12 +4,12 @@
 using System.Linq;
 using Moryx.AbstractionLayer.Capabilities;
 
-namespace Moryx.ControlSystem.Routing
+namespace Moryx.ControlSystem.Transport
 {
     /// <summary>
     /// Capabilities provided by resources that can route articles or article groups wihtin the machine
     /// </summary>
-    public class RoutingCapabilities : CapabilitiesBase
+    public class TransportCapabilities : CapabilitiesBase
     {
         /// <summary>
         /// This property serves two main purpose. For the resource it contains the resources that are connected to the
@@ -21,7 +21,7 @@ namespace Moryx.ControlSystem.Routing
         /// <inheritdoc />
         protected override bool ProvidedBy(ICapabilities provided)
         {
-            var capabilities = provided as RoutingCapabilities;
+            var capabilities = provided as TransportCapabilities;
             if (capabilities == null)
                 return false;
 
