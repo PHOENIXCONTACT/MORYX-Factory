@@ -1,0 +1,31 @@
+<Project>
+
+  <PropertyGroup>
+    <AssemblyVersion>0.0.0</AssemblyVersion>
+    <AssemblyVersion Condition="'$(MORYX_ASSEMBLY_VERSION)'!=''">$(MORYX_ASSEMBLY_VERSION)</AssemblyVersion>
+
+    <FileVersion>0.0.0.0</FileVersion>
+    <FileVersion Condition="'$(MORYX_FILE_VERSION)'!=''">$(MORYX_FILE_VERSION)</FileVersion>
+
+    <InformationalVersion>0.0.0.0</InformationalVersion>
+    <InformationalVersion Condition="'$(MORYX_INFORMATIONAL_VERSION)'!=''">$(MORYX_INFORMATIONAL_VERSION)</InformationalVersion>
+
+    <PackageVersion>0.0.0</PackageVersion>
+    <PackageVersion Condition="'$(MORYX_PACKAGE_VERSION)'!=''">$(MORYX_PACKAGE_VERSION)</PackageVersion>
+
+    <Authors>PHOENIXCONTACT</Authors>
+    <Company>PHOENIX CONTACT</Company>
+    <Product>MORYX</Product>
+
+    <CurrentYear>$([System.DateTime]::Now.ToString("yyyy"))</CurrentYear>
+    <Copyright>Copyright © PHOENIX CONTACT $(CurrentYear)</Copyright>
+
+    <PackageIcon>moryx-logo.png</PackageIcon>
+    <PackageProjectUrl>https://moryx-industry.net/</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\moryx-logo.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
+
+</Project>
