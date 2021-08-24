@@ -9,8 +9,8 @@
     <a href="https://codecov.io/gh/PHOENIXCONTACT/MORYX-Factory/coverage.svg?branch=dev">
         <img alt="Coverage" src="https://codecov.io/gh/PHOENIXCONTACT/MORYX-Factory/coverage.svg?branch=dev" />
     </a>
-    <a href="https://github.com/PHOENIXCONTACT/MORYX-Platform/blob/dev/LICENSE">
-        <img src="https://img.shields.io/github/license/PHOENIXCONTACT/MORYX-Platform" alt="License">
+    <a href="https://github.com/PHOENIXCONTACT/MORYX-Factory/blob/dev/LICENSE">
+        <img src="https://img.shields.io/github/license/PHOENIXCONTACT/MORYX-Factory" alt="License">
     </a>
     <a href="https://gitter.im/PHOENIXCONTACT/MORYX?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge">
         <img src="https://badges.gitter.im/PHOENIXCONTACT/MORYX.svg" alt="Gitter">
@@ -25,9 +25,11 @@ This repository contains the APIs, domain objects and developer documentation fo
 
 ## Packages
 
-| Package | Docs | Stable | Preview |
-|--|--|--|--|
-|Moryx.ControlSystem|[ControlSystem](docs/ControlSystem.md)| | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ControlSystem) |
+| Package | Stable | Preview |
+|--|--|--|
+| `Moryx.ControlSystem` | [![NuGet](https://img.shields.io/nuget/v/Moryx.ControlSystem.svg)](https://www.nuget.org/packages/Moryx.ControlSystem/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ControlSystem) |
+| `Moryx.Orders` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Orders.svg)](https://www.nuget.org/packages/Moryx.Orders/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Orders)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Orders) |
+| `Moryx.Users` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Users.svg)](https://www.nuget.org/packages/Moryx.Users/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Users)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Users) |
 
 ## Contribute
 
