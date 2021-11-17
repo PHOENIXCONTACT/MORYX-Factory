@@ -5,10 +5,9 @@ using System;
 using Moryx.AbstractionLayer;
 using Moryx.ControlSystem.Activities;
 using Moryx.ControlSystem.Cells;
-using Moryx.ControlSystem.Tests.Mocks;
 using NUnit.Framework;
 
-namespace Moryx.ControlSystem.Kernel.Tests
+namespace Moryx.ControlSystem.Tests
 {
     [TestFixture]
     public class ProductionSessionTests

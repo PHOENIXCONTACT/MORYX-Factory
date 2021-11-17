@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VERSION = VERSION
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.ProcessData", "src\Moryx.ProcessData\Moryx.ProcessData.csproj", "{20B81D48-887A-4C51-9AD4-E044C382D99C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.ProcessData.Tests", "src\Tests\Moryx.ProcessData.Tests\Moryx.ProcessData.Tests.csproj", "{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,12 +50,21 @@ Global
 		{6398F1FB-3D75-4AF7-BED5-5DE447DD68F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6398F1FB-3D75-4AF7-BED5-5DE447DD68F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6398F1FB-3D75-4AF7-BED5-5DE447DD68F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B81D48-887A-4C51-9AD4-E044C382D99C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B81D48-887A-4C51-9AD4-E044C382D99C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B81D48-887A-4C51-9AD4-E044C382D99C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B81D48-887A-4C51-9AD4-E044C382D99C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{85AB14FF-3CC9-4A34-892B-EE8655392ECB} = {3252DE2B-F017-498C-AC45-20C777DF13AF}
+		{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587} = {3252DE2B-F017-498C-AC45-20C777DF13AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A74EE28-4BA6-4A6D-81BC-1D8866F13620}

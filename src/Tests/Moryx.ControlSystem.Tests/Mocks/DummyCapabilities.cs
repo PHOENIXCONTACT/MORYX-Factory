@@ -3,7 +3,7 @@
 
 using Moryx.AbstractionLayer.Capabilities;
 
-namespace Moryx.ControlSystem.Tests.Mocks
+namespace Moryx.ControlSystem.Tests
 {
     public class DummyCapabilities : CapabilitiesBase
     {
