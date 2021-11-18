@@ -6,7 +6,7 @@ using Moryx.AbstractionLayer.Capabilities;
 using Moryx.AbstractionLayer.Identity;
 using Moryx.ControlSystem.Activities;
 
-namespace Moryx.ControlSystem.Tests.Mocks
+namespace Moryx.ControlSystem.Tests
 {
     [ActivityResults(typeof(DummyResult))]
     public class DummyActivity : Activity<DummyActivityParameters>, IInstanceModificationActivity

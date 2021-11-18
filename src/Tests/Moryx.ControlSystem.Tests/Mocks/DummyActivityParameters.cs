@@ -4,7 +4,7 @@
 using Moryx.AbstractionLayer;
 using Moryx.ControlSystem.Activities;
 
-namespace Moryx.ControlSystem.Tests.Mocks
+namespace Moryx.ControlSystem.Tests
 {
     public class DummyActivityParameters : Parameters, IActivityTimeoutParameters
     {
