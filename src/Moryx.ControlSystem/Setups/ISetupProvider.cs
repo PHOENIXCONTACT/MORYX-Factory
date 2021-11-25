@@ -9,7 +9,7 @@ namespace Moryx.ControlSystem.Setups
     /// <summary>
     /// Facade for modules that can determine setup requirement and and create setup recipes
     /// </summary>
-    public interface ISetupProvider
+    public interface ISetupProvider : IRecipeProvider
     {
         /// <summary>
         /// Determine the necessary changes to produce a given recipe 
