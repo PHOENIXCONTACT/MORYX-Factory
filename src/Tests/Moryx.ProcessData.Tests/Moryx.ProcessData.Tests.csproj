@@ -11,11 +11,11 @@
     <PackageReference Include="NUnit" />
     <PackageReference Include="Moq" />
 
-    <PackageReference Include="Moryx.AbstractionLayer.TestTools" />
+    <PackageReference Include="Moryx.TestTools.UnitTest" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
+    <ProjectReference Include="..\..\Moryx.ProcessData\Moryx.ProcessData.csproj" />
   </ItemGroup>
 
 </Project>

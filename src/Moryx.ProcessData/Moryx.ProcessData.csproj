@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0;net5.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>Bundle assembly for Users and extensions</Description>
+    <Description>Bundle assembly for process data and listeners</Description>
     <CreatePackage>true</CreatePackage>
     <PackageTags>MORYX;Manufacturing;Industrial</PackageTags>
   </PropertyGroup>
