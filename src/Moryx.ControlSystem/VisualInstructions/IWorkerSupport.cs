@@ -50,9 +50,10 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Create new instance
         /// </summary>
-        public InstructionEventArgs(string identifier)
+        public InstructionEventArgs(string identifier, ActiveInstruction instruction)
         {
             Identifier = identifier;
+            Instruction = instruction;
         }
 
         /// <summary>
@@ -63,6 +64,6 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Referenced instruction
         /// </summary>
-        public ActiveInstruction Instruction { get; set; }
+        public ActiveInstruction Instruction { get; }
     }
 }
