@@ -25,13 +25,12 @@ This repository contains the APIs, domain objects and developer documentation fo
 
 ## Packages
 
-| Package | Stable | Preview |
-|--|--|--|
-| `Moryx.ControlSystem` | [![NuGet](https://img.shields.io/nuget/v/Moryx.ControlSystem.svg)](https://www.nuget.org/packages/Moryx.ControlSystem/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ControlSystem) |
-| `Moryx.Orders` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Orders.svg)](https://www.nuget.org/packages/Moryx.Orders/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Orders)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Orders) |
-| `Moryx.Users` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Users.svg)](https://www.nuget.org/packages/Moryx.Users/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Users)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Users) |
-| `Moryx.ProcessData` | [![NuGet](https://img.shields.io/nuget/v/Moryx.ProcessData.svg)](https://www.nuget.org/packages/Moryx.ProcessData/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ProcessData)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ProcessData) |
-
+| Package | Stable | Preview | Future |
+|--|--|--|--|
+| `Moryx.ControlSystem` | [![NuGet](https://img.shields.io/nuget/v/Moryx.ControlSystem.svg)](https://www.nuget.org/packages/Moryx.ControlSystem/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ControlSystem) | [![MyGet-Release](https://img.shields.io/myget/moryx-future/vpre/Moryx.ControlSystem)](https://www.myget.org/feed/moryx-future/package/nuget/Moryx.ControlSystem) |
+| `Moryx.Orders` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Orders.svg)](https://www.nuget.org/packages/Moryx.Orders/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Orders)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Orders) | [![MyGet-Release](https://img.shields.io/myget/moryx-future/vpre/Moryx.Orders)](https://www.myget.org/feed/moryx-future/package/nuget/Moryx.Orders) |
+| `Moryx.Users` | [![NuGet](https://img.shields.io/nuget/v/Moryx.Users.svg)](https://www.nuget.org/packages/Moryx.Users/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.Users)](https://www.myget.org/feed/moryx/package/nuget/Moryx.Users) | [![MyGet-Release](https://img.shields.io/myget/moryx-future/vpre/Moryx.Users)](https://www.myget.org/feed/moryx-future/package/nuget/Moryx.USers) | 
+| `Moryx.ProcessData` | [![NuGet](https://img.shields.io/nuget/v/Moryx.ProcessData.svg)](https://www.nuget.org/packages/Moryx.ProcessData/) | [![MyGet](https://img.shields.io/myget/moryx/vpre/Moryx.ProcessData)](https://www.myget.org/feed/moryx/package/nuget/Moryx.ProcessData) | [![MyGet-Release](https://img.shields.io/myget/moryx-future/vpre/Moryx.ProcessData)](https://www.myget.org/feed/moryx-future/package/nuget/Moryx.ProcessData) |
 ## Contribute
 
 You can contribute to the MORYX Factory Domain by reporting bugs and suggesting extensions to APIs.
