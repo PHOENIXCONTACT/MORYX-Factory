@@ -21,9 +21,9 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Initialize a new resource request for a certain resource
         /// </summary>
-        protected Session(ActivityClassification classification, ProcessReference reference)
+        protected Session(ActivityClassification classification, ProcessReference reference, object tag)
         {
-            _context = new SessionContext(classification, Guid.NewGuid(), reference);
+            _context = new SessionContext(classification, Guid.NewGuid(), reference, tag);
         }
 
         /// <summary>
@@ -67,13 +67,30 @@ namespace Moryx.ControlSystem.Cells
             internal set => _context.Reference = value;
         }
 
+        /// <summary>
+        /// User object to identify a session or to carry information until a session response.
+        /// </summary>
+        public object Tag
+        {
+            get => _context.Tag;
+            set => _context.Tag = value;
+        }
+
         #region Factory methods
         /// <summary>
         /// Start a new production session
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type)
         {
-            return CreateSession(classification, type, ProcessReference.Empty, EmptyConstraints);
+            return CreateSession(classification, type, ProcessReference.Empty, null, EmptyConstraints);
+        }
+
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, object tag)
+        {
+            return CreateSession(classification, type, ProcessReference.Empty, tag, EmptyConstraints);
         }
 
         /// <summary>
@@ -81,7 +98,14 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, long processId)
         {
-            return CreateSession(classification, type, ProcessReference.ProcessId(processId), EmptyConstraints);
+            return CreateSession(classification, type, ProcessReference.ProcessId(processId), null, EmptyConstraints);
+        }
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, long processId, object tag)
+        {
+            return CreateSession(classification, type, ProcessReference.ProcessId(processId), tag, EmptyConstraints);
         }
 
         /// <summary>
@@ -89,7 +113,15 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, IIdentity identity)
         {
-            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), EmptyConstraints);
+            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), null, EmptyConstraints);
+        }
+
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, IIdentity identity, object tag)
+        {
+            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), tag, EmptyConstraints);
         }
 
         /// <summary>
@@ -97,7 +129,15 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, params IConstraint[] constraints)
         {
-            return CreateSession(classification, type, ProcessReference.Empty, constraints);
+            return CreateSession(classification, type, ProcessReference.Empty, null, constraints);
+        }
+
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, object tag, params IConstraint[] constraints)
+        {
+            return CreateSession(classification, type, ProcessReference.Empty, tag, constraints);
         }
 
         /// <summary>
@@ -105,7 +145,15 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, long processId, params IConstraint[] constraints)
         {
-            return CreateSession(classification, type, ProcessReference.ProcessId(processId), constraints);
+            return CreateSession(classification, type, ProcessReference.ProcessId(processId), null, constraints);
+        }
+
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, long processId, object tag, params IConstraint[] constraints)
+        {
+            return CreateSession(classification, type, ProcessReference.ProcessId(processId), tag, constraints);
         }
 
         /// <summary>
@@ -113,25 +161,34 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, IIdentity identity, params IConstraint[] constraints)
         {
-            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), constraints);
+            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), null, constraints);
         }
 
-        private static ReadyToWork CreateSession(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, IConstraint[] constraints)
+        /// <summary>
+        /// Start a new production session
+        /// </summary>
+        public static ReadyToWork StartSession(ActivityClassification classification, ReadyToWorkType type, IIdentity identity, object tag,  params IConstraint[] constraints)
+        {
+            return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), tag, constraints);
+        }
+
+        private static ReadyToWork CreateSession(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, object tag, IConstraint[] constraints)
         {
             if (constraints == null)
                 throw new ArgumentNullException(nameof(constraints));
-            return new ReadyToWork(classification, type, reference, constraints);
+            return new ReadyToWork(classification, type, reference, tag, constraints);
         }
 
         #endregion
 
         private class SessionContext
         {
-            internal SessionContext(ActivityClassification classification, Guid sessionId, ProcessReference reference)
+            internal SessionContext(ActivityClassification classification, Guid sessionId, ProcessReference reference, object tag)
             {
                 Classification = classification;
                 SessionId = sessionId;
                 Reference = reference;
+                Tag = tag;
             }
 
             public Guid SessionId { get; }
@@ -141,6 +198,8 @@ namespace Moryx.ControlSystem.Cells
             public ProcessReference Reference { get; set; }
 
             public ActivityClassification Classification { get; }
+
+            public object Tag { get; set; }
         }
     }
 }
