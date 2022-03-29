@@ -48,17 +48,6 @@ namespace Moryx.ControlSystem.Cells
         }
 
         /// <summary>
-        /// Creates the activity result message if the activity was not completed yet
-        /// </summary>
-        public ActivityCompleted CreateResult(long result, object tag)
-        {
-            if (Activity.Result == null)
-                Activity.Complete(result);
-
-            return new ActivityCompleted(Activity, this, tag);
-        }
-
-        /// <summary>
         /// Typed parameters of the activity
         /// </summary>
         public TParameters Parameters<TParameters>() where TParameters : class, IParameters =>

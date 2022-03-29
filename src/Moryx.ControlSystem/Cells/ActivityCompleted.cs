@@ -20,16 +20,6 @@ namespace Moryx.ControlSystem.Cells
         }
 
         /// <summary>
-        /// Initialize a new resource request for a certain resource
-        /// </summary>
-        internal ActivityCompleted(IActivity completed, Session currentSession, object tag)
-            : base(currentSession)
-        {
-            CompletedActivity = completed;
-            Tag = tag;
-        }
-
-        /// <summary>
         /// Activity that was completed
         /// </summary>
         public IActivity CompletedActivity { get; }

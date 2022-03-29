@@ -14,8 +14,8 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Signal ready to work
         /// </summary>
-        internal ReadyToWork(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, object tag, IConstraint[] constraints)
-            : base(classification, reference, tag)
+        internal ReadyToWork(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, IConstraint[] constraints)
+            : base(classification, reference)
         {
             ReadyToWorkType = type;
             Constraints = constraints;
