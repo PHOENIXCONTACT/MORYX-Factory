@@ -147,7 +147,12 @@ namespace Moryx.Orders
         /// Assigns or updates operation related information like the corresponding product or recipes on the existing operation instance.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> assign.</param>
-        void Reload(Operation operation); 
+        void Reload(Operation operation);
+
+        /// <summary>
+        /// Returns an <see cref="AdviceContext"/> of the given <paramref name="operation"/> to advice the operation
+        /// </summary>
+        AdviceContext GetAdviceContext(Operation operation);
 
         /// <summary>
         /// Tries to advise the <see cref="Operation"/> corresponding to the <paramref name="operationId"/>. 

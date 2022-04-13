@@ -33,6 +33,19 @@ namespace Moryx.Orders.Facade
         }
 
         /// <summary>
+        /// Bridge extension for fetching an <see cref="AdviceContext"/> for the <paramref name="operation"/>.
+        /// </summary>
+        /// <param name="facade">This order management instance</param>
+        /// <param name="operation">The <see cref="Operation"/> from which the advice context is taken.</param>
+        public static AdviceContext GetAdviceContext(this IOrderManagement facade, Operation operation)
+        {
+            if (facade is IOrderManagementExtended extended)
+                return extended.GetAdviceContext(operation);
+
+            throw new NotSupportedException("Instance of order management does not support advicing");
+        }
+
+        /// <summary>
         /// Bridge extension for advising the <paramref name="operation"/>.
         /// </summary>
         /// <param name="facade">This order management instance</param>
