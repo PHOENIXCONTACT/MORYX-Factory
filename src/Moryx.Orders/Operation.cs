@@ -108,7 +108,13 @@ namespace Moryx.Orders
         /// <summary>
         /// Current state classification of this operation
         /// </summary>
-        public virtual OperationClassification State { get; protected set; }
+        [Obsolete("FullState will be renamed to State and replace this property.")]
+        public virtual OperationClassification State { get => (OperationClassification)((int)FullState & 0xFF); protected set => FullState = value; }
+
+        /// <summary>
+        /// Current state classification of this operation
+        /// </summary>
+        public virtual OperationClassification FullState { get; protected set; }
 
         /// <summary>
         /// Source information of the operation
