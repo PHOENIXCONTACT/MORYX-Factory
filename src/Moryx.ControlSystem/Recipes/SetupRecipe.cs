@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
+using System.Diagnostics;
 using Moryx.AbstractionLayer.Recipes;
 using Moryx.ControlSystem.Setups;
 
@@ -10,6 +11,7 @@ namespace Moryx.ControlSystem.Recipes
     /// <summary>
     /// Recipe to instantiate a setup recipe.
     /// </summary>
+    [DebuggerDisplay(nameof(SetupRecipe) + " <Id: {" + nameof(Id) + "}, TargetRecipe: {" + nameof(TargetRecipe) + "}, Execution: {" + nameof(Execution) + "}>")]
     public class SetupRecipe : WorkplanRecipe, ISetupRecipe
     {
         /// <inheritdoc />
