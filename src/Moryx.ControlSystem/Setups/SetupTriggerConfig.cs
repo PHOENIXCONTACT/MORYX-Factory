@@ -17,7 +17,7 @@ namespace Moryx.ControlSystem.Setups
         /// Name of the plugin to instantiate for this trigger
         /// </summary>
         [DataMember, PluginNameSelector(typeof(ISetupTrigger))]
-        public virtual string PluginName { get; }
+        public virtual string PluginName { get; set; }
 
         /// <summary>
         /// Sort order of the trigger instance in the resulting workplan
