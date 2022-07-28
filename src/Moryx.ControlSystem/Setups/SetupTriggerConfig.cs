@@ -1,7 +1,9 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Moryx.ControlSystem.Properties;
 using Moryx.Modules;
 using Moryx.Serialization;
 
@@ -24,5 +26,12 @@ namespace Moryx.ControlSystem.Setups
         /// </summary>
         [DataMember]
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// If set to true, the trigger will be ignored
+        /// </summary>
+        [DataMember]
+        [Display(Name = nameof(Strings.SetupTriggerConfig_Disabled_Name), Description = nameof(Strings.SetupTriggerConfig_Disabled_Description), ResourceType = typeof(Strings))]
+        public bool Disabled { get; set; }
     }
 }
