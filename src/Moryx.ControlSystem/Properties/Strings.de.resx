@@ -109,4 +109,10 @@
   <data name="OrderBasedRecipe_OperationNumber_Description" xml:space="preserve">
     <value>Vorgangsnummer die für dieses Rezept genutzt wird</value>
   </data>
+  <data name="SetupTriggerConfig_Disabled_Description" xml:space="preserve">
+    <value>Wenn aktiviert, wird der Trigger ignoriert</value>
+  </data>
+  <data name="SetupTriggerConfig_Disabled_Name" xml:space="preserve">
+    <value>Deaktiviert</value>
+  </data>
 </root>
