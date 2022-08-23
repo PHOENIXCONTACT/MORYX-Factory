@@ -1,14 +1,18 @@
-﻿// Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
+﻿// Copyright (c) 2022, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Moryx.AbstractionLayer.Products;
+using Moryx.AbstractionLayer.Recipes;
+using Moryx.Orders.Advice;
 using Moryx.Users;
 
 namespace Moryx.Orders
 {
     /// <summary>
-    /// Order management facade. Exports the important events to other modules
+    /// Order management facade. Declares methods available to manage Orders in the MORYX Platform.
     /// </summary>
     public interface IOrderManagement
     {
@@ -132,5 +136,41 @@ namespace Moryx.Orders
         /// Event which will be raised when the report context of the operation will be requested
         /// </summary>
         event EventHandler<OperationReportRequestEventArgs> OperationReportRequest;
+    }
+
+    /// <summary>
+    /// Order management facade. Declares methods available to manage Orders in the MORYX Platform.
+    /// </summary>
+    public interface IOrderManagementExtended : IOrderManagement
+    {
+        /// <summary>
+        /// Assigns or updates operation related information like the corresponding product or recipes on the existing operation instance.
+        /// </summary>
+        /// <param name="operation">The <see cref="Operation"/> assign.</param>
+        void Reload(Operation operation);
+
+        /// <summary>
+        /// Returns an <see cref="AdviceContext"/> of the given <paramref name="operation"/> to advice the operation
+        /// </summary>
+        AdviceContext GetAdviceContext(Operation operation);
+
+        /// <summary>
+        /// Tries to advise the <see cref="Operation"/> corresponding to the <paramref name="operationId"/>. 
+        /// The returned advice result contains information regarding the successful or unsuccesful attempt.
+        /// </summary>
+        /// <param name="operation">The <see cref="Operation"/> to advice.</param>
+        /// <param name="advice">The <see cref="OperationAdvice"/> to apply on the <see cref="Operation"/>.</param>
+        Task<AdviceResult> TryAdvice(Operation operation, OperationAdvice advice);
+
+        /// <summary>
+        /// Returns an array of <see cref="OperationLogMessage"/>s corresponding to the operation.
+        /// </summary>
+        /// <param name="operation">The <see cref="Operation"/> to retrieve logs for.</param>
+        IReadOnlyCollection<OperationLogMessage> GetLogs(Operation operation);
+
+        /// <summary>
+        /// Returns a set of recipes this OrderManagement can assign to an Operation corresponding to the <paramref name="identity"/>.
+        /// </summary>
+        Task<IReadOnlyList<IProductRecipe>> GetAssignableRecipes(ProductIdentity identity);
     }
 }

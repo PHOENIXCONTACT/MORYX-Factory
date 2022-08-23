@@ -67,6 +67,15 @@ namespace Moryx.ControlSystem.Cells
             internal set => _context.Reference = value;
         }
 
+        /// <summary>
+        /// User object to identify a session or to carry information until a session response.
+        /// </summary>
+        public object Tag
+        {
+            get => _context.Tag;
+            set => _context.Tag = value;
+        }
+
         #region Factory methods
         /// <summary>
         /// Start a new production session
@@ -141,6 +150,8 @@ namespace Moryx.ControlSystem.Cells
             public ProcessReference Reference { get; set; }
 
             public ActivityClassification Classification { get; }
+
+            public object Tag { get; set; }
         }
     }
 }

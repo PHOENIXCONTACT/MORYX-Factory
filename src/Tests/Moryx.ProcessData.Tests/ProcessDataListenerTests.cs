@@ -6,6 +6,8 @@ using Moq;
 using Moq.Protected;
 using Moryx.ProcessData.Listener;
 using NUnit.Framework;
+using Moryx.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Moryx.ProcessData.Tests
 {
@@ -23,7 +25,7 @@ namespace Moryx.ProcessData.Tests
                 CallBase = true
             };
 
-            _listenerMock.Object.Logger = new DummyLogger();
+            _listenerMock.Object.Logger = new ModuleLogger("Dummy", typeof(ProcessDataListenerBase), new NullLoggerFactory());
 
             _listenerConfig = new ProcessDataListenerConfig();
             _listenerMock.Object.Initialize(_listenerConfig);

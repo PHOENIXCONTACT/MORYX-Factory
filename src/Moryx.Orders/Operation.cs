@@ -108,7 +108,12 @@ namespace Moryx.Orders
         /// <summary>
         /// Current state classification of this operation
         /// </summary>
-        public virtual OperationClassification State { get; protected set; }
+        public virtual OperationClassification State { get => (OperationClassification)((int)FullState & 0xFF); protected set => FullState = value; }
+
+        /// <summary>
+        /// Current state classification of this operation
+        /// </summary>
+        public virtual OperationClassification FullState { get; protected set; }
 
         /// <summary>
         /// Source information of the operation
