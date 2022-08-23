@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using Moryx.AbstractionLayer.Recipes;
 using Moryx.ControlSystem.Properties;
 
@@ -10,6 +11,7 @@ namespace Moryx.ControlSystem.Recipes
     /// <summary>
     /// Implementation of an <see cref="IOrderBasedRecipe"/>
     /// </summary>
+    [DebuggerDisplay(nameof(OrderBasedRecipe) + " <Id: {" + nameof(Id) + "}, Target: {" + nameof(Target) + "}, Workplan: {" + nameof(Workplan) + "}, OrderNumber: {" + nameof(OrderNumber) + "}, OperationNumber: {" + nameof(OperationNumber) + "}>")]
     public class OrderBasedRecipe : ProductionRecipe, IOrderBasedRecipe
     {
         /// <summary>
