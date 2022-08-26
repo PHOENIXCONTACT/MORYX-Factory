@@ -56,7 +56,7 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Typed tracing of the activity
         /// </summary>
-        public TTracing Tracing<TTracing>() where TTracing : class, IActivityTracing, new() =>
+        public TTracing Tracing<TTracing>() where TTracing : Tracing, new() =>
             Activity.TransformTracing<TTracing>();
 
         /// <summary>
