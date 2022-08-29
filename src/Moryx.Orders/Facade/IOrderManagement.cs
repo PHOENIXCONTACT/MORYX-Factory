@@ -155,7 +155,7 @@ namespace Moryx.Orders
         AdviceContext GetAdviceContext(Operation operation);
 
         /// <summary>
-        /// Tries to advise the <see cref="Operation"/> corresponding to the <paramref name="operationId"/>. 
+        /// Tries to advise the <see cref="Operation"/>. 
         /// The returned advice result contains information regarding the successful or unsuccesful attempt.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> to advice.</param>
