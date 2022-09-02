@@ -84,14 +84,16 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         protected bool RemoveDependency(Job target, Job dependency)
         {
-            if (_dependencies.ContainsKey(target) && _dependencies[target].Count > 1)
+            if (_dependencies.ContainsKey(target))
             {
-                return _dependencies[target].Remove(dependency);
+                var removed = _dependencies[target].Remove(dependency);
+
+                if (_dependencies[target].Count == 0)
+                    _dependencies.Remove(target);
+
+                return removed;
             }
-            else
-            {
-                return _dependencies.Remove(target);
-            }
+            return false;
         }
 
         /// <inheritdoc />
