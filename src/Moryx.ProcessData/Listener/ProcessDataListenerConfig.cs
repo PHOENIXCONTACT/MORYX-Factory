@@ -28,6 +28,13 @@ namespace Moryx.ProcessData.Listener
         public virtual string PluginName { get; set; }
 
         /// <summary>
+        /// Unique Name of the Listener
+        /// </summary>
+        [DataMember]
+        [Description("Unique Name of the Listener")]
+        public string ListenerName { get; set; }
+
+        /// <summary>
         /// Configuration for the occurred measurand. They can be enabled or disabled.
         /// </summary>
         [DataMember]
