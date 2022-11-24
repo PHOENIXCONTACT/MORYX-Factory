@@ -25,7 +25,7 @@ namespace Moryx.ProcessData.Tests
                 CallBase = true
             };
 
-            _listenerMock.Object.Logger = new ModuleLogger("Dummy", typeof(ProcessDataListenerBase), new NullLoggerFactory());
+            _listenerMock.Object.Logger = new ModuleLogger("Dummy", new NullLoggerFactory());
 
             _listenerConfig = new ProcessDataListenerConfig();
             _listenerMock.Object.Initialize(_listenerConfig);
