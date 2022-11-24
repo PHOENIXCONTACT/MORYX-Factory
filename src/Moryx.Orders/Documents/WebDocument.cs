@@ -40,15 +40,10 @@ namespace Moryx.Orders.Documents
         /// <inheritdoc />
         public override Stream GetStream()
         {
-            var getTask = Task.Run(() => _client.GetAsync(Url));
-            getTask.Wait();
-            var response = getTask.Result;
-            
-            var readTask = Task.Run(() => response.Content.ReadAsStreamAsync());
-            readTask.Wait();
-
+            var response = _client.GetAsync(Url).Result;
             ContentType = response.Content.Headers.ContentType.MediaType;
-            return readTask.Result;
+
+            return response.Content.ReadAsStreamAsync().Result;
         }
     }
 }
