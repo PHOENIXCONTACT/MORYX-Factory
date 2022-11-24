@@ -4,7 +4,7 @@
 using Moryx.AbstractionLayer.Recipes;
 using Moryx.Bindings;
 using Moryx.Logging;
-using Moryx.Workflows;
+using Moryx.Workplans;
 
 namespace Moryx.ControlSystem.Setups
 {

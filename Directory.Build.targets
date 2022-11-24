@@ -3,8 +3,8 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxCoreVersion>4.0.0-future.533</MoryxCoreVersion>
-    <MoryxAbstractionLayerVersion>6.0.0-future.550</MoryxAbstractionLayerVersion>
+    <MoryxCoreVersion>4.0.0-future.617</MoryxCoreVersion>
+    <MoryxAbstractionLayerVersion>6.0.0-future.580</MoryxAbstractionLayerVersion>
   </PropertyGroup>
 
   <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
