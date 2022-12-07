@@ -40,30 +40,10 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Event raised when an instruction was removed
         /// </summary>
         event EventHandler<InstructionEventArgs> InstructionCleared;
-    }
-
-    /// <summary>
-    /// Event args for instruction events
-    /// </summary>
-    public class InstructionEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Create new instance
-        /// </summary>
-        public InstructionEventArgs(string identifier, ActiveInstruction instruction)
-        {
-            Identifier = identifier;
-            Instruction = instruction;
-        }
 
         /// <summary>
-        /// Identifier of source
-        /// </summary>
-        public string Identifier { get; }
-
-        /// <summary>
-        /// Referenced instruction
-        /// </summary>
-        public ActiveInstruction Instruction { get; }
+		/// Get a list of all available instructors
+		/// </summary>
+		public IReadOnlyList<string> GetInstructors();
     }
 }
