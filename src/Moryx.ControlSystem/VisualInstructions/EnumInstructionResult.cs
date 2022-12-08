@@ -28,23 +28,25 @@ namespace Moryx.ControlSystem.VisualInstructions
         {
             _callback = callback;
 
-            var allValues = new Dictionary<string, int>();
-
             foreach (var name in Enum.GetNames(resultEnum).Except(exceptions))
             {
                 var member = resultEnum.GetMember(name)[0];
                 var attribute = (EnumInstructionAttribute)member.GetCustomAttributes(typeof(EnumInstructionAttribute), false).FirstOrDefault();
 
                 var text = attribute?.Title ?? name;
-                allValues[text] = (int)Enum.Parse(resultEnum, name);
+                var enumValue = (int)Enum.Parse(resultEnum, name);
 
-                if (attribute != null && !attribute.Hide)
-                    _valueMap[text] = allValues[text];
+                if (attribute != null)
+                {
+                    if (!attribute.Hide)
+                        _valueMap[text] = enumValue;
+                }
+                else
+                {
+                    // Use enum name and value for all undecorated member
+                    _valueMap[text] = enumValue;
+                }
             }
-
-            // If we found no entries, the display attribute was not used and we take all entries
-            if (_valueMap.Count == 0)
-                _valueMap = allValues;
         }
 
         /// <summary>
