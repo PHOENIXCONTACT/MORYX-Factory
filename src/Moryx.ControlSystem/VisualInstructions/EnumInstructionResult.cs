@@ -36,10 +36,9 @@ namespace Moryx.ControlSystem.VisualInstructions
                 var text = attribute?.Title ?? name;
                 var enumValue = (int)Enum.Parse(resultEnum, name);
 
-                if (attribute != null)
+                if (attribute != null && !attribute.Hide)
                 {
-                    if (!attribute.Hide)
-                        _valueMap[text] = enumValue;
+                    _valueMap[text] = enumValue;
                 }
                 else
                 {
