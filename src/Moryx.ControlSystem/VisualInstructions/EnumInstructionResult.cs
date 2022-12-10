@@ -28,8 +28,8 @@ namespace Moryx.ControlSystem.VisualInstructions
         {
             _callback = callback;
 
+            var allHidden = true;
             var allValues = new Dictionary<string, int>();
-
             foreach (var name in Enum.GetNames(resultEnum).Except(exceptions))
             {
                 var member = resultEnum.GetMember(name)[0];
@@ -38,12 +38,19 @@ namespace Moryx.ControlSystem.VisualInstructions
                 var text = attribute?.Title ?? name;
                 allValues[text] = (int)Enum.Parse(resultEnum, name);
 
-                if (attribute != null && !attribute.Hide)
+                if(attribute == null)
+                {
+                    allHidden = false;
+                }
+                else if(!attribute.Hide)
+                {
+                    allHidden = false;
                     _valueMap[text] = allValues[text];
+                }
             }
 
             // If we found no entries, the display attribute was not used and we take all entries
-            if (_valueMap.Count == 0)
+            if (_valueMap.Count == 0 && !allHidden)
                 _valueMap = allValues;
         }
 
