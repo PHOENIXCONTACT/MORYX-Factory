@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace Moryx.ControlSystem.Tests
 {
+
     [TestFixture]
     public class ProductionSessionTests
     {
