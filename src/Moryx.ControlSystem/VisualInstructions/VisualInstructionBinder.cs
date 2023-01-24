@@ -19,7 +19,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         public VisualInstructionBinder(IEnumerable<VisualInstruction> instructions, IBindingResolverFactory resolverFactory)
         {
-            _instructionResolvers = instructions.Select(inst => new InstructionResolver(inst, resolverFactory)).ToArray();
+            _instructionResolvers = instructions.Where(inst => inst.Type != InstructionContentType.Unknown).Select(inst => new InstructionResolver(inst, resolverFactory)).ToArray();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 _instruction = instruction;
 
-                _contentResolver = TextBindingResolverFactory.Create(instruction.Content, resolverFactory);
+                _contentResolver = TextBindingResolverFactory.Create(instruction.Content ?? string.Empty, resolverFactory);
                 if (!string.IsNullOrEmpty(instruction.Preview))
                     _previewResolver = TextBindingResolverFactory.Create(instruction.Preview, resolverFactory);
             }
