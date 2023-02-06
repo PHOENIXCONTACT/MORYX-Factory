@@ -3,8 +3,7 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxCoreVersion>4.0.0-future.617</MoryxCoreVersion>
-    <MoryxAbstractionLayerVersion>6.0.0-future.580</MoryxAbstractionLayerVersion>
+    <MoryxCoreVersion>6.0.0-future.773</MoryxCoreVersion>
   </PropertyGroup>
 
   <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
@@ -27,8 +26,8 @@
     <PackageReference Update="Moryx.TestTools.UnitTest" Version="$(MoryxCoreVersion)" />
 
     <!--AbstractionLayer dependencies-->
-    <PackageReference Update="Moryx.AbstractionLayer" Version="$(MoryxAbstractionLayerVersion)" />
-    <PackageReference Update="Moryx.AbstractionLayer.TestTools" Version="$(MoryxAbstractionLayerVersion)" />
+    <PackageReference Update="Moryx.AbstractionLayer" Version="$(MoryxCoreVersion)" />
+    <PackageReference Update="Moryx.AbstractionLayer.TestTools" Version="$(MoryxCoreVersion)" />
   </ItemGroup>
 
 </Project>
