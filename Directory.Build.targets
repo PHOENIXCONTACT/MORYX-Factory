@@ -3,7 +3,7 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxCoreVersion>6.0.0-future.773</MoryxCoreVersion>
+    <MoryxCoreVersion>6.0.0-future.776</MoryxCoreVersion>
   </PropertyGroup>
 
   <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
@@ -16,8 +16,8 @@
   <!-- Package versions for package references across all projects -->
   <ItemGroup>
     <!--3rd party dependencies-->
-	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.3.0" />
-	<PackageReference Update="Moq" Version="4.18.2" />
+	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+	<PackageReference Update="Moq" Version="4.17.2" />
 	<PackageReference Update="NUnit" Version="3.13.3" />
 	<PackageReference Update="NUnit3TestAdapter" Version="4.2.1" />
 
