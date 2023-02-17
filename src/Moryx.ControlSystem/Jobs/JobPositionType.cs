@@ -32,5 +32,10 @@ namespace Moryx.ControlSystem.Jobs
         /// The new jobs surround existing ones
         /// </summary>
         AroundExisting = 4,
+
+        /// <summary>
+        /// Append job(s) to group of jobs with the same recipe
+        /// </summary>
+        AppendToRecipe = 5,
     }
 }
