@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DebugType>full</DebugType>
   </PropertyGroup>
@@ -11,6 +11,7 @@
     <PackageReference Include="NUnit" />
 	<PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Moq" />
+	<PackageReference Include="NUnit3TestAdapter" />
 
     <PackageReference Include="Moryx.AbstractionLayer.TestTools" />
   </ItemGroup>
