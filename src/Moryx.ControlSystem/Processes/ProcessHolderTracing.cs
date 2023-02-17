@@ -10,7 +10,7 @@ namespace Moryx.ControlSystem.Processes
     /// Tracing for wpc based activities
     /// </summary>
     [DataContract]
-    public class ProcessHolderTracing : Tracing, IActivityProgress
+    public class ProcessHolderTracing : Tracing
     {
         /// <summary>
         /// Id of the process holder where the activity was executed

@@ -5,7 +5,7 @@ using Moryx.AbstractionLayer.Capabilities;
 using Moryx.AbstractionLayer.Recipes;
 using Moryx.Collections;
 using Moryx.Modules;
-using Moryx.Workflows;
+using Moryx.Workplans;
 
 namespace Moryx.ControlSystem.Setups
 {

@@ -109,4 +109,10 @@
   <data name="OrderBasedRecipe_OperationNumber_Description" xml:space="preserve">
     <value>Number of the operation used for this recipe</value>
   </data>
+  <data name="SetupTriggerConfig_Disabled_Description" xml:space="preserve">
+    <value>If set to true, the trigger will be ignored</value>
+  </data>
+  <data name="SetupTriggerConfig_Disabled_Name" xml:space="preserve">
+    <value>Disabled</value>
+  </data>
 </root>
