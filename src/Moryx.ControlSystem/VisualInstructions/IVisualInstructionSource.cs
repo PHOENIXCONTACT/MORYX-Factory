@@ -25,6 +25,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// An instruction was completed
         /// </summary>
+        [Obsolete("Use Completed from IVisualInstructionSourceResponse with response object instead.")]
         void Completed(long id, string result);
 
         /// <summary>
@@ -36,5 +37,16 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Instruction was cleared
         /// </summary>
         event EventHandler<ActiveInstruction> Cleared;
+    }
+
+    /// <summary>
+    /// Extended interface for <see cref="IVisualInstructionSource"/> that uses the new response argument
+    /// </summary>
+    public interface IVisualInstructionSourceResponse : IVisualInstructionSource
+    {
+        /// <summary>
+        /// An instruction was completed
+        /// </summary>
+        void Completed(ActiveInstructionResponse response);
     }
 }

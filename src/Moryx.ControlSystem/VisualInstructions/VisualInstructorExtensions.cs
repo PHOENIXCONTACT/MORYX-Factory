@@ -56,6 +56,16 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
+        /// Execute the instructions of an activity with type enum response
+        /// </summary>
+        public static long Execute<TInput>(this IVisualInstructor instructor, string sender, ActivityStart activityStart, object input, Action<int, TInput, ActivityStart> callback)
+            where TInput : class
+        {
+            var instructions = GetInstructions(activityStart);
+            return Execute(instructor, sender, activityStart, input, (result, populated, session) => callback(result, (TInput)populated, session), instructions);
+        }
+
+        /// <summary>
         /// Executes the instructions of an activity with defining own results
         /// </summary>
         public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, IInstructionResults results)
@@ -79,6 +89,15 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, Action<int, ActivityStart> callback, VisualInstruction[] parameters)
         {
+            return Execute(instructor, sender, activityStart, null, (result, input, activityStart) => callback(result, activityStart), parameters);
+        }
+
+        /// <summary>
+        /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
+        /// Parameters can be set manually
+        /// </summary>
+        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, object inputs, Action<int, object, ActivityStart> callback, VisualInstruction[] parameters)
+        {
             var activity = activityStart.Activity;
 
             var attr = activity.GetType().GetCustomAttribute<ActivityResultsAttribute>();
@@ -88,7 +107,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             if (!attr.ResultEnum.IsEnum)
                 throw new ArgumentException("Result type is not an enum!");
 
-            var results = new EnumInstructionResult(attr.ResultEnum, result => callback(result, activityStart));
+            var results = new EnumInstructionResult(attr.ResultEnum, inputs, (result, input) => callback(result, input, activityStart));
             return instructor.Execute(sender, parameters, results);
         }
 

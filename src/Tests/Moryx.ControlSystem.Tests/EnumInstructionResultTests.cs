@@ -95,5 +95,26 @@ namespace Moryx.ControlSystem.Tests
             // Assert
             Assert.AreEqual(0, instructionResult.Results.Count(), "There should be no results because all of them are hidden");
         }
+
+        [Test]
+        public void ProvidePopulatedInputs()
+        {
+            // Arrange
+            int value = 0;
+            var input = new MyInput();
+            var instructionResult = new EnumInstructionResult(typeof(TestResults1), input, (result, inputs) => value = ((MyInput)inputs).Foo);
+
+            // Act
+            Assert.NotNull(instructionResult.Input);
+            instructionResult.Invoke("Value1", new MyInput { Foo = 42 });
+
+            // Assert
+            Assert.AreEqual(42, value);
+        }
+
+        private class MyInput
+        {
+            public int Foo { get; set; }
+        }
     }
 }
