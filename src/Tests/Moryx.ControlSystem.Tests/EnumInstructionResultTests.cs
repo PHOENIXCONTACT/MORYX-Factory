@@ -102,10 +102,9 @@ namespace Moryx.ControlSystem.Tests
             // Arrange
             int value = 0;
             var input = new MyInput();
-            var instructionResult = new EnumInstructionResult(typeof(TestResults1), input, (result, inputs) => value = ((MyInput)inputs).Foo);
+            var instructionResult = new EnumInstructionResult(typeof(TestResults1), (result, inputs) => value = ((MyInput)inputs).Foo);
 
             // Act
-            Assert.NotNull(instructionResult.Input);
             instructionResult.Invoke("Value1", new MyInput { Foo = 42 });
 
             // Assert

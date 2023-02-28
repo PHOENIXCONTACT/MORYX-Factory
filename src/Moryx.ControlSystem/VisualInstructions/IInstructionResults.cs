@@ -30,11 +30,6 @@ namespace Moryx.ControlSystem.VisualInstructions
     public interface IInstructionInputResults : IInstructionResults
     {
         /// <summary>
-        /// Prepared input object to be filled by the user
-        /// </summary>
-        object Input { get; }
-
-        /// <summary>
         /// Extended <see cref="IInstructionResults.Invoke(string)"/> with filled input object
         /// </summary>
         void Invoke(string result, object input);
