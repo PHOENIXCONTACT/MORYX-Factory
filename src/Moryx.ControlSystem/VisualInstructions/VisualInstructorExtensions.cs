@@ -41,7 +41,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, IVisualInstructions parameter, IInstructionResults results)
+        public static long Execute(this IVisualInstructor instructor, string sender, IVisualInstructions parameter, IInstructionInputResults results)
         {
             return instructor.Execute(sender, parameter.Instructions, results);
         }
@@ -68,7 +68,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Executes the instructions of an activity with defining own results
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, IInstructionResults results)
+        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, IInstructionInputResults results)
         {
             var instructions = GetInstructions(activityStart);
             return instructor.Execute(sender, instructions, results);

@@ -26,7 +26,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="Clear"/> method
         /// </summary>
-        long Execute(string sender, VisualInstruction[] parameter, IInstructionResults results);
+        long Execute(string sender, VisualInstruction[] parameter, IInstructionInputResults results);
 
         /// <summary>
         /// Clears specified Instruction from UI.
