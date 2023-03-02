@@ -18,15 +18,11 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <inheritdoc />
         public string[] Results => _valueMap.Keys.ToArray();
 
-        /// <inheritdoc />
-        public object Input { get; private set; }
-
         /// <summary>
         /// Creates a new instance of <see cref="EnumInstructionResult"/>
         /// </summary>
-        [Obsolete("Use constructor with input object instead")]
         public EnumInstructionResult(Type resultEnum, Action<int> callback, params string[] exceptions)
-            : this(resultEnum, null, (result, input) => callback(result), exceptions)
+            : this(resultEnum, (result, input) => callback(result), exceptions)
         {
         }
 
@@ -34,14 +30,11 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Creates a new instance of <see cref="EnumInstructionResult"/>
         /// </summary>
         /// <param name="resultEnum">Enum type which will be used to create instruction results</param>
-        /// <param name="inputs">Input object</param>
         /// <param name="callback">Callback with enum result value of the executed instruction</param>
         /// <param name="exceptions">Excepted enum value names. Will be ignored for result</param>
-        public EnumInstructionResult(Type resultEnum, object inputs, Action<int, object> callback, params string[] exceptions)
+        public EnumInstructionResult(Type resultEnum, Action<int, object> callback, params string[] exceptions)
         {
             _callback = callback;
-
-            Input = inputs;
 
             var allHidden = true;
             var allValues = new Dictionary<string, int>();

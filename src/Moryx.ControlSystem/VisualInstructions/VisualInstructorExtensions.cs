@@ -107,8 +107,22 @@ namespace Moryx.ControlSystem.VisualInstructions
             if (!attr.ResultEnum.IsEnum)
                 throw new ArgumentException("Result type is not an enum!");
 
-            var results = new EnumInstructionResult(attr.ResultEnum, inputs, (result, input) => callback(result, input, activityStart));
-            return instructor.Execute(sender, parameters, results);
+            long instructionId;
+            var results = new EnumInstructionResult(attr.ResultEnum, (result, input) => callback(result, input, activityStart));
+            if(inputs!= null && instructor is IVisualInstructorInputs inputsInstructor)
+            {
+                instructionId = inputsInstructor.Execute(sender, parameters, inputs, results);
+            }
+            else if(inputs == null)
+            {
+                instructionId = instructor.Execute(sender, parameters, results);
+            }
+            else
+            {
+                throw new NotImplementedException("Instructor does not implement extendend interface for inputs");
+            }
+
+            return instructionId;
         }
 
         private static VisualInstruction[] GetInstructions(ActivityStart activity)
