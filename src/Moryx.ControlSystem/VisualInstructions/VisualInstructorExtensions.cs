@@ -58,7 +58,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Execute the instructions of an activity with type enum response
         /// </summary>
-        public static long Execute<TInput>(this IVisualInstructor instructor, string sender, ActivityStart activityStart, object input, Action<int, TInput, ActivityStart> callback)
+        public static long Execute<TInput>(this IVisualInstructor instructor, string sender, ActivityStart activityStart, TInput input, Action<int, TInput, ActivityStart> callback)
             where TInput : class
         {
             var instructions = GetInstructions(activityStart);
