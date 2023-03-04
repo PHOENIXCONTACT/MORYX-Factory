@@ -22,4 +22,16 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         void Invoke(string result);
     }
+
+    /// <summary>
+    /// Extended interface for instructions that support user input
+    /// This will be merged with <see cref="IInstructionResults"/> in MORYX 8
+    /// </summary>
+    public interface IInstructionInputResults : IInstructionResults
+    {
+        /// <summary>
+        /// Extended <see cref="IInstructionResults.Invoke(string)"/> with filled input object
+        /// </summary>
+        void Invoke(string result, object input);
+    }
 }

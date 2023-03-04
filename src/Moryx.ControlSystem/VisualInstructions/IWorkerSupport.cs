@@ -29,6 +29,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Complete an instruction with the selected result
         /// </summary>
+        [Obsolete("Use CompleteInstruction with the response object instead")]
         void CompleteInstruction(string identifier, long instructionId, string result);
 
         /// <summary>
@@ -45,5 +46,16 @@ namespace Moryx.ControlSystem.VisualInstructions
 		/// Get a list of all available instructors
 		/// </summary>
 		public IReadOnlyList<string> GetInstructors();
+    }
+
+    /// <summary>
+    /// Extended interface for <see cref="IWorkerSupport"/>
+    /// </summary>
+    public interface IWorkerSupportInputs : IWorkerSupport
+    {
+        /// <summary>
+        /// Complete an instruction with the response received from the client
+        /// </summary>
+        void CompleteInstruction(string identifier, ActiveInstructionResponse response);
     }
 }

@@ -24,6 +24,11 @@ namespace Moryx.ControlSystem.VisualInstructions
         public VisualInstruction[] Instructions { get; set; }
 
         /// <summary>
+        /// Optional input object
+        /// </summary>
+        public object Inputs { get; set; }
+
+        /// <summary>
         /// Results of the instruction
         /// </summary>
         public string[] PossibleResults { get; set; } = new string[0];
