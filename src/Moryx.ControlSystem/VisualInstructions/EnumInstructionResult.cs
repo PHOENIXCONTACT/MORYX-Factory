@@ -8,78 +8,74 @@ using System.Linq;
 namespace Moryx.ControlSystem.VisualInstructions
 {
     /// <summary>
-    /// Represents an <see cref="IInstructionResults"/> which will handle enums to generate results and convert them back
+    /// Static helper class to convert result enums to button lables and parse the response to numeric values
     /// </summary>
-    public class EnumInstructionResult : IInstructionInputResults
+    public static class EnumInstructionResult
     {
-        private readonly Action<int, object> _callback;
-        private readonly Dictionary<string, int> _valueMap = new Dictionary<string, int>();
-
-        /// <inheritdoc />
-        public string[] Results => _valueMap.Keys.ToArray();
-
         /// <summary>
-        /// Creates a new instance of <see cref="EnumInstructionResult"/>
+        /// Determine possbile string buttons from enum result
         /// </summary>
-        public EnumInstructionResult(Type resultEnum, Action<int> callback, params string[] exceptions)
-            : this(resultEnum, (result, input) => callback(result), exceptions)
+        public static IReadOnlyList<string> PossibleResults(Type resultEnum, params string[] exceptions)
         {
+            return ParseEnum(resultEnum, exceptions).Keys.ToList();
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="EnumInstructionResult"/>
+        /// Parse the given result back to an enum value
         /// </summary>
-        /// <param name="resultEnum">Enum type which will be used to create instruction results</param>
-        /// <param name="callback">Callback with enum result value of the executed instruction</param>
-        /// <param name="exceptions">Excepted enum value names. Will be ignored for result</param>
-        public EnumInstructionResult(Type resultEnum, Action<int, object> callback, params string[] exceptions)
+        public static int ResultToEnumValue(Type resultEnum, string result)
         {
-            _callback = callback;
+            return ParseEnum(resultEnum)[result];
+        }
 
-            var allHidden = true;
+        /// <summary>
+        /// Parse the given enum to an dictionary of button text and value
+        /// </summary>
+        private static IDictionary<string, int> ParseEnum(Type resultEnum, params string[] exceptions)
+        {
             var allValues = new Dictionary<string, int>();
+            var displayValues = new Dictionary<string, int>();
+            var hiddenValues = new Dictionary<string, int>();
             foreach (var name in Enum.GetNames(resultEnum).Except(exceptions))
             {
                 var member = resultEnum.GetMember(name)[0];
                 var attribute = (EnumInstructionAttribute)member.GetCustomAttributes(typeof(EnumInstructionAttribute), false).FirstOrDefault();
 
                 var text = attribute?.Title ?? name;
-                allValues[text] = (int)Enum.Parse(resultEnum, name);
+                var numericValue = (int)Enum.Parse(resultEnum, name);
+                allValues[text] = numericValue;
 
-                if(attribute == null)
+                if (attribute?.Hide == true)
                 {
-                    allHidden = false;
+                    hiddenValues[text] = numericValue;
                 }
-                else if(!attribute.Hide)
+                else if (attribute?.Hide == false)
                 {
-                    allHidden = false;
-                    _valueMap[text] = allValues[text];
+                    displayValues[text] = numericValue;
                 }
             }
 
-            // If we found no entries, the display attribute was not used and we take all entries
-            if (_valueMap.Count == 0 && !allHidden)
-                _valueMap = allValues;
-        }
-
-        /// <summary>
-        /// Invokes the callback with the given string result
-        /// Will parse the string to the enum value
-        /// </summary>
-        public virtual void Invoke(string result)
-        {
-            var enumValue = _valueMap[result];
-            _callback(enumValue, null);
-        }
-
-        /// <summary>
-        /// Invokes the callback with the given string result
-        /// Will parse the string to the enum value
-        /// </summary>
-        public void Invoke(string result, object input)
-        {
-            var enumValue = _valueMap[result];
-            _callback(enumValue, input);
+            // We have different cases
+            // Case 1: A few values are explicity decorated => only display those
+            // Note: In all following cases displayValues is 0
+            if (displayValues.Count > 0)
+            {
+                return displayValues;
+            }
+            // Case 2: Nothing decorated or hidden => display all values
+            if (hiddenValues.Count == 0)
+            {
+                return allValues;
+            }
+            
+            // Case 3: All values are explicitly hidden => display nothing 
+            if (allValues.Count == hiddenValues.Count)
+            {
+                return displayValues;
+            }
+            // Case 4: Some values hidden, nothing explicitly displayed => display all except hidden
+            // This case does not a condition, since it's the only remaining option
+            return allValues.Except(hiddenValues).ToDictionary(p => p.Key, p => p.Value);
         }
     }
 }
