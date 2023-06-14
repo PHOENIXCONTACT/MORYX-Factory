@@ -40,34 +40,34 @@ jobs:
 
   Build:
     needs: [EnvVar]
-    uses: phoenixcontact/tools/.github/workflows/build-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/build-tool.yml@future
     with:
       dotnet_sdk_version: ${{ needs.EnvVar.outputs.dotnet_sdk_version }}
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
 
   UnitTests:
     needs: [EnvVar, Build]
-    uses: phoenixcontact/tools/.github/workflows/unittest-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/unittest-tool.yml@future
     with:
       dotnet_sdk_version: ${{ needs.EnvVar.outputs.dotnet_sdk_version }}
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
 
   IntegrationTests:
     needs: [EnvVar, Build]
-    uses: phoenixcontact/tools/.github/workflows/integrationtest-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/integrationtest-tool.yml@future
     with:
       dotnet_sdk_version: ${{ needs.EnvVar.outputs.dotnet_sdk_version }}
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
 
   ReportGenerator:
     needs: [EnvVar, UnitTests, IntegrationTests]
-    uses: phoenixcontact/tools/.github/workflows/reportgenerator-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/reportgenerator-tool.yml@future
     with:
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
                
   Publish-Test-Coverage:
     needs: [EnvVar, ReportGenerator]
-    uses: phoenixcontact/tools/.github/workflows/publish-test-coverage-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/publish-test-coverage-tool.yml@future
     with:
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
     secrets:
@@ -77,13 +77,13 @@ jobs:
   # currently not working with .Net 8
   # Documentation:
   #   needs: [EnvVar, UnitTests]
-  #   uses: phoenixcontact/tools/.github/workflows/documentation-tool.yml@main
+  #   uses: phoenixcontact/tools/.github/workflows/documentation-tool.yml@future
   #   with:
   #     REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
 
   Publish:
     needs: [EnvVar, UnitTests]
-    uses: phoenixcontact/tools/.github/workflows/publish-tool.yml@main
+    uses: phoenixcontact/tools/.github/workflows/publish-tool.yml@future
     with:
       dotnet_sdk_version: ${{ needs.EnvVar.outputs.dotnet_sdk_version }}
       REPOSITORY_NAME: ${{ needs.EnvVar.outputs.REPOSITORY_NAME }}
