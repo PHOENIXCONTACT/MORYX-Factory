@@ -4,7 +4,6 @@
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>Bundle assembly for Users and extensions</Description>
-    <CreatePackage>true</CreatePackage>
     <PackageTags>MORYX;Manufacturing;Industrial</PackageTags>
   </PropertyGroup>
 
