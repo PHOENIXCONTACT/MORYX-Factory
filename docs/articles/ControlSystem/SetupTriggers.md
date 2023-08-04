@@ -34,6 +34,10 @@ IWorkplanStep CreateStep(IProductionRecipe recipe);
 
 Provided that `Evaluate` indicates the need for a machine change, this method creates a `WorkplanStep` to alter a target resource in a way that it provides the necessary capabilities afterwards.
 
+**Return multiple setup steps**
+
+With the extended interface `IMultiSetupTrigger.CreateSteps` it is possible to return an array of steps.
+
 ### Example of Setup Trigger using the WatchProduct example
 
 #### Preconditions
@@ -52,7 +56,7 @@ The SetupManager now knows whether he has to call the CreateStep Method of the t
 ```cs
 [ExpectedConfig(typeof(WatchFaceMountSetupTriggerConfig))]
 [Plugin(LifeCycle.Transient, typeof(ISetupTrigger), Name = nameof(WatchFaceMountSetupTrigger))]
-internal class WatchFaceMountSetupTrigger : SetupTriggerBase<WatchFaceMountSetupTriggerConfig>
+internal class WatchFaceMountSetupTrigger : SetupTriggerBase<WatchFaceMountSetupTriggerConfig>, IMultiSetupTrigger
 {
     public override SetupExecution Execution => SetupExecution.BeforeProduction;
 
@@ -73,6 +77,21 @@ internal class WatchFaceMountSetupTrigger : SetupTriggerBase<WatchFaceMountSetup
                 FinishedOrderNumber = ((WatchRecipe)recipe).OrderNumber
             }
         };
+    }
+
+    // Optional method for more than one setup task
+    public IReadOnlyList<IWorkplanStep> CreateSteps(IProductRecipe recipe)
+    {
+        return new IWorkplanStep[] 
+        { 
+            new WatchFaceMountSetupTask
+            {
+                Parameters = new WatchFaceMountSetupParameters()
+                {
+                    FinishedOrderNumber = ((WatchRecipe)recipe).OrderNumber
+                }
+            };
+        }
     }
 }
 ```
