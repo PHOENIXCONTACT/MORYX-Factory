@@ -6,6 +6,8 @@ using Moryx.AbstractionLayer.Recipes;
 using Moryx.Collections;
 using Moryx.Modules;
 using Moryx.Workplans;
+using System;
+using System.Collections.Generic;
 
 namespace Moryx.ControlSystem.Setups
 {
@@ -26,8 +28,8 @@ namespace Moryx.ControlSystem.Setups
         SetupEvaluation Evaluate(IProductRecipe recipe);
 
         /// <summary>
-        /// Create a setup task that performs the necessary setup actions
+        /// Create a list of setup tasks that performs the necessary setup actions
         /// </summary>
-        IWorkplanStep CreateStep(IProductRecipe recipe);
+        IReadOnlyList<IWorkplanStep> CreateSteps(IProductRecipe recipe);
     }
 }
