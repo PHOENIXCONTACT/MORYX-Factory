@@ -20,10 +20,10 @@ namespace Moryx.ControlSystem.Tests
         public void GetAllValuesIfNoResultIsDecorated()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults1), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults1));
 
             // Assert
-            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be 2 results because all of the results are not decorated");
+            Assert.AreEqual(2, instructionResult.Count, "There should be 2 results because all of the results are not decorated");
         }
 
         private enum TestResults2
@@ -38,10 +38,10 @@ namespace Moryx.ControlSystem.Tests
         public void GetAllValuesIfAllResultsAreDecorated()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults2), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults2));
 
             // Assert
-            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be 2 results because all of the results are decorated");
+            Assert.AreEqual(2, instructionResult.Count, "There should be 2 results because all of the results are decorated");
         }
 
         private enum TestResults3
@@ -55,34 +55,34 @@ namespace Moryx.ControlSystem.Tests
         public void GetValuesWithAnAttribute()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults3), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults3));
 
             // Assert
-            Assert.AreEqual(1, instructionResult.Results.Count(), "There should be 1 result because only one value is decorated");
+            Assert.AreEqual(1, instructionResult.Count, "There should be 1 result because only one value is decorated");
         }
 
         private enum TestResults4
         {
-            [EnumInstruction("Value1", Hide = true)]
+            [EnumInstruction(Hide = true)]
             Value1,
             Value2
         }
 
         [Test]
-        public void GetAllValuesIfThereAreHiddenAndNotDecoratedResults()
+        public void GetNoneHiddenValue()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults4), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults4));
 
             // Assert
-            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be no results because there are hidden and not decorated results");
+            Assert.AreEqual(1, instructionResult.Count, "There should be one result, the non-decorated non-hidden enum value");
         }
 
         private enum TestResults5
         {
-            [EnumInstruction("Value1", Hide = true)]
+            [EnumInstruction(Hide = true)]
             Value1,
-            [EnumInstruction("Value2", Hide = true)]
+            [EnumInstruction(Hide = true)]
             Value2
         }
 
@@ -90,25 +90,24 @@ namespace Moryx.ControlSystem.Tests
         public void GetNoValuesIfAllResultsAreHidden()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults5), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults5));
 
             // Assert
-            Assert.AreEqual(0, instructionResult.Results.Count(), "There should be no results because all of them are hidden");
+            Assert.AreEqual(0, instructionResult.Count, "There should be no results because all of them are hidden");
         }
 
         [Test]
-        public void ProvidePopulatedInputs()
+        public void ParseResponse()
         {
             // Arrange
-            int value = 0;
-            var input = new MyInput();
-            var instructionResult = new EnumInstructionResult(typeof(TestResults1), (result, inputs) => value = ((MyInput)inputs).Foo);
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults1));
+
 
             // Act
-            instructionResult.Invoke("Value1", new MyInput { Foo = 42 });
+            var enumValue = (TestResults1)EnumInstructionResult.ResultToEnumValue(typeof(TestResults1), instructionResult[1]);
 
             // Assert
-            Assert.AreEqual(42, value);
+            Assert.AreEqual(TestResults1.Value2, enumValue);
         }
 
         private class MyInput

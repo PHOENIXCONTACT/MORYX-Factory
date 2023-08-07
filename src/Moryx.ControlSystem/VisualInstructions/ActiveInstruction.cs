@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2022, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System.Collections.Generic;
+
 namespace Moryx.ControlSystem.VisualInstructions
 {
     /// <summary>
@@ -31,6 +33,6 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Results of the instruction
         /// </summary>
-        public string[] PossibleResults { get; set; } = new string[0];
+        public IReadOnlyList<string> PossibleResults { get; set; } = new string[0];
     }
 }

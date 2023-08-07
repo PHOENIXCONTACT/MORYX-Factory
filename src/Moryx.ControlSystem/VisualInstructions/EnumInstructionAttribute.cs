@@ -22,6 +22,13 @@ namespace Moryx.ControlSystem.VisualInstructions
         public string Title { get; }
 
         /// <summary>
+        /// Empty constructor to use <see cref="Hide"/> without declaring a title
+        /// </summary>
+        public EnumInstructionAttribute()
+        {                
+        }
+
+        /// <summary>
         /// Constructor with title
         /// </summary>
         /// <param name="title">The title</param>

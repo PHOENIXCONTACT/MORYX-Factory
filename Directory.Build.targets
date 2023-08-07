@@ -3,33 +3,32 @@
 
   <!-- Central package version management -->
   <PropertyGroup>
-    <MoryxFrameworkVersion>6.0.0</MoryxFrameworkVersion>
+    <MoryxFrameworkVersion>8.0.0-future.*</MoryxFrameworkVersion>
   </PropertyGroup>
 
   <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
 
   <!-- Package refereces for all projects if CreatePackage=true -->
   <ItemGroup Condition="'$(CreatePackage)' == 'true'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <!-- Package versions for package references across all projects -->
   <ItemGroup>
     <!--3rd party dependencies-->
-	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+	<PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.6.0" />
 	<PackageReference Update="Moq" Version="4.17.2" />
 	<PackageReference Update="NUnit" Version="3.13.3" />
 	<PackageReference Update="NUnit3TestAdapter" Version="4.2.1" />
+	<PackageReference Update="NUnit3TestAdapter" Version="4.5.0" />
   <PackageReference Update="coverlet.collector" Version="6.0.0" >
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   </PackageReference>
 
-    <!--Platform dependencies-->
+    <!-- Framework dependencies-->
     <PackageReference Update="Moryx" Version="$(MoryxFrameworkVersion)" />
     <PackageReference Update="Moryx.TestTools.UnitTest" Version="$(MoryxFrameworkVersion)" />
-
-    <!--AbstractionLayer dependencies-->
     <PackageReference Update="Moryx.AbstractionLayer" Version="$(MoryxFrameworkVersion)" />
     <PackageReference Update="Moryx.AbstractionLayer.TestTools" Version="$(MoryxFrameworkVersion)" />
   </ItemGroup>
