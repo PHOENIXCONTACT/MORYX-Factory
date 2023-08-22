@@ -1,4 +1,7 @@
-﻿using System.Runtime.Serialization;
+﻿// Copyright (c) 2023, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
+
+using System.Runtime.Serialization;
 
 namespace Moryx.Factory
 {
@@ -9,9 +12,9 @@ namespace Moryx.Factory
     public class Position
     {
         [DataMember]
-        public int PositionX { get; set; }
+        public double PositionX { get; set; }
 
         [DataMember]
-        public int PositionY { get; set; }
+        public double PositionY { get; set; }
     }
 }

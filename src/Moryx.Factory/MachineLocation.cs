@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2023, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
+
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -25,13 +28,13 @@ namespace Moryx.Factory
         /// X position of the location
         /// </summary>
         [DataMember, EntrySerialize, DefaultValue(10)]
-        public int PositionX { get; set; }
+        public double PositionX { get; set; }
 
         /// <summary>
         /// Y position of the location
         /// </summary>
         [DataMember, EntrySerialize, DefaultValue(10)]
-        public int PositionY { get; set; }
+        public double PositionY { get; set; }
 
         public Position Position
         {
