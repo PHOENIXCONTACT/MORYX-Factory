@@ -19,19 +19,21 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// The title of the button generated for the enum value marked with this attribute.
         /// </summary>
+        [Obsolete("Use Display Attribute instead")]
         public string Title { get; }
 
         /// <summary>
-        /// Empty constructor to use <see cref="Hide"/> without declaring a title
+        /// Create instruction attribute without title
         /// </summary>
         public EnumInstructionAttribute()
-        {                
+        {
+            
         }
 
         /// <summary>
         /// Constructor with title
         /// </summary>
-        /// <param name="title">The title</param>
+        [Obsolete("Use empty constructor and Display Attribute instead")]
         public EnumInstructionAttribute(string title)
         {
             Title = title;
