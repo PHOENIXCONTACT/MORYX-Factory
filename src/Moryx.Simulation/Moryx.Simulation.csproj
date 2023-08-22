@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CreatePackage>true</CreatePackage>
+    <PackageTags>MORYX;IoT;Manufacturing;Resource;Simulation</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moryx.AbstractionLayer" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
+  </ItemGroup>
+
+</Project>
