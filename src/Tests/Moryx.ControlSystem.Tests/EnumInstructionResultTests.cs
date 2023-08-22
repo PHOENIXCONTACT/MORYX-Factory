@@ -3,6 +3,7 @@
 
 using Moryx.ControlSystem.VisualInstructions;
 using NUnit.Framework;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Moryx.ControlSystem.Tests
@@ -114,6 +115,28 @@ namespace Moryx.ControlSystem.Tests
         private class MyInput
         {
             public int Foo { get; set; }
+        }
+
+        private enum TestResults6
+        {
+            [EnumInstruction, Display(Name = "Value 1")]
+            Value1,
+            [EnumInstruction("Value 2")]
+            Value2,
+            [Display(Name = "Value 3")]
+            Value3
+        }
+
+        [Test]
+        public void UsesDisplayResultsWhereFound()
+        {
+            // Act
+            var instructionResult = new EnumInstructionResult(typeof(TestResults6), result => { });
+
+            // Assert
+            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
+            Assert.AreEqual("Value 1", instructionResult.Results[0]);
+            Assert.AreEqual("Value 2", instructionResult.Results[1]);
         }
     }
 }
