@@ -29,9 +29,9 @@ namespace Moryx.ControlSystem.Tests
 
         private enum TestResults2
         {
-            [EnumInstruction("Value1")]
+            [EnumInstruction, Display(Name = "Value1")]
             Value1,
-            [EnumInstruction("Value2")]
+            [EnumInstruction, Display(Name = "Value2")]
             Value2
         }
 
@@ -47,7 +47,7 @@ namespace Moryx.ControlSystem.Tests
 
         private enum TestResults3
         {
-            [EnumInstruction("Value1")]
+            [EnumInstruction, Display(Name = "Value1")]
             Value1,
             Value2
         }
@@ -120,8 +120,6 @@ namespace Moryx.ControlSystem.Tests
         {
             [EnumInstruction, Display(Name = "Value 1")]
             Value1,
-            [EnumInstruction("Value 2")]
-            Value2,
             [Display(Name = "Value 3")]
             Value3
         }
@@ -130,12 +128,11 @@ namespace Moryx.ControlSystem.Tests
         public void UsesDisplayResultsWhereFound()
         {
             // Act
-            var instructionResult = new EnumInstructionResult(typeof(TestResults6), result => { });
+            var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults6));
 
             // Assert
-            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
-            Assert.AreEqual("Value 1", instructionResult.Results[0]);
-            Assert.AreEqual("Value 2", instructionResult.Results[1]);
+            Assert.AreEqual(1, instructionResult.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
+            Assert.AreEqual("Value 1", instructionResult[0]);
         }
     }
 }

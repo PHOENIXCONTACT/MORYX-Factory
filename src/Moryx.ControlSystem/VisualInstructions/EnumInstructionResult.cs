@@ -44,7 +44,7 @@ namespace Moryx.ControlSystem.VisualInstructions
                 var displayName = member.GetDisplayName();
                 var attribute = (EnumInstructionAttribute)member.GetCustomAttributes(typeof(EnumInstructionAttribute), false).FirstOrDefault();
 
-                var text = displayName ?? attribute?.Title ?? name;
+                var text = displayName ?? name;
                 var numericValue = (int)Enum.Parse(resultEnum, name);
                 allValues[text] = numericValue;
 
