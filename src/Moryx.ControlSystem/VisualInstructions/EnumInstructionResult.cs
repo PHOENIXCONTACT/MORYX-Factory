@@ -1,6 +1,7 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using Moryx.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +42,11 @@ namespace Moryx.ControlSystem.VisualInstructions
             foreach (var name in Enum.GetNames(resultEnum).Except(exceptions))
             {
                 var member = resultEnum.GetMember(name)[0];
+                // Try to fetch display name or title from attribute
+                var displayName = member.GetDisplayName();
                 var attribute = (EnumInstructionAttribute)member.GetCustomAttributes(typeof(EnumInstructionAttribute), false).FirstOrDefault();
 
-                var text = attribute?.Title ?? name;
+                var text = displayName ?? attribute?.Title ?? name;
                 allValues[text] = (int)Enum.Parse(resultEnum, name);
 
                 if(attribute == null)
