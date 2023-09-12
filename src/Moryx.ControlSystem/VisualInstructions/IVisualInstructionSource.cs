@@ -10,7 +10,7 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// <summary>
     /// Source of visual instructions within the resource graph
     /// </summary>
-    public interface IVisualInstructionSource : IPublicResource
+    public interface IVisualInstructionSource : IResource
     {
         /// <summary>
         /// Identifier of this instruction source

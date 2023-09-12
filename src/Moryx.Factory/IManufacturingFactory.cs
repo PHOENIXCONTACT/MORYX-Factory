@@ -8,7 +8,7 @@ namespace Moryx.Factory
     /// <summary>
     /// A manufacturing factory interface
     /// </summary>
-    public interface IManufacturingFactory : IPublicResource
+    public interface IManufacturingFactory : IResource
     {
         /// <summary>
         /// Background URL of the factory monitor
