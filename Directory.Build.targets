@@ -10,7 +10,7 @@
 
   <!-- Package refereces for all projects if CreatePackage=true -->
   <ItemGroup Condition="'$(CreatePackage)' == 'true'">
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <!-- Package versions for package references across all projects -->
@@ -20,7 +20,7 @@
 	<PackageReference Update="Moq" Version="4.20.69" />
 	<PackageReference Update="NUnit" Version="3.14.0" />
 	<PackageReference Update="NUnit3TestAdapter" Version="4.5.0" />
-  <PackageReference Update="coverlet.collector" Version="3.2.0" >
+  <PackageReference Update="coverlet.collector" Version="6.0.0" >
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   </PackageReference>
