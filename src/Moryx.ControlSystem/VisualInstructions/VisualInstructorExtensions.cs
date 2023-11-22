@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Reflection;
 using Moryx.AbstractionLayer;
@@ -54,7 +55,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string title, IVisualInstructions parameter, string[] results, Action<ActiveInstructionResponse> callback)
+        public static long Execute(this IVisualInstructor instructor, string title, IVisualInstructions parameter, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
         {
             return instructor.Execute(new ActiveInstruction
             {
@@ -67,7 +68,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Executes the instructions of an activity with defining own results
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, string[] results, Action<ActiveInstructionResponse> callback)
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
         {
             var instructions = GetInstructions(activityStart);
             return instructor.Execute(new ActiveInstruction
