@@ -1,5 +1,22 @@
 # Factory 6.x to 8.x
 
+## Merged `ISetupTrigger` and `IMultiSetupTrigger` 
+We already offered the possibility to create a list of setup tasks in a setup trigger. The API of the setup trigger was now merged and cleaned up.
+- `ISetupTrigger.CreateStep(IProductionRecipe recipe` now returns `IReadOnlyList<IWorkplanStep>`. Issues could for example be resolved as follows:
+```c#
+/// MORYX 6
+public IWorkplanStep CreateSteps(IProductRecipe recipe) {
+...
+return step;
+}
+
+/// MORYX 8
+public IReadOnlyList<IWorkplanStep> CreateSteps(IProductRecipe recipe) {
+...
+return [...step];
+}
+```
+
 ## VisualInstruction API improvements
 ### IInstructionResults was removed
 - The interface just made the instructions more complex and had no practical use  
