@@ -8,12 +8,12 @@ namespace Moryx.Factory
     /// <summary>
     /// A resource/machine location inside the factory
     /// </summary>
-    public interface IMachineLocation : ILocation, IPublicResource
+    public interface IMachineLocation : ILocation, IResource
     {
         /// <summary>
         /// Resource/Machine at this location
         /// </summary>
-        IPublicResource Machine { get; }
+        IResource Machine { get; }
 
         /// <summary>
         /// Icon for the machine at this location

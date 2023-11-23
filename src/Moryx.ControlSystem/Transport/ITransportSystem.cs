@@ -11,7 +11,7 @@ namespace Moryx.ControlSystem.Transport
     /// <summary>
     /// Resource that can route products or workpiece groups within the machine
     /// </summary>
-    public interface ITransportSystem : IPublicResource
+    public interface ITransportSystem : IResource
     {
         /// <summary>
         /// Modes supported by this routing resource

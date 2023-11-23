@@ -17,26 +17,11 @@ namespace Moryx.ControlSystem.VisualInstructions
         public bool Hide { get; set; }
 
         /// <summary>
-        /// The title of the button generated for the enum value marked with this attribute.
-        /// </summary>
-        [Obsolete("Use Display Attribute instead")]
-        public string Title { get; }
-
-        /// <summary>
         /// Create instruction attribute without title
         /// </summary>
         public EnumInstructionAttribute()
         {
             
-        }
-
-        /// <summary>
-        /// Constructor with title
-        /// </summary>
-        [Obsolete("Use empty constructor and Display Attribute instead")]
-        public EnumInstructionAttribute(string title)
-        {
-            Title = title;
         }
     }
 }
