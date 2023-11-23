@@ -11,7 +11,7 @@ namespace Moryx.Factory
     /// <summary>
     /// Class for all machine groups in manufacturing factory
     /// </summary>
-    public class MachineGroup : PublicResource, IMachineGroup
+    public class MachineGroup : Resource, IMachineGroup
     {
         [DataMember, EntrySerialize, DefaultValue("settings")]
         public string DefaultIcon { get; set; }

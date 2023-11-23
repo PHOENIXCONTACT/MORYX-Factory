@@ -2,46 +2,38 @@
 // Licensed under the Apache License, Version 2.0
 
 using Moryx.AbstractionLayer.Resources;
+using System;
 
 namespace Moryx.ControlSystem.VisualInstructions
 {
     /// <summary>
-    /// Component for visual instructions black box reuse
+    /// Instructor that represents a specific screen/client of the application. 
     /// </summary>
     public interface IVisualInstructor : IResource
     {
         /// <summary>
         /// Only display these instructions
-        /// Have to be cleared with the <see cref="Clear"/> method
+        /// Has to be cleared with the <see cref="Clear"/> method
         /// </summary>
-        long Display(string sender, VisualInstruction[] instructions);
+        /// <returns>Instruction id to clear the instruction</returns>
+        long Display(ActiveInstruction instruction);
 
         /// <summary>
         /// Only display these instructions
-        /// Instruction will automatically cleared after the given time
+        /// Instruction will be cleared automatically after the given time
         /// </summary>
-        void Display(string sender, VisualInstruction[] instructions, int autoClearMs);
+        void Display(ActiveInstruction instruction, int autoClearMs);
 
         /// <summary>
-        /// Execute these instructions based on the given activity and report the result on completion
-        /// Can (but must not) be cleared with the <see cref="Clear"/> method
+        /// Execute the instructions and display possbile results and inputs. The callback contains the selected option
+        /// and possible user input.
         /// </summary>
-        long Execute(string sender, VisualInstruction[] parameter, IInstructionResults results);
+        /// <returns>Id of the instruction to clear manually</returns>
+        long Execute(ActiveInstruction instruction, Action<ActiveInstructionResponse> callback);
 
         /// <summary>
         /// Clears specified Instruction from UI.
         /// </summary>
         void Clear(long instructionId);
-    }
-
-    /// <summary>
-    /// Extended interface for <see cref="IVisualInstructor"/> that passes an instruction context
-    /// </summary>
-    public interface IVisualInstructorInputs : IVisualInstructor
-    {
-        /// <summary>
-        /// Execute these instructions based on the given activity and report the result and inputs on completion
-        /// </summary>
-        long Execute(string sender, VisualInstruction[] parameter, object inputs, IInstructionInputResults results);
     }
 }

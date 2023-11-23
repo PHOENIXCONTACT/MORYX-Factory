@@ -10,7 +10,7 @@ namespace Moryx.ControlSystem.Processes
     /// <summary>
     /// Specialized cell that can detect and publish process events
     /// </summary>
-    public interface IProcessReporter : IPublicResource
+    public interface IProcessReporter : IResource
     {
         /// <summary>
         /// Event raised, when execution of the process failed outside
