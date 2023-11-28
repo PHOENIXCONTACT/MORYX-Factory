@@ -30,20 +30,7 @@ namespace Moryx.ControlSystem.Cells
         
         /// <inheritdoc />
         public abstract void SequenceCompleted(SequenceCompleted completed);
-        private ICapabilities _capabilities = NullCapabilities.Instance;
-
-        public ICapabilities Capabilities
-        {
-            get
-            {
-                return _capabilities;
-            }
-            protected set
-            {
-                _capabilities = value;
-                this.CapabilitiesChanged?.Invoke(this, _capabilities);
-            }
-        }
+        
         /// <summary>
         /// Publish a <see cref="ReadyToWork"/> from the resource
         /// </summary>
@@ -77,6 +64,5 @@ namespace Moryx.ControlSystem.Cells
 
         /// <inheritdoc />
         public event EventHandler<ActivityCompleted> ActivityCompleted;
-        public event EventHandler<ICapabilities> CapabilitiesChanged;
     }
 }

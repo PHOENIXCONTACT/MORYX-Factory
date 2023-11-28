@@ -42,4 +42,6 @@ VisualInstructor.Execute("Some Title", someInstructions, EnumInstructionResult.P
 ```
 
 ### EnumInstructionAttribute.Title and the corresponding constructor were removed
+- The `Title` property of the `EnumInstructionAttribute` was removed
 - To set the display name of an enum value please use the default data annotation `[Display(Name = "Value's name")]`
+- To hide certain values of an enum from being used as instruction results, please continue to use the `EnumInstructionAttribute`
