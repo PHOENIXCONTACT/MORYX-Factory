@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <RootNamespace>Moryx.ControlSystem</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>Non-isolated CS APIs and Phoenix specific CS types</Description>
+    <CreatePackage>true</CreatePackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moryx.Notifications" />
+    <PackageReference Include="Moryx.AbstractionLayer" />
+    <PackageReference Include="Moryx.ControlSystem" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <Compile Update="Phoenix\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Phoenix\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
+
