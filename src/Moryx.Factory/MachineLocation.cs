@@ -16,7 +16,7 @@ namespace Moryx.Factory
     /// </summary>
     public class MachineLocation : Resource, IMachineLocation
     {
-        public IResource Machine => Children.OfType<ICell>().FirstOrDefault();
+        public IResource Machine => Children.FirstOrDefault(x => x is ICell || x is IManufacturingFactory);
 
         [DataMember, EntrySerialize]
         public string SpecificIcon { get; set; }
