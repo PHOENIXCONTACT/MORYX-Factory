@@ -83,6 +83,11 @@ namespace Moryx.Orders
         /// <summary>
         /// Flag if the operation can be adviced
         /// </summary>
-        CanAdvice = (1 << 20)
+        CanAdvice = (1 << 20),
+
+        /// <summary>
+        /// Flag if the operation is running but has no process
+        /// </summary>
+        IsAmountReached = (1 << 22),
     }
 }
