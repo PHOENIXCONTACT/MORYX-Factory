@@ -25,6 +25,7 @@ namespace Moryx.ControlSystem.Tests
 
             // Assert
             Assert.AreEqual(2, instructionResult.Results.Count(), "There should be 2 results because all of the results are not decorated");
+            Assert.AreEqual(2, instructionResult.PossibleResults.Count(), "There should be 2 results because all of the results are not decorated");
         }
 
         private enum TestResults2
