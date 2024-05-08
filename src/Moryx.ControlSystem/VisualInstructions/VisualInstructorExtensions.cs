@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
 using Moryx.AbstractionLayer;
 using Moryx.ControlSystem.Cells;
@@ -63,6 +64,26 @@ namespace Moryx.ControlSystem.VisualInstructions
                 Instructions = parameter.Instructions,
                 PossibleResults = results
             }, callback);
+        }
+
+        /// <summary>
+        /// Execute these instructions and report the result on completion
+        /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
+        /// </summary>
+        /// <typeparam name="T">Type of enum used for possible instruction results</typeparam>
+        public static long Execute<T>(this IVisualInstructor instructor, string title, IVisualInstructions parameter, Action<T> callback) where T: Enum
+        {
+            return instructor.Execute(
+                title,
+                parameter,
+                EnumInstructionResult.PossibleResults(typeof(T)),
+                result =>
+                {
+                    if (result.SelectedResult?.Key == null)
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.Result));
+                    else
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult));
+                });
         }
 
         /// <summary>
