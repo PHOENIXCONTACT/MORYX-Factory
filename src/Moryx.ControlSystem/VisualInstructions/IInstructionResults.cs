@@ -34,4 +34,20 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         void Invoke(string result, object input);
     }
+
+    /// <summary>
+    /// Extended interface with improved result values
+    /// </summary>
+    public interface IInstructionKeyResults : IInstructionResults
+    {
+        /// <summary>
+        /// Possibile results for the instructions
+        /// </summary>
+        InstructionResult[] PossibleResults { get; }
+
+        /// <summary>
+        /// Extended <see cref="IInstructionResults.Invoke(string)"/> with more robust result object and filled input object
+        /// </summary>
+        void Invoke(InstructionResult result, object input);
+    }
 }

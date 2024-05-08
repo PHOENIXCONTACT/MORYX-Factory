@@ -11,13 +11,20 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// <summary>
     /// Represents an <see cref="IInstructionResults"/> which will handle enums to generate results and convert them back
     /// </summary>
-    public class EnumInstructionResult : IInstructionInputResults
+    public class EnumInstructionResult : IInstructionInputResults, IInstructionKeyResults
     {
         private readonly Action<int, object> _callback;
         private readonly Dictionary<string, int> _valueMap = new Dictionary<string, int>();
 
         /// <inheritdoc />
         public string[] Results => _valueMap.Keys.ToArray();
+
+        /// <inheritdoc />
+        public InstructionResult[] PossibleResults => _valueMap.Select(pair => new InstructionResult
+        {
+            Key = pair.Value.ToString("D"),
+            DisplayValue = pair.Key
+        }).ToArray();
 
         /// <summary>
         /// Creates a new instance of <see cref="EnumInstructionResult"/>
@@ -82,6 +89,16 @@ namespace Moryx.ControlSystem.VisualInstructions
         public void Invoke(string result, object input)
         {
             var enumValue = _valueMap[result];
+            _callback(enumValue, input);
+        }
+
+        /// <summary>
+        /// Invokes the callback with the given string result
+        /// Will parse the string to the enum value
+        /// </summary>
+        public void Invoke(InstructionResult result, object input)
+        {
+            var enumValue = int.Parse(result.Key);
             _callback(enumValue, input);
         }
     }
