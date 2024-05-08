@@ -46,7 +46,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         InstructionResult[] PossibleResults { get; }
 
         /// <summary>
-        /// Extended <see cref="IInstructionResults.Invoke(string)"/> with filled input object
+        /// Extended <see cref="IInstructionResults.Invoke(string)"/> with more robust result object and filled input object
         /// </summary>
         void Invoke(InstructionResult result, object input);
     }
