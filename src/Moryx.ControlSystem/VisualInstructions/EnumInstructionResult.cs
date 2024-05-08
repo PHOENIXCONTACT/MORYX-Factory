@@ -22,11 +22,51 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
+        /// Determine possible string buttons from enum result
+        /// </summary>
+        public static IReadOnlyList<InstructionResult> PossibleInstructionResults(Type resultEnum, params string[] exceptions)
+        {
+            return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
+            {
+                Key = pair.Value.ToString("D"),
+                DisplayValue = pair.Key
+            }).ToList();
+        }
+
+        /// <summary>
         /// Parse the given result back to an enum value
         /// </summary>
         public static int ResultToEnumValue(Type resultEnum, string result)
         {
             return ParseEnum(resultEnum)[result];
+        }
+
+        /// <summary>
+        /// Parse the given result back to an enum value
+        /// </summary>
+        public static int ResultToEnumValue(Type resultEnum, InstructionResult result)
+        {
+            return int.Parse(result.Key);
+        }
+
+        /// <summary>
+        /// Convert string result to typed enum
+        /// </summary>
+        public static TEnum ResultToGenericEnumValue<TEnum>(string result)
+            where TEnum : Enum
+        {
+            var numeric = ResultToEnumValue(typeof(TEnum), result);
+            return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
+        }
+
+        /// <summary>
+        /// Convert string result to typed enum
+        /// </summary>
+        public static TEnum ResultToGenericEnumValue<TEnum>(InstructionResult result)
+            where TEnum : Enum
+        {
+            var numeric = int.Parse(result.Key);
+            return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
         }
 
         /// <summary>
@@ -70,7 +110,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 return allValues;
             }
-            
+
             // Case 3: All values are explicitly hidden => display nothing 
             if (allValues.Count == hiddenValues.Count)
             {
