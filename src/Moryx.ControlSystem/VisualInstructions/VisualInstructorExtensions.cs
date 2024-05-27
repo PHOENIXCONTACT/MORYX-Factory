@@ -77,7 +77,13 @@ namespace Moryx.ControlSystem.VisualInstructions
                 title,
                 parameter,
                 EnumInstructionResult.PossibleResults(typeof(T)),
-                result => { callback(EnumInstructionResult.ResultToEnumValue(typeof(T), result.Result)); });
+                result =>
+                {
+                    if (result.SelectedResult?.Key == null)
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.Result));
+                    else
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult));
+                });
         }
 
         /// <summary>

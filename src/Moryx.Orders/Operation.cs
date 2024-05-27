@@ -108,12 +108,22 @@ namespace Moryx.Orders
         /// <summary>
         /// Current state classification of this operation
         /// </summary>
-        public virtual OperationClassification State { get => (OperationClassification)((int)FullState & 0xFF); protected set => FullState = value; }
+        public virtual OperationClassification State
+        {
+            get => (OperationClassification)((int)FullState & 0xFF); 
+            protected set => FullState = value;
+        }
 
         /// <summary>
         /// Current state classification of this operation
         /// </summary>
         public virtual OperationClassification FullState { get; protected set; }
+
+        /// <summary>
+        /// Detailed display name of the state
+        /// TODO: Remove this property in next major and replace rework OperationClassification
+        /// </summary>
+        public virtual string StateDisplayName { get; protected set; }
 
         /// <summary>
         /// Source information of the operation
