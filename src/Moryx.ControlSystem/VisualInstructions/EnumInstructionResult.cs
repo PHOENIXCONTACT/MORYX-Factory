@@ -16,15 +16,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Determine possbile string buttons from enum result
         /// </summary>
-        public static IReadOnlyList<string> PossibleResults(Type resultEnum, params string[] exceptions)
-        {
-            return ParseEnum(resultEnum, exceptions).Keys.ToList();
-        }
-
-        /// <summary>
-        /// Determine possible string buttons from enum result
-        /// </summary>
-        public static IReadOnlyList<InstructionResult> PossibleInstructionResults(Type resultEnum, params string[] exceptions)
+        public static IReadOnlyList<InstructionResult> PossibleResults(Type resultEnum, params string[] exceptions)
         {
             return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
             {
@@ -34,11 +26,12 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
-        /// Parse the given result back to an enum value
+        /// Determine possible string buttons from enum result
         /// </summary>
-        public static int ResultToEnumValue(Type resultEnum, string result)
+        [Obsolete("Method took over the previous signature, use 'PossibleResults' instead")]
+        public static IReadOnlyList<InstructionResult> PossibleInstructionResults(Type resultEnum, params string[] exceptions)
         {
-            return ParseEnum(resultEnum)[result];
+            return PossibleResults(resultEnum, exceptions);
         }
 
         /// <summary>
@@ -47,16 +40,6 @@ namespace Moryx.ControlSystem.VisualInstructions
         public static int ResultToEnumValue(Type resultEnum, InstructionResult result)
         {
             return int.Parse(result.Key);
-        }
-
-        /// <summary>
-        /// Convert string result to typed enum
-        /// </summary>
-        public static TEnum ResultToGenericEnumValue<TEnum>(string result)
-            where TEnum : Enum
-        {
-            var numeric = ResultToEnumValue(typeof(TEnum), result);
-            return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
         }
 
         /// <summary>

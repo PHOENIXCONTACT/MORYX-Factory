@@ -32,14 +32,8 @@ namespace Moryx.ControlSystem.VisualInstructions
         public object Inputs { get; set; }
 
         /// <summary>
-        /// Results of the instruction
-        /// </summary>
-        [Obsolete("Use the result objects in 'Results' property instead!")]
-        public IReadOnlyList<string> PossibleResults { get; set; } = new string[0];
-
-        /// <summary>
         /// Possible results of the instruction
         /// </summary>
-        public InstructionResult[] Results { get; set; } = Array.Empty<InstructionResult>();
+        public IReadOnlyList<InstructionResult> Results { get; set; } = Array.Empty<InstructionResult>();
     }
 }

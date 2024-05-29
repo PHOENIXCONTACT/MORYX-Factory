@@ -25,12 +25,6 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Selected result option by the user
         /// </summary>
-        [Obsolete("Use result object from 'SelectedResult' instead")]
-        public string Result { get; set; }
-
-        /// <summary>
-        /// Selected result option by the user
-        /// </summary>
         public InstructionResult SelectedResult { get; set; }
     }
 }

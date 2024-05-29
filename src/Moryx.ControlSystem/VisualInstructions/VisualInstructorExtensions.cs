@@ -56,13 +56,13 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string title, IVisualInstructions parameter, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
+        public static long Execute(this IVisualInstructor instructor, string title, IVisualInstructions parameter, IReadOnlyList<InstructionResult> results, Action<ActiveInstructionResponse> callback)
         {
             return instructor.Execute(new ActiveInstruction
             {
                 Title = title,
                 Instructions = parameter.Instructions,
-                PossibleResults = results
+                Results = results
             }, callback);
         }
 
@@ -77,26 +77,20 @@ namespace Moryx.ControlSystem.VisualInstructions
                 title,
                 parameter,
                 EnumInstructionResult.PossibleResults(typeof(T)),
-                result =>
-                {
-                    if (result.SelectedResult?.Key == null)
-                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.Result));
-                    else
-                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult));
-                });
+                result => callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult)));
         }
 
         /// <summary>
         /// Executes the instructions of an activity with defining own results
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, IReadOnlyList<InstructionResult> results, Action<ActiveInstructionResponse> callback)
         {
             var instructions = GetInstructions(activityStart);
             return instructor.Execute(new ActiveInstruction
             {
                 Title = title,
                 Instructions = instructions,
-                PossibleResults = results
+                Results = results
             }, callback);
         }
 
@@ -165,9 +159,9 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = parameters,
-                PossibleResults = results,
+                Results = results,
                 Inputs = inputs
-            }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse.Result), instructionResponse.Inputs, activityStart));
+            }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse.SelectedResult), instructionResponse.Inputs, activityStart));
         }
 
         private static VisualInstruction[] GetInstructions(ActivityStart activity)

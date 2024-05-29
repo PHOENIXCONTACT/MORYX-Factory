@@ -136,7 +136,7 @@ namespace Moryx.ControlSystem.Tests
 
             // Assert
             Assert.AreEqual(1, instructionResult.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
-            Assert.AreEqual("Value 1", instructionResult[0]);
+            Assert.AreEqual("Value 1", instructionResult[0].DisplayValue);
         }
     }
 }
