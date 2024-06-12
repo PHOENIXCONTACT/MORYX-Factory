@@ -34,7 +34,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Results of the instruction
         /// </summary>
         [Obsolete("Use the result objects in 'Results' property instead!")]
-        public string[] PossibleResults { get; set; } = new string[0];
+        public string[] PossibleResults { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Possible results of the instruction

@@ -24,7 +24,7 @@ namespace Moryx.ControlSystem.Jobs
         /// <summary>
         /// Empty array for jobs without dependencies
         /// </summary>
-        private readonly Job[] EmptyDependencies = new Job[0];
+        private readonly Job[] EmptyDependencies = Array.Empty<Job>();
 
         /// <summary>
         /// Dependency map that can be helpful for job scheduling

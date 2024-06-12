@@ -63,7 +63,7 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         public IReadOnlyList<IProcess> RunningProcesses
         {
-            get => _runningProcesses ?? new IProcess[0];
+            get => _runningProcesses ?? Array.Empty<IProcess>();
             protected set => _runningProcesses = value;
         }
         
@@ -73,7 +73,7 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         public IReadOnlyList<IProcess> AllProcesses
         {
-            get => _allProcesses ?? new IProcess[0];
+            get => _allProcesses ?? Array.Empty<IProcess>();
             protected set => _allProcesses = value;
         }
     }
