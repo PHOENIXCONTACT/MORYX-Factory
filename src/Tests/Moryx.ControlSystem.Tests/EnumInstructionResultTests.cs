@@ -22,9 +22,11 @@ namespace Moryx.ControlSystem.Tests
         {
             // Act
             var instructionResult = EnumInstructionResult.PossibleResults(typeof(TestResults1));
+            var possibleResults = EnumInstructionResult.PossibleInstructionResults(typeof(TestResults1));
 
             // Assert
-            Assert.AreEqual(2, instructionResult.Count, "There should be 2 results because all of the results are not decorated");
+            Assert.AreEqual(2, instructionResult.Count(), "There should be 2 results because all of the results are not decorated");
+            Assert.AreEqual(2, possibleResults.Count(), "There should be 2 results because all of the results are not decorated");
         }
 
         private enum TestResults2
@@ -106,9 +108,11 @@ namespace Moryx.ControlSystem.Tests
 
             // Act
             var enumValue = (TestResults1)EnumInstructionResult.ResultToEnumValue(typeof(TestResults1), instructionResult[1]);
+            var directValue = EnumInstructionResult.ResultToGenericEnumValue<TestResults1>(instructionResult[1]);
 
             // Assert
             Assert.AreEqual(TestResults1.Value2, enumValue);
+            Assert.AreEqual(TestResults1.Value2, directValue);
         }
 
         private class MyInput
@@ -132,7 +136,7 @@ namespace Moryx.ControlSystem.Tests
 
             // Assert
             Assert.AreEqual(1, instructionResult.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
-            Assert.AreEqual("Value 1", instructionResult[0]);
+            Assert.AreEqual("Value 1", instructionResult[0].DisplayValue);
         }
     }
 }

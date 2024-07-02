@@ -150,7 +150,7 @@ namespace Moryx.Orders
 
         /// <summary>
         /// Tries to advise the <see cref="Operation"/>. 
-        /// The returned advice result contains information regarding the successful or unsuccesful attempt.
+        /// The returned advice result contains information regarding the successful or unsuccessful attempt.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> to advice.</param>
         /// <param name="advice">The <see cref="OperationAdvice"/> to apply on the <see cref="Operation"/>.</param>

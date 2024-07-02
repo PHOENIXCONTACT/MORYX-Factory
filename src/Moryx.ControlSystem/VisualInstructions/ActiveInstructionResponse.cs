@@ -11,7 +11,6 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// Response of the client for an <see cref="ActiveInstruction"/>
     /// </summary>
     public class ActiveInstructionResponse
-
     {
         /// <summary>
         /// Runtime unique identifier of this instruction per client-identifier
@@ -26,6 +25,6 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Selected result option by the user
         /// </summary>
-        public string Result { get; set; }
+        public InstructionResult SelectedResult { get; set; }
     }
 }
