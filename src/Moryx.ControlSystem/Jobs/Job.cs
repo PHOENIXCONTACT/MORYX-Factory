@@ -56,14 +56,20 @@ namespace Moryx.ControlSystem.Jobs
         /// Classification of the job
         /// </summary>
         public JobClassification Classification { get; set; }
-        
+
+        /// <summary>
+        /// Detailed display name of the state
+        /// TODO: Remove this property in next major and replace with reworked JobClassification
+        /// </summary>
+        public virtual string StateDisplayName { get; protected set; }
+
         private IReadOnlyList<IProcess> _runningProcesses;
         /// <summary>
         /// Currently running processes of the job
         /// </summary>
         public IReadOnlyList<IProcess> RunningProcesses
         {
-            get => _runningProcesses ?? new IProcess[0];
+            get => _runningProcesses ?? Array.Empty<IProcess>();
             protected set => _runningProcesses = value;
         }
         
@@ -73,7 +79,7 @@ namespace Moryx.ControlSystem.Jobs
         /// </summary>
         public IReadOnlyList<IProcess> AllProcesses
         {
-            get => _allProcesses ?? new IProcess[0];
+            get => _allProcesses ?? Array.Empty<IProcess>();
             protected set => _allProcesses = value;
         }
     }
