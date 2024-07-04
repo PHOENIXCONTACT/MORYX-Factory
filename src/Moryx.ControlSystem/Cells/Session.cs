@@ -16,7 +16,7 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Empty array of constraints
         /// </summary>
-        protected static readonly IConstraint[] EmptyConstraints = new IConstraint[0];
+        protected static readonly IConstraint[] EmptyConstraints = Array.Empty<IConstraint>();
 
         /// <summary>
         /// Initialize a new resource request for a certain resource
