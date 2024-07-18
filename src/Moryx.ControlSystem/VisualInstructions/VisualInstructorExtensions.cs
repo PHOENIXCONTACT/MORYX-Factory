@@ -96,7 +96,8 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = instructions,
-                PossibleResults = results
+                PossibleResults = results,
+                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray()
             }, callback);
         }
 
@@ -161,11 +162,13 @@ namespace Moryx.ControlSystem.VisualInstructions
                 throw new ArgumentException("Result type is not an enum!");
 
             var results = EnumInstructionResult.PossibleResults(attr.ResultEnum);
+            var resultObjects = EnumInstructionResult.PossibleInstructionResults(attr.ResultEnum);
             return instructor.Execute(new ActiveInstruction
             {
                 Title = title,
                 Instructions = parameters,
                 PossibleResults = results,
+                Results = resultObjects.ToArray(),
                 Inputs = inputs
             }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse.Result), instructionResponse.Inputs, activityStart));
         }
