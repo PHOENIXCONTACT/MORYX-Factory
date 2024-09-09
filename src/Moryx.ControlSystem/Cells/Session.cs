@@ -37,7 +37,7 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Context class holding all session information
         /// </summary>
-        private readonly SessionContext _context;
+        private SessionContext _context;
 
         /// <summary>
         /// Unique id of the current production transaction
@@ -134,24 +134,27 @@ namespace Moryx.ControlSystem.Cells
 
         #endregion
 
-        private class SessionContext
+        private struct SessionContext
         {
             internal SessionContext(ActivityClassification classification, Guid sessionId, ProcessReference reference)
             {
                 Classification = classification;
                 SessionId = sessionId;
                 Reference = reference;
+
+                Tag = null;
+                Process = null;
             }
 
-            public Guid SessionId { get; }
+            public Guid SessionId;
 
-            public IProcess Process { get; set; }
+            public IProcess Process;
 
-            public ProcessReference Reference { get; set; }
+            public ProcessReference Reference;
 
-            public ActivityClassification Classification { get; }
+            public ActivityClassification Classification;
 
-            public object Tag { get; set; }
+            public object Tag;
         }
     }
 }
