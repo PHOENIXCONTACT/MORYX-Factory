@@ -163,6 +163,7 @@ namespace Moryx.ControlSystem.VisualInstructions
 
             var results = EnumInstructionResult.PossibleResults(attr.ResultEnum);
             var resultObjects = EnumInstructionResult.PossibleInstructionResults(attr.ResultEnum);
+
             return instructor.Execute(new ActiveInstruction
             {
                 Title = title,
@@ -170,7 +171,7 @@ namespace Moryx.ControlSystem.VisualInstructions
                 PossibleResults = results,
                 Results = resultObjects.ToArray(),
                 Inputs = inputs
-            }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse.Result), instructionResponse.Inputs, activityStart));
+            }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse), instructionResponse.Inputs, activityStart));
         }
 
         private static VisualInstruction[] GetInstructions(ActivityStart activity)
