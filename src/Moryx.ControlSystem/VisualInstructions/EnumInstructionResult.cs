@@ -50,6 +50,20 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
+        /// Extract result from response object depending on what values is present
+        /// </summary>
+        public static int ResultToEnumValue(Type resultEnum, ActiveInstructionResponse response)
+        {
+            if(response.SelectedResult != null)
+                return ResultToEnumValue(resultEnum, response.SelectedResult);
+
+            if (response.Result != null)
+                return ResultToEnumValue(resultEnum, response.Result);
+
+            throw new ArgumentException("No result found on response", nameof(response));
+        }
+
+        /// <summary>
         /// Convert string result to typed enum
         /// </summary>
         public static TEnum ResultToGenericEnumValue<TEnum>(string result)
