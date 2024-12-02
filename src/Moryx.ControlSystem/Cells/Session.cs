@@ -125,6 +125,20 @@ namespace Moryx.ControlSystem.Cells
             return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), constraints);
         }
 
+
+        /// <summary>
+        /// Creates a new <see cref="Session"/> for the <paramref name="unknown"/> activity
+        /// with a new session context and marks the activity as failed.
+        /// </summary>
+        /// <param name="unknown"></param>
+        public static UnknownActivityAborted WrapUnknownActivity(IActivity unknown)
+        {
+            unknown.Fail();
+            var wrapper = StartSession(ActivityClassification.Unknown, ReadyToWorkType.Unset, unknown.Process.Id)
+                .CompleteSequence(null, false, new long[] { });
+            return new UnknownActivityAborted(unknown, wrapper);
+        }
+
         private static ReadyToWork CreateSession(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, IConstraint[] constraints)
         {
             if (constraints == null)
