@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>		
+        <CreatePackage>true</CreatePackage>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Moryx.AbstractionLayer" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
+	</ItemGroup>
+
+</Project>

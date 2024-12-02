@@ -29,6 +29,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Complete an instruction with the selected result
         /// </summary>
+        [Obsolete("Use CompleteInstruction with the response object instead")]
         void CompleteInstruction(string identifier, long instructionId, string result);
 
         /// <summary>
@@ -40,30 +41,21 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Event raised when an instruction was removed
         /// </summary>
         event EventHandler<InstructionEventArgs> InstructionCleared;
+
+        /// <summary>
+		/// Get a list of all available instructors
+		/// </summary>
+		public IReadOnlyList<string> GetInstructors();
     }
 
     /// <summary>
-    /// Event args for instruction events
+    /// Extended interface for <see cref="IWorkerSupport"/>
     /// </summary>
-    public class InstructionEventArgs : EventArgs
+    public interface IWorkerSupportInputs : IWorkerSupport
     {
         /// <summary>
-        /// Create new instance
+        /// Complete an instruction with the response received from the client
         /// </summary>
-        public InstructionEventArgs(string identifier, ActiveInstruction instruction)
-        {
-            Identifier = identifier;
-            Instruction = instruction;
-        }
-
-        /// <summary>
-        /// Identifier of source
-        /// </summary>
-        public string Identifier { get; }
-
-        /// <summary>
-        /// Referenced instruction
-        /// </summary>
-        public ActiveInstruction Instruction { get; }
+        void CompleteInstruction(string identifier, ActiveInstructionResponse response);
     }
 }

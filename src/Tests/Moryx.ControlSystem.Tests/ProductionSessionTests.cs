@@ -139,5 +139,20 @@ namespace Moryx.ControlSystem.Tests
             Assert.AreEqual(ReadyToWorkType.Pull, readyToWork2.ReadyToWorkType);
         }
 
+        [Test]
+        public void TestUnknownActivityAborted()
+        {
+            // Arrange
+            var process = new Process { Id = 4242 };
+            var activity = new DummyActivity { Process = process };
+
+            // Act
+            var session = Session.WrapUnknownActivity(activity);
+
+            // Assert
+            Assert.That(session.AcceptedClassification, Is.EqualTo(ActivityClassification.Unknown));
+            Assert.That(session.AbortedActivity, Is.EqualTo(activity));
+            Assert.That(session.Reference.Matches(process));
+        }
     }
 }

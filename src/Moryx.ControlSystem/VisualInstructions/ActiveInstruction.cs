@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2022, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System;
+
 namespace Moryx.ControlSystem.VisualInstructions
 {
     /// <summary>
@@ -24,8 +26,19 @@ namespace Moryx.ControlSystem.VisualInstructions
         public VisualInstruction[] Instructions { get; set; }
 
         /// <summary>
+        /// Optional input object
+        /// </summary>
+        public object Inputs { get; set; }
+
+        /// <summary>
         /// Results of the instruction
         /// </summary>
-        public string[] PossibleResults { get; set; } = new string[0];
+        [Obsolete("Use the result objects in 'Results' property instead!")]
+        public string[] PossibleResults { get; set; } = Array.Empty<string>();
+
+        /// <summary>
+        /// Possible results of the instruction
+        /// </summary>
+        public InstructionResult[] Results { get; set; } = Array.Empty<InstructionResult>();
     }
 }

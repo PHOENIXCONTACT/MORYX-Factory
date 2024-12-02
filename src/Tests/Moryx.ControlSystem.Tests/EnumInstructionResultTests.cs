@@ -3,6 +3,7 @@
 
 using Moryx.ControlSystem.VisualInstructions;
 using NUnit.Framework;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Moryx.ControlSystem.Tests
@@ -24,6 +25,7 @@ namespace Moryx.ControlSystem.Tests
 
             // Assert
             Assert.AreEqual(2, instructionResult.Results.Count(), "There should be 2 results because all of the results are not decorated");
+            Assert.AreEqual(2, instructionResult.PossibleResults.Count(), "There should be 2 results because all of the results are not decorated");
         }
 
         private enum TestResults2
@@ -94,6 +96,48 @@ namespace Moryx.ControlSystem.Tests
 
             // Assert
             Assert.AreEqual(0, instructionResult.Results.Count(), "There should be no results because all of them are hidden");
+        }
+
+        [Test]
+        public void ProvidePopulatedInputs()
+        {
+            // Arrange
+            int value = 0;
+            var input = new MyInput();
+            var instructionResult = new EnumInstructionResult(typeof(TestResults1), (result, inputs) => value = ((MyInput)inputs).Foo);
+
+            // Act
+            instructionResult.Invoke("Value1", new MyInput { Foo = 42 });
+
+            // Assert
+            Assert.AreEqual(42, value);
+        }
+
+        private class MyInput
+        {
+            public int Foo { get; set; }
+        }
+
+        private enum TestResults6
+        {
+            [EnumInstruction, Display(Name = "Value 1")]
+            Value1,
+            [EnumInstruction("Value 2")]
+            Value2,
+            [Display(Name = "Value 3")]
+            Value3
+        }
+
+        [Test]
+        public void UsesDisplayResultsWhereFound()
+        {
+            // Act
+            var instructionResult = new EnumInstructionResult(typeof(TestResults6), result => { });
+
+            // Assert
+            Assert.AreEqual(2, instructionResult.Results.Count(), "There should be two results, because one does not have the EnumInstruction attribute");
+            Assert.AreEqual("Value 1", instructionResult.Results[0]);
+            Assert.AreEqual("Value 2", instructionResult.Results[1]);
         }
     }
 }

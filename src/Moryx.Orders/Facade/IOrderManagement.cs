@@ -136,13 +136,7 @@ namespace Moryx.Orders
         /// Event which will be raised when the report context of the operation will be requested
         /// </summary>
         event EventHandler<OperationReportRequestEventArgs> OperationReportRequest;
-    }
-
-    /// <summary>
-    /// Order management facade. Declares methods available to manage Orders in the MORYX Platform.
-    /// </summary>
-    public interface IOrderManagementExtended : IOrderManagement
-    {
+    
         /// <summary>
         /// Assigns or updates operation related information like the corresponding product or recipes on the existing operation instance.
         /// </summary>
@@ -155,8 +149,8 @@ namespace Moryx.Orders
         AdviceContext GetAdviceContext(Operation operation);
 
         /// <summary>
-        /// Tries to advise the <see cref="Operation"/> corresponding to the <paramref name="operationId"/>. 
-        /// The returned advice result contains information regarding the successful or unsuccesful attempt.
+        /// Tries to advise the <see cref="Operation"/>. 
+        /// The returned advice result contains information regarding the successful or unsuccessful attempt.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> to advice.</param>
         /// <param name="advice">The <see cref="OperationAdvice"/> to apply on the <see cref="Operation"/>.</param>

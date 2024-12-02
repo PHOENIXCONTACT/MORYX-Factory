@@ -33,4 +33,15 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         void Clear(long instructionId);
     }
+
+    /// <summary>
+    /// Extended interface for <see cref="IVisualInstructor"/> that passes an instruction context
+    /// </summary>
+    public interface IVisualInstructorInputs : IVisualInstructor
+    {
+        /// <summary>
+        /// Execute these instructions based on the given activity and report the result and inputs on completion
+        /// </summary>
+        long Execute(string sender, VisualInstruction[] parameter, object inputs, IInstructionInputResults results);
+    }
 }

@@ -1,9 +1,10 @@
-﻿// Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
+﻿// Copyright (c) 2022, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Moryx.Orders.Documents
 {
@@ -18,6 +19,8 @@ namespace Moryx.Orders.Documents
         /// </summary>
         [DataMember]
         public string Url { get; set; }
+
+        private static readonly HttpClient _client = new();
 
         /// <summary>
         /// Default constructor
@@ -37,13 +40,10 @@ namespace Moryx.Orders.Documents
         /// <inheritdoc />
         public override Stream GetStream()
         {
-            var request = WebRequest.Create(Url);
-            var response = request.GetResponse();
+            var response = _client.GetAsync(Url).Result;
+            ContentType = response.Content.Headers.ContentType.MediaType;
 
-            ContentType = response.ContentType;
-            var dataStream = response.GetResponseStream();
-
-            return dataStream;
+            return response.Content.ReadAsStreamAsync().Result;
         }
     }
 }

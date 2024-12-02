@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
-using Moryx.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Moryx.Orders
 {
