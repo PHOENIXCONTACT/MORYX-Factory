@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Moryx.AbstractionLayer;
+using Moryx.AbstractionLayer.Capabilities;
 using Moryx.AbstractionLayer.Resources;
 
 namespace Moryx.ControlSystem.Cells
@@ -13,7 +14,7 @@ namespace Moryx.ControlSystem.Cells
     /// Base type for all implementations of <see cref="ICell"/>
     /// </summary>
     [Description("Base type for all cells within a production system")]
-    public abstract class Cell : PublicResource, ICell
+    public abstract class Cell : Resource, ICell
     {
         /// <inheritdoc />
         public abstract IEnumerable<Session> ControlSystemAttached();
@@ -29,7 +30,20 @@ namespace Moryx.ControlSystem.Cells
         
         /// <inheritdoc />
         public abstract void SequenceCompleted(SequenceCompleted completed);
+        private ICapabilities _capabilities = NullCapabilities.Instance;
 
+        public ICapabilities Capabilities
+        {
+            get
+            {
+                return _capabilities;
+            }
+            protected set
+            {
+                _capabilities = value;
+                this.CapabilitiesChanged?.Invoke(this, _capabilities);
+            }
+        }
         /// <summary>
         /// Publish a <see cref="ReadyToWork"/> from the resource
         /// </summary>
@@ -63,5 +77,6 @@ namespace Moryx.ControlSystem.Cells
 
         /// <inheritdoc />
         public event EventHandler<ActivityCompleted> ActivityCompleted;
+        public event EventHandler<ICapabilities> CapabilitiesChanged;
     }
 }
