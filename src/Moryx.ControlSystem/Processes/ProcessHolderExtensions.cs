@@ -170,13 +170,15 @@ namespace Moryx.ControlSystem.Processes
             => position.Session != null ? new[] { position.Session } : Enumerable.Empty<Session>();
 
         /// <summary>
-        /// Create sessions for all positions on a holder group, that have a process
+        /// Gets the session from each <see cref="ProcessHolderPosition"/> in the <paramref name="positions"/> 
+        /// that holds one. This is usually used when detaching from the control system.
         /// </summary>
         public static IEnumerable<Session> Detach(this IEnumerable<ProcessHolderPosition> positions) 
             => positions.Where(p => p.Session != null).Select(p => p.Session);
 
         /// <summary>
-        /// Create sessions for all positions on the <paramref name="group"/>, that have a process
+        /// Gets the session from each <see cref="IProcessHolderPosition"/> in the <paramref name="group"/> 
+        /// that holds one. This is usually used when detaching from the control system.
         /// </summary>
         public static IEnumerable<Session> Detach(this IProcessHolderGroup group)
             => group.Positions.Where(p => p.Session != null).Select(p => p.Session);
