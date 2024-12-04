@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2024, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
+
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -181,6 +184,20 @@ namespace Moryx.ControlSystem.VisualInstructions
                 throw new ArgumentException($"Activity parameters are not of type {nameof(IVisualInstructions)}.");
 
             return parameters.Instructions;
+        }
+
+        /// <summary>
+        /// Returns a text instruction for the given string.
+        /// </summary>
+        /// <param name="text">Instruction text</param>
+        /// <returns><see cref="VisualInstruction"/> with type `Text` the given string as content</returns>
+        public static VisualInstruction AsInstruction(this string text)
+        {
+            return new VisualInstruction
+            {
+                Content = text,
+                Type = InstructionContentType.Text,
+            };
         }
     }
 }

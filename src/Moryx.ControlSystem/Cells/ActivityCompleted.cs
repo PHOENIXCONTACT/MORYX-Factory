@@ -10,9 +10,6 @@ namespace Moryx.ControlSystem.Cells
     /// </summary>
     public class ActivityCompleted : Session, ICompletableSession
     {
-        /// <summary>
-        /// Initialize a new resource request for a certain resource
-        /// </summary>
         internal ActivityCompleted(IActivity completed, Session currentSession)
             : base(currentSession)
         {

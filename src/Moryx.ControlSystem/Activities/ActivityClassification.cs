@@ -16,6 +16,11 @@ namespace Moryx.ControlSystem.Activities
     public enum ActivityClassification
     {
         /// <summary>
+        /// Use in case the activity classification is unkown
+        /// </summary>
+        Unknown = 0x00,
+
+        /// <summary>
         /// Default classification is production
         /// </summary>
         Production = 0x01,
@@ -33,6 +38,6 @@ namespace Moryx.ControlSystem.Activities
         /// <summary>
         /// Activity performs a preparation, for example for a <see cref="Production"/> activity
         /// </summary>
-        Preparation = 0x08
+        Preparation = 0x08,
     }
 }
