@@ -16,7 +16,7 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Empty array of constraints
         /// </summary>
-        protected static readonly IConstraint[] EmptyConstraints = new IConstraint[0];
+        protected static readonly IConstraint[] EmptyConstraints = Array.Empty<IConstraint>();
 
         /// <summary>
         /// Initialize a new resource request for a certain resource
@@ -37,7 +37,7 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Context class holding all session information
         /// </summary>
-        private readonly SessionContext _context;
+        private SessionContext _context;
 
         /// <summary>
         /// Unique id of the current production transaction
@@ -125,6 +125,19 @@ namespace Moryx.ControlSystem.Cells
             return CreateSession(classification, type, ProcessReference.InstanceIdentity(identity), constraints);
         }
 
+
+        /// <summary>
+        /// Creates a new <see cref="Session"/> for the <paramref name="unknown"/> activity
+        /// with a new session context and marks the activity as failed.
+        /// </summary>
+        /// <param name="unknown"></param>
+        public static UnknownActivityAborted WrapUnknownActivity(IActivity unknown)
+        {
+            var wrapper = StartSession(ActivityClassification.Unknown, ReadyToWorkType.Unset, unknown.Process.Id)
+                .CompleteSequence(null, false, new long[] { });
+            return new UnknownActivityAborted(unknown, wrapper);
+        }
+
         private static ReadyToWork CreateSession(ActivityClassification classification, ReadyToWorkType type, ProcessReference reference, IConstraint[] constraints)
         {
             if (constraints == null)
@@ -134,24 +147,27 @@ namespace Moryx.ControlSystem.Cells
 
         #endregion
 
-        private class SessionContext
+        private struct SessionContext
         {
             internal SessionContext(ActivityClassification classification, Guid sessionId, ProcessReference reference)
             {
                 Classification = classification;
                 SessionId = sessionId;
                 Reference = reference;
+
+                Tag = null;
+                Process = null;
             }
 
-            public Guid SessionId { get; }
+            public Guid SessionId;
 
-            public IProcess Process { get; set; }
+            public IProcess Process;
 
-            public ProcessReference Reference { get; set; }
+            public ProcessReference Reference;
 
-            public ActivityClassification Classification { get; }
+            public ActivityClassification Classification;
 
-            public object Tag { get; set; }
+            public object Tag;
         }
     }
 }

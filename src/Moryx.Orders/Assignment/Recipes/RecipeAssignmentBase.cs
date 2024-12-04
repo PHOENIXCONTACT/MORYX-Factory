@@ -1,6 +1,7 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace Moryx.Orders.Assignment
         {
             var product = ProductManagement.LoadType(identity);
             if (product == null)
-                return Task.FromResult<IReadOnlyList<IProductRecipe>>(new IProductRecipe[0]);
+                return Task.FromResult<IReadOnlyList<IProductRecipe>>(Array.Empty<IProductRecipe>());
 
             var recipes = ProductManagement.GetRecipes(product, RecipeClassification.Default | RecipeClassification.Alternative);
             return Task.FromResult(recipes);

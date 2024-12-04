@@ -52,10 +52,8 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         /// <param name="activity">The activity.</param>
         public ActivityStart StartActivity(IActivity activity)
-        {
-            // Update process before next stage
-            Process = activity.Process;
-            return new ActivityStart(this, activity);
+        {           
+            return new ActivityStart(this, activity) { Process = activity.Process };
         }
 
         /// <summary>
@@ -63,9 +61,7 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public SequenceCompleted CompleteSequence(IProcess process, bool processActive, params long[] nextCells)
         {
-            // Update process before next stage
-            Process = process;
-            return new SequenceCompleted(this, processActive, nextCells);
+            return new SequenceCompleted(this, processActive, nextCells) { Process = process };
         }
 
         /// <summary>

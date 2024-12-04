@@ -46,10 +46,11 @@ namespace Moryx.ControlSystem.Tests
         {
             var readyToWork = Session.StartSession(ActivityClassification.Production, ReadyToWorkType.Pull, 4242);
 
-            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process() });
+            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process { Id = 4242 } });
 
             Assert.AreEqual(readyToWork.Reference, activityStart.Reference);
             Assert.AreEqual(readyToWork.Id, activityStart.Id);
+            Assert.AreNotEqual(readyToWork.Process, activityStart.Process); // Make sure process is not populated back to RTW
         }
 
         [Test]
@@ -82,7 +83,7 @@ namespace Moryx.ControlSystem.Tests
         {
             var readyToWork = Session.StartSession(ActivityClassification.Production, ReadyToWorkType.Pull, 4242);
 
-            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process() });
+            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process { Id = 4242 } });
             activityStart.Activity.Complete(1);
 
             var activityCompleted = activityStart.CreateResult();
@@ -96,7 +97,7 @@ namespace Moryx.ControlSystem.Tests
         {
             var readyToWork = Session.StartSession(ActivityClassification.Production, ReadyToWorkType.Pull, 4242);
 
-            var activityStart = readyToWork.StartActivity(new DummyActivity {Process = new Process()});
+            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process { Id = 4242 } });
             activityStart.Activity.Complete(1);
 
             var activityCompleted = activityStart.CreateResult();
@@ -123,7 +124,7 @@ namespace Moryx.ControlSystem.Tests
         {
             var readyToWork = Session.StartSession(ActivityClassification.Production, readyToWorkType, 4242);
 
-            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process() });
+            var activityStart = readyToWork.StartActivity(new DummyActivity { Process = new Process { Id = 4242 } });
             activityStart.Activity.Complete(1);
 
             var activityCompleted = activityStart.CreateResult();
@@ -138,5 +139,20 @@ namespace Moryx.ControlSystem.Tests
             Assert.AreEqual(ReadyToWorkType.Pull, readyToWork2.ReadyToWorkType);
         }
 
+        [Test]
+        public void TestUnknownActivityAborted()
+        {
+            // Arrange
+            var process = new Process { Id = 4242 };
+            var activity = new DummyActivity { Process = process };
+
+            // Act
+            var session = Session.WrapUnknownActivity(activity);
+
+            // Assert
+            Assert.That(session.AcceptedClassification, Is.EqualTo(ActivityClassification.Unknown));
+            Assert.That(session.AbortedActivity, Is.EqualTo(activity));
+            Assert.That(session.Reference.Matches(process));
+        }
     }
 }
