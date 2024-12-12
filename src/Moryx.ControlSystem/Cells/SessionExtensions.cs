@@ -5,6 +5,8 @@ using Moryx.AbstractionLayer.Recipes;
 using Moryx.AbstractionLayer;
 using Moryx.AbstractionLayer.Products;
 using Moryx.ControlSystem.Recipes;
+using System;
+using Moryx.ControlSystem.Processes;
 
 namespace Moryx.ControlSystem.Cells
 {
@@ -29,6 +31,48 @@ namespace Moryx.ControlSystem.Cells
 
             return process.ProductInstance as TProductInstance;
         }
+
+        /// <summary>
+        /// Modifies the <see cref="IProductInstance"/> of type <typeparamref name="TInstance"/> 
+        /// on the <see cref="IProcess"/> of the <paramref name="session"/> using the given 
+        /// <paramref name="setter"/>.
+        /// </summary>
+        /// <typeparam name="TInstance">The expected type of the product instance</typeparam>
+        /// <param name="session">The sessopm holding the product instance</param>
+        /// <param name="setter">The action to be executed on the product instance</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// session.ModifyProductInstance<MyProductInstance>((var instance) => instance.MyProperty = 1)
+        /// ]]>
+        /// </code>
+        /// </example>
+        /// <exception cref="InvalidCastException">Thrown if the <see cref="IProcess"/> of the 
+        /// <paramref name="session"/> does not hold a product instance of type <typeparamref name="TInstance"/>
+        /// </exception>
+        /// <exception cref="InvalidOperationException">Thrown if the <see cref="IProcess"/> of the 
+        /// <paramref name="session"/> is no <see cref="ProductionProcess"/></exception>
+        public static TInstance ModifyProductInstance<TInstance>(this Session session, Action<TInstance> setter)
+            where TInstance : IProductInstance => session.Process.ModifyProductInstance(setter);
+
+        /// <summary>
+        /// Tries to modifies the <see cref="IProductInstance"/> of type <typeparamref name="TInstance"/> 
+        /// on the <see cref="IProcess"/> of the <paramref name="session"/> using the given 
+        /// <paramref name="setter"/>. Returns false, if the 
+        /// operation could not be executed.
+        /// </summary>
+        /// <typeparam name="TInstance">The expected type of the product instance</typeparam>
+        /// <param name="session">The sessopm holding the product instance</param>
+        /// <param name="setter">The action to be executed on the product instance</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// session.TryModifyingProductInstance<MyProductInstance>((var instance) => instance.MyProperty = 1)
+        /// ]]>
+        /// </code>
+        /// </example>
+        public static bool TryModifyProductInstance<TInstance>(this Session session, Action<TInstance> setter)
+            where TInstance : IProductInstance => session.Process.TryModifyProductInstance(setter);
 
         /// <summary>
         /// Extension method to get the <see cref="Activity"/> from the <paramref name="session"/>
