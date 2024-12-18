@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using Moryx.AbstractionLayer;
@@ -22,7 +21,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         public static long Display(this IVisualInstructor instructor, string title, IVisualInstructions parameter)
         {
-            return instructor.Display(new ActiveInstruction 
+            return instructor.Display(new ActiveInstruction
             {
                 Title = title,
                 Instructions = parameter.Instructions
@@ -56,6 +55,64 @@ namespace Moryx.ControlSystem.VisualInstructions
         }
 
         /// <summary>
+        /// Show a visual instruction text message
+        /// </summary>
+        /// <param name="instructor">The instructor to display the message</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="message">The message to be displayed</param>
+        /// <returns>The id of the instruction</returns>
+        public static long DisplayMessage(this IVisualInstructor instructor, string sender, string message)
+        {
+            return instructor.DisplayMessages(sender, [message]);
+        }
+
+        /// <summary>
+        /// Show a set of messages as a visual instruction 
+        /// </summary>
+        /// <param name="instructor">The instructor to display the messages</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="messages">The messages to be displayed</param>
+        /// <returns>The id of the instruction</returns>
+        public static long DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages)
+        {
+            var instructions = messages.Select(AsInstruction).ToArray();
+            return instructor.Display(new ActiveInstruction
+            {
+                Title = sender,
+                Instructions = instructions
+            });
+        }
+
+        /// <summary>
+        /// Show a visual instruction text message
+        /// </summary>
+        /// <param name="instructor">The instructor to display the message</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="autoClearMs">Time after which the message will be cleared</param>
+        public static void DisplayMessage(this IVisualInstructor instructor, string sender, string message, int autoClearMs)
+        {
+            instructor.DisplayMessages(sender, [message], autoClearMs);
+        }
+
+        /// <summary>
+        /// Show a set of messages as a visual instruction 
+        /// </summary>
+        /// <param name="instructor">The instructor to display the messages</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="messages">The messages to be displayed</param>
+        /// <param name="autoClearMs">Time after which the messages will be cleared</param>
+        public static void DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages, int autoClearMs)
+        {
+            var instructions = messages.Select(AsInstruction).ToArray();
+            instructor.Display(new ActiveInstruction
+            {
+                Title = sender,
+                Instructions = instructions
+            }, autoClearMs);
+        }
+
+        /// <summary>
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
@@ -74,7 +131,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
         /// <typeparam name="T">Type of enum used for possible instruction results</typeparam>
-        public static long Execute<T>(this IVisualInstructor instructor, string title, IVisualInstructions parameter, Action<T> callback) where T: Enum
+        public static long Execute<T>(this IVisualInstructor instructor, string title, IVisualInstructions parameter, Action<T> callback) where T : Enum
         {
             return instructor.Execute(
                 title,
