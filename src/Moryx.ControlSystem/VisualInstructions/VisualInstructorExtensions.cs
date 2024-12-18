@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Moryx.AbstractionLayer;
@@ -18,27 +19,39 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Only display these instructions
         /// Have to be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Display(this IVisualInstructor instructor, string sender, IVisualInstructions parameter)
+        public static long Display(this IVisualInstructor instructor, string title, IVisualInstructions parameter)
         {
-            return instructor.Display(sender, parameter.Instructions);
+            return instructor.Display(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = parameter.Instructions
+            });
         }
 
         /// <summary>
         /// Only display these instructions
         /// Instruction will automatically cleared after the given time
         /// </summary>
-        public static void Display(this IVisualInstructor instructor, string sender, IVisualInstructions parameter, int autoClearMs)
+        public static void Display(this IVisualInstructor instructor, string title, IVisualInstructions parameter, int autoClearMs)
         {
-            instructor.Display(sender, parameter.Instructions, autoClearMs);
+            instructor.Display(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = parameter.Instructions
+            }, autoClearMs);
         }
 
         /// <summary>
         /// Display the instructions on an activity
         /// </summary>
-        public static long Display(this IVisualInstructor instructor, string sender, ActivityStart activityStart)
+        public static long Display(this IVisualInstructor instructor, string title, ActivityStart activityStart)
         {
             var instructions = GetInstructions(activityStart);
-            return instructor.Display(sender, instructions);
+            return instructor.Display(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = instructions
+            });
         }
 
         /// <summary>
@@ -50,7 +63,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <returns>The id of the instruction</returns>
         public static long DisplayMessage(this IVisualInstructor instructor, string sender, string message)
         {
-            return instructor.DisplayMessages(sender, new string[] { message });
+            return instructor.DisplayMessages(sender, [message]);
         }
 
         /// <summary>
@@ -63,7 +76,11 @@ namespace Moryx.ControlSystem.VisualInstructions
         public static long DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages)
         {
             var instructions = messages.Select(AsInstruction).ToArray();
-            return instructor.Display(sender, instructions);
+            return instructor.Display(new ActiveInstruction
+            {
+                Title = sender,
+                Instructions = instructions
+            });
         }
 
         /// <summary>
@@ -75,7 +92,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <param name="autoClearMs">Time after which the message will be cleared</param>
         public static void DisplayMessage(this IVisualInstructor instructor, string sender, string message, int autoClearMs)
         {
-            instructor.DisplayMessages(sender, new string[] { message }, autoClearMs);
+            instructor.DisplayMessages(sender, [message], autoClearMs);
         }
 
         /// <summary>
@@ -88,69 +105,112 @@ namespace Moryx.ControlSystem.VisualInstructions
         public static void DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages, int autoClearMs)
         {
             var instructions = messages.Select(AsInstruction).ToArray();
-            instructor.Display(sender, instructions, autoClearMs);
+            instructor.Display(new ActiveInstruction
+            {
+                Title = sender,
+                Instructions = instructions
+            }, autoClearMs);
         }
 
         /// <summary>
         /// Execute these instructions based on the given activity and report the result on completion
         /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, IVisualInstructions parameter, IInstructionResults results)
+        public static long Execute(this IVisualInstructor instructor, string title, IVisualInstructions parameter, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
         {
-            return instructor.Execute(sender, parameter.Instructions, results);
+            return instructor.Execute(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = parameter.Instructions,
+                PossibleResults = results
+            }, callback);
         }
 
         /// <summary>
-        /// Execute the instructions of an activity
+        /// Execute these instructions and report the result on completion
+        /// Can (but must not) be cleared with the <see cref="IVisualInstructor.Clear"/> method
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, Action<int, ActivityStart> callback)
+        /// <typeparam name="T">Type of enum used for possible instruction results</typeparam>
+        public static long Execute<T>(this IVisualInstructor instructor, string title, IVisualInstructions parameter, Action<T> callback) where T : Enum
         {
-            var instructions = GetInstructions(activityStart);
-            return Execute(instructor, sender, activityStart, callback, instructions);
-        }
-
-        /// <summary>
-        /// Execute the instructions of an activity with type enum response
-        /// </summary>
-        public static long Execute<TInput>(this IVisualInstructor instructor, string sender, ActivityStart activityStart, TInput input, Action<int, TInput, ActivityStart> callback)
-            where TInput : class
-        {
-            var instructions = GetInstructions(activityStart);
-            return Execute(instructor, sender, activityStart, input, (result, populated, session) => callback(result, (TInput)populated, session), instructions);
+            return instructor.Execute(
+                title,
+                parameter,
+                EnumInstructionResult.PossibleResults(typeof(T)),
+                result =>
+                {
+                    if (result.SelectedResult?.Key == null)
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.Result));
+                    else
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult));
+                });
         }
 
         /// <summary>
         /// Executes the instructions of an activity with defining own results
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, IInstructionResults results)
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, IReadOnlyList<string> results, Action<ActiveInstructionResponse> callback)
         {
             var instructions = GetInstructions(activityStart);
-            return instructor.Execute(sender, instructions, results);
+            return instructor.Execute(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = instructions,
+                PossibleResults = results,
+                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray()
+            }, callback);
         }
 
         /// <summary>
-        /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
-        /// Parameters can be set manually
+        /// Execute the instructions of an activity with type enum response
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, Action<int, ActivityStart> callback, IVisualInstructions parameters)
+        public static long Execute<TInput>(this IVisualInstructor instructor, string title, ActivityStart activityStart, TInput input, Action<int, TInput, ActivityStart> callback)
+            where TInput : class
         {
-            return Execute(instructor, sender, activityStart, callback, parameters.Instructions);
+            var instructions = GetInstructions(activityStart);
+            return Execute(instructor, title, activityStart, input, (result, populated, session) => callback(result, (TInput)populated, session), instructions);
         }
 
         /// <summary>
-        /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
-        /// Parameters can be set manually
+        /// Execute the instructions of an activity
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, Action<int, ActivityStart> callback, VisualInstruction[] parameters)
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, Action<int, ActivityStart> callback)
         {
-            return Execute(instructor, sender, activityStart, null, (result, input, activityStart) => callback(result, activityStart), parameters);
+            var instructions = GetInstructions(activityStart);
+            return Execute(instructor, title, activityStart, callback, instructions);
         }
 
         /// <summary>
         /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
         /// Parameters can be set manually
         /// </summary>
-        public static long Execute(this IVisualInstructor instructor, string sender, ActivityStart activityStart, object inputs, Action<int, object, ActivityStart> callback, VisualInstruction[] parameters)
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, Action<int, ActivityStart> callback, IVisualInstructions parameters)
+        {
+            return Execute(instructor, title, activityStart, callback, parameters.Instructions);
+        }
+
+        /// <summary>
+        /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
+        /// Parameters can be set manually
+        /// </summary>
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, Action<int, ActivityStart> callback, VisualInstruction[] parameters)
+        {
+            return Execute(instructor, title, activityStart, null, (result, input, activityStart) => callback(result, activityStart), parameters);
+        }
+
+        /// <summary>
+        /// Executes an instruction based on a activity session (<see cref="ActivityStart"/>).
+        /// Parameters can be set manually
+        /// </summary>
+        public static long Execute(this IVisualInstructor instructor, string title, ActivityStart activityStart, object inputs, Action<int, object, ActivityStart> callback, VisualInstruction[] parameters)
+        {
+            return ExecuteWithEnum(instructor, title, activityStart, inputs, callback, parameters);
+        }
+
+        /// <summary>
+        /// Internal implementation of different overloads of 'Execute'
+        /// </summary>
+        private static long ExecuteWithEnum(this IVisualInstructor instructor, string title, ActivityStart activityStart, object inputs, Action<int, object, ActivityStart> callback, VisualInstruction[] parameters)
         {
             var activity = activityStart.Activity;
 
@@ -161,22 +221,17 @@ namespace Moryx.ControlSystem.VisualInstructions
             if (!attr.ResultEnum.IsEnum)
                 throw new ArgumentException("Result type is not an enum!");
 
-            long instructionId;
-            var results = new EnumInstructionResult(attr.ResultEnum, (result, input) => callback(result, input, activityStart));
-            if(inputs!= null && instructor is IVisualInstructorInputs inputsInstructor)
-            {
-                instructionId = inputsInstructor.Execute(sender, parameters, inputs, results);
-            }
-            else if(inputs == null)
-            {
-                instructionId = instructor.Execute(sender, parameters, results);
-            }
-            else
-            {
-                throw new NotImplementedException("Instructor does not implement extendend interface for inputs");
-            }
+            var results = EnumInstructionResult.PossibleResults(attr.ResultEnum);
+            var resultObjects = EnumInstructionResult.PossibleInstructionResults(attr.ResultEnum);
 
-            return instructionId;
+            return instructor.Execute(new ActiveInstruction
+            {
+                Title = title,
+                Instructions = parameters,
+                PossibleResults = results,
+                Results = resultObjects.ToArray(),
+                Inputs = inputs
+            }, instructionResponse => callback(EnumInstructionResult.ResultToEnumValue(attr.ResultEnum, instructionResponse), instructionResponse.Inputs, activityStart));
         }
 
         private static VisualInstruction[] GetInstructions(ActivityStart activity)

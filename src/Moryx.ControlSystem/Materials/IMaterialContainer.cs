@@ -11,7 +11,7 @@ namespace Moryx.ControlSystem.Materials
     /// <summary>
     /// Public API of resources that represent material containers of different types
     /// </summary>
-    public interface IMaterialContainer : IPublicResource
+    public interface IMaterialContainer : IResource
     {
         /// <summary>
         /// Identifier of this material container
