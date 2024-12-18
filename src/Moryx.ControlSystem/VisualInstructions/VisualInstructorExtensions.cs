@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
+using System.Linq;
 using System.Reflection;
 using Moryx.AbstractionLayer;
 using Moryx.ControlSystem.Cells;
@@ -38,6 +39,56 @@ namespace Moryx.ControlSystem.VisualInstructions
         {
             var instructions = GetInstructions(activityStart);
             return instructor.Display(sender, instructions);
+        }
+
+        /// <summary>
+        /// Show a visual instruction text message
+        /// </summary>
+        /// <param name="instructor">The instructor to display the message</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="message">The message to be displayed</param>
+        /// <returns>The id of the instruction</returns>
+        public static long DisplayMessage(this IVisualInstructor instructor, string sender, string message)
+        {
+            return instructor.DisplayMessages(sender, new string[] { message });
+        }
+
+        /// <summary>
+        /// Show a set of messages as a visual instruction 
+        /// </summary>
+        /// <param name="instructor">The instructor to display the messages</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="messages">The messages to be displayed</param>
+        /// <returns>The id of the instruction</returns>
+        public static long DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages)
+        {
+            var instructions = messages.Select(AsInstruction).ToArray();
+            return instructor.Display(sender, instructions);
+        }
+
+        /// <summary>
+        /// Show a visual instruction text message
+        /// </summary>
+        /// <param name="instructor">The instructor to display the message</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="message">The message to be displayed</param>
+        /// <param name="autoClearMs">Time after which the message will be cleared</param>
+        public static void DisplayMessage(this IVisualInstructor instructor, string sender, string message, int autoClearMs)
+        {
+            instructor.DisplayMessages(sender, new string[] { message }, autoClearMs);
+        }
+
+        /// <summary>
+        /// Show a set of messages as a visual instruction 
+        /// </summary>
+        /// <param name="instructor">The instructor to display the messages</param>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="messages">The messages to be displayed</param>
+        /// <param name="autoClearMs">Time after which the messages will be cleared</param>
+        public static void DisplayMessages(this IVisualInstructor instructor, string sender, string[] messages, int autoClearMs)
+        {
+            var instructions = messages.Select(AsInstruction).ToArray();
+            instructor.Display(sender, instructions, autoClearMs);
         }
 
         /// <summary>
