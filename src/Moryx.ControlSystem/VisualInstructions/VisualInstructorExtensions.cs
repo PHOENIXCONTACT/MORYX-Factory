@@ -142,7 +142,7 @@ namespace Moryx.ControlSystem.VisualInstructions
                     if (result.SelectedResult?.Key == null)
                         callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.Result));
                     else
-                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult));
+                        callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult.Key));
                 });
         }
 
