@@ -137,7 +137,7 @@ namespace Moryx.ControlSystem.VisualInstructions
                 title,
                 parameter,
                 EnumInstructionResult.PossibleResults(typeof(T)),
-                result => callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult.Key)));
+                result => callback(EnumInstructionResult.ResultToGenericEnumValue<T>(result.SelectedResult)));
         }
 
         /// <summary>
