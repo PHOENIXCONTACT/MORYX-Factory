@@ -18,6 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		Build.ps1 = Build.ps1
+		.build\Common.props = .build\Common.props
 		Directory.build.props = Directory.build.props
 		Directory.Build.targets = Directory.Build.targets
 		LICENSE = LICENSE
