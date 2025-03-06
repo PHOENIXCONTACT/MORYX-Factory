@@ -20,6 +20,10 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         Text,
         /// <summary>
+        /// Markdown instruction
+        /// </summary>
+        Markdown,
+        /// <summary>
         /// Media instruction
         /// </summary>
         Media
