@@ -6,7 +6,7 @@
     <MoryxFrameworkVersion>8.0.0</MoryxFrameworkVersion>
   </PropertyGroup>
 
-  <Import Project=".build\Common.props" Condition="'$(CreatePackage)' == 'true'" />
+  <Import Project=".build\Common.props" Condition="'$(IsPackable)' == 'true'" />
 
   <!-- Package refereces for all projects if CreatePackage=true -->
   <ItemGroup Condition="'$(CreatePackage)' == 'true'">
