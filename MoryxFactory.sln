@@ -15,8 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.Orders", "src\Moryx.O
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0681B57D-F8D1-40CE-ADF5-07EE9A97DAE0}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		Build.ps1 = Build.ps1
+		.build\Common.props = .build\Common.props
 		Directory.build.props = Directory.build.props
 		Directory.Build.targets = Directory.Build.targets
 		LICENSE = LICENSE
@@ -29,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.ProcessData", "src\Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.ProcessData.Tests", "src\Tests\Moryx.ProcessData.Tests\Moryx.ProcessData.Tests.csproj", "{8E9609B6-9AF6-4F8E-A8DD-0B98E8B3B587}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moryx.Factory", "src\Moryx.Factory\Moryx.Factory.csproj", "{4B1C8062-EF37-4880-AFDF-2C3CCEE3A848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.Factory", "src\Moryx.Factory\Moryx.Factory.csproj", "{4B1C8062-EF37-4880-AFDF-2C3CCEE3A848}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moryx.Simulation", "src\Moryx.Simulation\Moryx.Simulation.csproj", "{23B4A0C7-6F13-4FBB-998C-CD56DCF6D775}"
 EndProject

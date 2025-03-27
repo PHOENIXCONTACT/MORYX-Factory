@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -10,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
+		<ProjectReference Include="..\Moryx.ControlSystem\Moryx.ControlSystem.csproj" />
 	</ItemGroup>
 
 </Project>
