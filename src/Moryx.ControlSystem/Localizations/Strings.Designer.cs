@@ -61,6 +61,33 @@ namespace Moryx.ControlSystem.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information about the current activity of the current process.
+        /// </summary>
+        public static string CURRENT_ACTIVITY {
+            get {
+                return ResourceManager.GetString("CURRENT_ACTIVITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID of the carried process.
+        /// </summary>
+        public static string CURRENT_PROCESS {
+            get {
+                return ResourceManager.GetString("CURRENT_PROCESS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        public static string ID {
+            get {
+                return ResourceManager.GetString("ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operation Number.
         /// </summary>
         public static string OrderBasedRecipe_OperationNumber {
@@ -93,6 +120,42 @@ namespace Moryx.ControlSystem.Localizations {
         public static string OrderBasedRecipe_OrderNumber_Description {
             get {
                 return ResourceManager.GetString("OrderBasedRecipe_OrderNumber_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process holder group.
+        /// </summary>
+        public static string PROCESS_HOLDER_GROUP {
+            get {
+                return ResourceManager.GetString("PROCESS_HOLDER_GROUP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SAMPLE TEXT.
+        /// </summary>
+        public static string PROCESS_HOLDER_GROUP_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("PROCESS_HOLDER_GROUP_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Process holder position.
+        /// </summary>
+        public static string PROCESS_HOLDER_POSITION {
+            get {
+                return ResourceManager.GetString("PROCESS_HOLDER_POSITION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SAMPLE TEXT.
+        /// </summary>
+        public static string PROCESS_HOLDER_POSITION_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("PROCESS_HOLDER_POSITION_DESCRIPTION", resourceCulture);
             }
         }
         
