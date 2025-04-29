@@ -79,6 +79,24 @@ namespace Moryx.Factory.Localizations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image.
+        /// </summary>
+        public static string IMAGE {
+            get {
+                return ResourceManager.GetString("IMAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Machine location.
+        /// </summary>
+        public static string MACHINE_LOCATION {
+            get {
+                return ResourceManager.GetString("MACHINE_LOCATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manufacturing Factory.
         /// </summary>
         public static string MANUFACTURING_FACTORY {
@@ -88,11 +106,29 @@ namespace Moryx.Factory.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SAMPLE TEXT Manufacturing Factory.
+        ///   Looks up a localized string similar to Position X.
         /// </summary>
-        public static string MANUFACTURING_FACTORY_DESCRIPTION {
+        public static string POSITION_X {
             get {
-                return ResourceManager.GetString("MANUFACTURING_FACTORY_DESCRIPTION", resourceCulture);
+                return ResourceManager.GetString("POSITION_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position Y.
+        /// </summary>
+        public static string POSITION_Y {
+            get {
+                return ResourceManager.GetString("POSITION_Y", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specific icon.
+        /// </summary>
+        public static string SPECIFIC_ICON {
+            get {
+                return ResourceManager.GetString("SPECIFIC_ICON", resourceCulture);
             }
         }
     }

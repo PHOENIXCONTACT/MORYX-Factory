@@ -117,43 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="OrderBasedRecipe_OrderNumber" xml:space="preserve">
-    <value>Auftragsnummer</value>
+  <data name="BACKGROUND_URL" xml:space="preserve">
+    <value />
   </data>
-  <data name="OrderBasedRecipe_OperationNumber" xml:space="preserve">
-    <value>Vorgangsnummer</value>
+  <data name="BACKGROUND_URL_DESCRIPTION" xml:space="preserve">
+    <value />
   </data>
-  <data name="OrderBasedRecipe_OrderNumber_Description" xml:space="preserve">
-    <value>Auftragsnummer die für dieses Rezept genutzt wird</value>
+  <data name="IMAGE" xml:space="preserve">
+    <value />
   </data>
-  <data name="OrderBasedRecipe_OperationNumber_Description" xml:space="preserve">
-    <value>Vorgangsnummer die für dieses Rezept genutzt wird</value>
+  <data name="MACHINE_LOCATION" xml:space="preserve">
+    <value />
   </data>
-  <data name="SetupTriggerConfig_Disabled_Description" xml:space="preserve">
-    <value>Wenn aktiviert, wird der Trigger ignoriert</value>
+  <data name="MANUFACTURING_FACTORY" xml:space="preserve">
+    <value />
   </data>
-  <data name="SetupTriggerConfig_Disabled_Name" xml:space="preserve">
-    <value>Deaktiviert</value>
+  <data name="POSITION_X" xml:space="preserve">
+    <value />
   </data>
-  <data name="PROCESS_HOLDER_POSITION" xml:space="preserve">
-    <value>Prozesshalterposition</value>
+  <data name="POSITION_Y" xml:space="preserve">
+    <value />
   </data>
-  <data name="PROCESS_HOLDER_POSITION_DESCRIPTION" xml:space="preserve">
-    <value>Eine virtuelle Instanz zur Speicherung von Informationen über die Position eines Prozesses</value>
-  </data>
-  <data name="PROCESS_HOLDER_GROUP_DESCRIPTION" xml:space="preserve">
-    <value>Eine virtuelle Instanz zur Speicherung von Informationen über den Prozess</value>
-  </data>
-  <data name="PROCESS_HOLDER_GROUP" xml:space="preserve">
-    <value>Prozesshaltergruppe</value>
-  </data>
-  <data name="CURRENT_PROCESS" xml:space="preserve">
-    <value>Kennung des durchgeführten Prozesses</value>
-  </data>
-  <data name="CURRENT_ACTIVITY" xml:space="preserve">
-    <value>Informationen zur aktuellen Aktivität des laufenden Prozesses</value>
-  </data>
-  <data name="ID" xml:space="preserve">
-    <value>Kennung</value>
+  <data name="SPECIFIC_ICON" xml:space="preserve">
+    <value />
   </data>
 </root>

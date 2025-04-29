@@ -12,7 +12,7 @@ using Moryx.Serialization;
 namespace Moryx.Factory
 {
     [ResourceRegistration]
-    [Display(Name = nameof(Strings.MANUFACTURING_FACTORY), Description = nameof(Strings.MANUFACTURING_FACTORY_DESCRIPTION), ResourceType = typeof(Localizations.Strings))]
+    [Display(Name = nameof(Strings.MANUFACTURING_FACTORY), ResourceType = typeof(Localizations.Strings))]
     public class ManufacturingFactory : Resource, IManufacturingFactory
     {
         [DataMember, EntrySerialize, DefaultValue("https://www.phoenixcontact.com/common/assets/images/signal-chain.svg")]

@@ -139,10 +139,10 @@
     <value>Process holder position</value>
   </data>
   <data name="PROCESS_HOLDER_POSITION_DESCRIPTION" xml:space="preserve">
-    <value>SAMPLE TEXT</value>
+    <value>A virtual instance to hold information about the position of a process</value>
   </data>
   <data name="PROCESS_HOLDER_GROUP_DESCRIPTION" xml:space="preserve">
-    <value>SAMPLE TEXT</value>
+    <value>A virtual group instance to hold information about the process</value>
   </data>
   <data name="PROCESS_HOLDER_GROUP" xml:space="preserve">
     <value>Process holder group</value>
@@ -154,6 +154,6 @@
     <value>Information about the current activity of the current process</value>
   </data>
   <data name="ID" xml:space="preserve">
-    <value>ID</value>
+    <value>Unique Identifier</value>
   </data>
 </root>

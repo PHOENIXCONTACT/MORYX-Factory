@@ -79,7 +79,7 @@ namespace Moryx.ControlSystem.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ID.
+        ///   Looks up a localized string similar to Unique Identifier.
         /// </summary>
         public static string ID {
             get {
@@ -133,7 +133,7 @@ namespace Moryx.ControlSystem.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SAMPLE TEXT.
+        ///   Looks up a localized string similar to A virtual group instance to hold information about the process.
         /// </summary>
         public static string PROCESS_HOLDER_GROUP_DESCRIPTION {
             get {
@@ -151,7 +151,7 @@ namespace Moryx.ControlSystem.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SAMPLE TEXT.
+        ///   Looks up a localized string similar to A virtual instance to hold information about the position of a process.
         /// </summary>
         public static string PROCESS_HOLDER_POSITION_DESCRIPTION {
             get {

@@ -119,18 +119,26 @@
   </resheader>
   <data name="BACKGROUND_URL" xml:space="preserve">
     <value>Background Url</value>
-    <comment>Hintergrund-URL</comment>
   </data>
   <data name="BACKGROUND_URL_DESCRIPTION" xml:space="preserve">
     <value>URL of the background picture of the Factory Monitor</value>
-    <comment>URL des Hintergrundbildes des Factory Monitors</comment>
+  </data>
+  <data name="IMAGE" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="MACHINE_LOCATION" xml:space="preserve">
+    <value>Machine location</value>
   </data>
   <data name="MANUFACTURING_FACTORY" xml:space="preserve">
     <value>Manufacturing Factory</value>
-    <comment>Produktionsfabrik</comment>
   </data>
-  <data name="MANUFACTURING_FACTORY_DESCRIPTION" xml:space="preserve">
-    <value>SAMPLE TEXT Manufacturing Factory</value>
-    <comment>GERMAN SAMPLE TEXT Manufacturing Factory</comment>
+  <data name="POSITION_X" xml:space="preserve">
+    <value>Position X</value>
+  </data>
+  <data name="POSITION_Y" xml:space="preserve">
+    <value>Position Y</value>
+  </data>
+  <data name="SPECIFIC_ICON" xml:space="preserve">
+    <value>Specific icon</value>
   </data>
 </root>
