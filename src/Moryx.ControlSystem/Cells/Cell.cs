@@ -1,3 +1,6 @@
+// Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,31 +8,85 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moryx.AbstractionLayer;
+using Moryx.AbstractionLayer.Capabilities;
 using Moryx.AbstractionLayer.Resources;
 
 namespace Moryx.ControlSystem.Cells
 {
     /// <summary>
-    /// Base type for all implementations of <see cref="ICell"/>.
+    /// Base type for all implementations of <see cref="ICell"/>
     /// </summary>
     [Description("Base type for all cells within a production system")]
     public abstract class Cell : Resource, ICell
     {
-        /// <inheritdoc />
-        public abstract IEnumerable<Session> ControlSystemAttached();
-
-        /// <inheritdoc />
-        public abstract IEnumerable<Session> ControlSystemDetached();
-
-        /// <inheritdoc />
-        /// <inheritdoc />
-        public virtual void ProcessAborting(IActivity affectedActivity) { }
+        private readonly Dictionary<Guid, TaskCompletionSource<Session>> _sessionCompletionSources =
+            new Dictionary<Guid, TaskCompletionSource<Session>>();
 
         /// <summary>
         /// CancellationTokenSource that must be canceled during <see cref="OnStop"/>.
         /// Used to cancel async operations during resource shutdown.
         /// </summary>
         protected CancellationTokenSource LifeCycleTokenSource = new CancellationTokenSource();
+
+
+        /// <inheritdoc />
+        public abstract IEnumerable<Session> ControlSystemAttached();
+
+        /// <inheritdoc />
+        public abstract IEnumerable<Session> ControlSystemDetached();
+
+        /// <summary>
+        /// Callback of the control system, to start an activity in the cell.
+        /// ProcessEngine will call the ICell interface.
+        /// Requests started with the async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>.
+        /// </summary>
+        void ICell.StartActivity(ActivityStart activityStart)
+        {
+            // check if session was started async
+            if (_sessionCompletionSources.TryGetValue(activityStart.Id, out var completionSource))
+            {
+                _sessionCompletionSources.Remove(activityStart.Id);
+                if (!completionSource.TrySetResult(activityStart))
+                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(ActivityStart)}]");
+                return;
+            }
+
+            StartActivity(activityStart);
+        }
+
+        /// <summary>
+        /// Callback of the control system, to start an activity in the cell.
+        /// </summary>
+        /// <param name="activityStart"></param>
+        public abstract void StartActivity(ActivityStart activityStart);
+
+        /// <inheritdoc />
+        public virtual void ProcessAborting(IActivity affectedActivity) { }
+		
+        /// <summary>
+        /// Callback from the control system, that the sequence was completed.
+        /// ProcessEngine will call the ICell interface.
+        /// Requests started with the Async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>
+        /// or <see cref="PublishActivityCompletedAsync(Moryx.ControlSystem.Cells.ActivityCompleted)"/>.
+        /// </summary>
+        void ICell.SequenceCompleted(SequenceCompleted completed)
+        {
+            if (_sessionCompletionSources.TryGetValue(completed.Id, out var completionSource))
+            {
+                _sessionCompletionSources.Remove(completed.Id);
+                if (!completionSource.TrySetResult(completed))
+                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(SequenceCompleted)}]");
+                return;
+            }
+
+            SequenceCompleted(completed);
+        }
+
+        /// <summary>
+        /// Callback from the control system, that the sequence was completed.
+        /// </summary>
+        /// <param name="completed"></param>
+        public abstract void SequenceCompleted(SequenceCompleted completed);
 
         /// <inheritdoc />
         protected override void OnStop()
@@ -38,9 +95,6 @@ namespace Moryx.ControlSystem.Cells
             LifeCycleTokenSource.Dispose();
             base.OnStop();
         }
-
-        private readonly Dictionary<Guid, TaskCompletionSource<Session>> _sessionCompletionSources =
-            new Dictionary<Guid, TaskCompletionSource<Session>>();
 
         /// <summary>
         /// Publish a <see cref="ReadyToWork"/> from the resource.
@@ -91,16 +145,8 @@ namespace Moryx.ControlSystem.Cells
         public event EventHandler<ReadyToWork> ReadyToWork;
 
         /// <summary>
-        /// Publish a <see cref="NotReadyToWork"/> from the resource
-        /// </summary>
-        public void PublishNotReadyToWorkAsync(NotReadyToWork notReadyToWork)
-        {
-            PublishNotReadyToWork(notReadyToWork);
-        }
-
-        /// <summary>
         /// Publish a <see cref="NotReadyToWork"/> from the resource.
-        /// If the Session was started within a Async 
+        /// If the session was started within <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/> that async call is canceled
         /// </summary>
         public void PublishNotReadyToWork(NotReadyToWork notReadyToWork)
         {
@@ -130,6 +176,7 @@ namespace Moryx.ControlSystem.Cells
         /// Publish <see cref="ActivityCompleted"/> from the resource
         /// </summary>
         /// <param name="activityResult"></param>
+        /// <param name="cancellationToken"></param>
         public Task<Session> PublishActivityCompletedAsync(ActivityCompleted activityResult, CancellationToken cancellationToken)
         {
             Logger.Log(LogLevel.Trace, $"PublishActivityCompletedAsync Session {activityResult.Id}, Classification {activityResult.AcceptedClassification}, {activityResult.Reference}");
@@ -155,58 +202,6 @@ namespace Moryx.ControlSystem.Cells
         {
             ActivityCompleted?.Invoke(this, activityResult);
         }
-
-
-        /// <summary>
-        /// Callback of the control system, to start an activity in the cell.
-        /// ProcessEngine will call the ICell interface.
-        /// Requests started with the async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>.
-        /// </summary>
-        void ICell.StartActivity(ActivityStart activityStart)
-        {
-            // check if session was started async
-            if (_sessionCompletionSources.TryGetValue(activityStart.Id, out var completionSource))
-            {
-                _sessionCompletionSources.Remove(activityStart.Id);
-                if (!completionSource.TrySetResult(activityStart))
-                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(ActivityStart)}]");
-                return;
-            }
-
-            StartActivity(activityStart);
-        }
-
-        /// <summary>
-        /// Callback of the control system, to start an activity in the cell.
-        /// </summary>
-        /// <param name="activityStart"></param>
-        public abstract void StartActivity(ActivityStart activityStart);
-
-        /// <summary>
-        /// Callback from the control system, that the sequence was completed.
-        /// ProcessEngine will call the ICell interface.
-        /// Requests started with the Async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>
-        /// or <see cref="PublishActivityCompletedAsync(Moryx.ControlSystem.Cells.ActivityCompleted)"/>.
-        /// </summary>
-        void ICell.SequenceCompleted(SequenceCompleted completed)
-        {
-            if (_sessionCompletionSources.TryGetValue(completed.Id, out var completionSource))
-            {
-                _sessionCompletionSources.Remove(completed.Id);
-                if (!completionSource.TrySetResult(completed))
-                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(SequenceCompleted)}]");
-                return;
-            }
-
-            SequenceCompleted(completed);
-        }
-
-        /// <summary>
-        /// Callback from the control system, that the sequence was completed.
-        /// </summary>
-        /// <param name="completed"></param>
-        public abstract void SequenceCompleted(SequenceCompleted completed);
-
 
         /// <inheritdoc />
         public event EventHandler<ActivityCompleted> ActivityCompleted;
