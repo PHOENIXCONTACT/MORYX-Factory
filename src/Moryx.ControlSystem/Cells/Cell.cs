@@ -165,7 +165,13 @@ namespace Moryx.ControlSystem.Cells
                 return completionSource.Task;
             }
 
-            _sessionCompletionSources.TryAdd(readyToWork, completionSource);
+            if (!_sessionCompletionSources.TryAdd(readyToWork, completionSource))
+            {
+                Logger.Log(LogLevel.Error, "There is already a running async operation for Session {0}! Cancel the current request!", readyToWork.Id);
+                completionSource.TrySetCanceled();
+                return completionSource.Task;
+            }
+
             ReadyToWork.Invoke(this, readyToWork);
 
             try
@@ -238,7 +244,12 @@ namespace Moryx.ControlSystem.Cells
             // throw exception if cancellation via token was requested
             linkedToken.ThrowIfCancellationRequested();
 
-            _sessionCompletionSources.TryAdd(activityResult, completionSource);
+            if (_sessionCompletionSources.TryAdd(activityResult, completionSource))
+            {
+                Logger.Log(LogLevel.Warning, "There is already a running async operation for Session {0}! Cancel current request!", activityResult.Id);
+                completionSource.TrySetCanceled();
+                return completionSource.Task;
+            }
             // ActivityCompleted must be wired because we received the ActivityStart before!
             ActivityCompleted!.Invoke(this, activityResult);
             return completionSource.Task;
