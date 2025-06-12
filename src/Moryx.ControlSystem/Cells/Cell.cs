@@ -2,14 +2,18 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moryx.AbstractionLayer;
 using Moryx.AbstractionLayer.Capabilities;
 using Moryx.AbstractionLayer.Resources;
+using Moryx.ControlSystem.Activities;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Moryx.ControlSystem.Cells
 {
@@ -19,14 +23,14 @@ namespace Moryx.ControlSystem.Cells
     [Description("Base type for all cells within a production system")]
     public abstract class Cell : Resource, ICell
     {
-        private readonly Dictionary<Guid, TaskCompletionSource<Session>> _sessionCompletionSources =
-            new Dictionary<Guid, TaskCompletionSource<Session>>();
+        private readonly ConcurrentDictionary<Session, TaskCompletionSource<Session>> _sessionCompletionSources =
+            new ConcurrentDictionary<Session, TaskCompletionSource<Session>>(new SessionComparer());
 
         /// <summary>
         /// CancellationTokenSource that must be canceled during <see cref="OnStop"/>.
         /// Used to cancel async operations during resource shutdown.
         /// </summary>
-        protected CancellationTokenSource LifeCycleTokenSource = new CancellationTokenSource();
+        protected readonly CancellationTokenSource LifeCycleTokenSource = new CancellationTokenSource();
 
 
         /// <inheritdoc />
@@ -36,46 +40,78 @@ namespace Moryx.ControlSystem.Cells
         public abstract IEnumerable<Session> ControlSystemDetached();
 
         /// <summary>
-        /// Callback of the control system, to start an activity in the cell.
-        /// ProcessEngine will call the ICell interface.
-        /// Requests started with the async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>.
+        /// Callback to start an activity on the cell after a <see cref="ReadyToWork"/> event was raised.
+        /// If not otherwise explicitly required all depending components will use the interface to refer to cells,
+        /// making this the right place to interject and complete tasks
+        /// started by async calls to <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>.
         /// </summary>
         void ICell.StartActivity(ActivityStart activityStart)
         {
             // check if session was started async
-            if (_sessionCompletionSources.TryGetValue(activityStart.Id, out var completionSource))
+            if (_sessionCompletionSources.TryRemove(activityStart, out var completionSource))
             {
-                _sessionCompletionSources.Remove(activityStart.Id);
+                // by setting the result PublishReadyToWorkAsync will be completed.
                 if (!completionSource.TrySetResult(activityStart))
-                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(ActivityStart)}]");
-                return;
+                {
+                    Logger.Log(LogLevel.Error,"Cannot set result of async request with session {0}. [{1}]", activityStart.Id,
+                            nameof(ActivityStart));
+                }
+                // session was started async: do NOT forward activity start to StartActivity()!
+                return; 
             }
 
             StartActivity(activityStart);
         }
 
         /// <summary>
-        /// Callback of the control system, to start an activity in the cell.
+        /// Callback to start an activity on the cell after a <see cref="ReadyToWork"/> event was raised.
         /// </summary>
         /// <param name="activityStart"></param>
         public abstract void StartActivity(ActivityStart activityStart);
 
-        /// <inheritdoc />
-        public virtual void ProcessAborting(IActivity affectedActivity) { }
-		
         /// <summary>
-        /// Callback from the control system, that the sequence was completed.
-        /// ProcessEngine will call the ICell interface.
-        /// Requests started with the Async api will be redirected to the async call <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/>
-        /// or <see cref="PublishActivityCompletedAsync(Moryx.ControlSystem.Cells.ActivityCompleted)"/>.
+        /// Callback to abort a running activity on the cell after a <see cref="StartActivity(Moryx.ControlSystem.Cells.ActivityStart)"/> was received.
+        /// Aborting might occur due to a abort of the related Job.
+        /// If not otherwise explicitly required all depending components will use the interface to refer to cells,
+        /// making this the right place to interject suppress ProcessAborting for pending async result calls started with <see cref="PublishActivityCompletedAsync(Moryx.ControlSystem.Cells.ActivityCompleted)"/> .
+        /// </summary>
+        void ICell.ProcessAborting(IActivity affectedActivity)
+        {
+            var asyncResult = _sessionCompletionSources.SingleOrDefault(pair =>
+                pair.Key is ActivityCompleted completed &&
+                completed.CompletedActivity.Id == affectedActivity.Id);
+            if (asyncResult.Key != null)
+            {
+                Logger.Log(LogLevel.Information, "ProcessAborting of activity {0} [{1}] was suppressed due to a pending async activity result. Session {2}!", affectedActivity.Id, affectedActivity.GetType().Name, asyncResult.Key.Id);
+                return;
+            }
+            ProcessAborting(affectedActivity);
+        }
+
+        /// <summary>
+        /// Callback to abort a running activity on the cell after a <see cref="StartActivity(Moryx.ControlSystem.Cells.ActivityStart)"/> was received.
+        /// Aborting might occur due to a abort of the related Job.
+        /// </summary>
+        public virtual void ProcessAborting(IActivity affectedActivity) { }
+
+        /// <summary>
+        /// Callback to complete a sequence on the cell after a <see cref="ReadyToWork"/> or <see cref="ActivityCompleted"/> event was raised.
+        /// If not otherwise explicitly required all depending components will use the interface to refer to cells,
+        /// making this the right place to interject and complete tasks started by async calls
+        /// to <see cref="PublishReadyToWorkAsync(Moryx.ControlSystem.Cells.ReadyToWork)"/> or <see cref="PublishActivityCompletedAsync(Moryx.ControlSystem.Cells.ActivityCompleted)"/> .
         /// </summary>
         void ICell.SequenceCompleted(SequenceCompleted completed)
         {
-            if (_sessionCompletionSources.TryGetValue(completed.Id, out var completionSource))
+            // check if session was started async
+            if (_sessionCompletionSources.TryRemove(completed, out var completionSource))
             {
-                _sessionCompletionSources.Remove(completed.Id);
+                // by setting the result teh related async call (PublishReadyToWorkAsync or PublishActivityCompletedAsync) will be completed.
                 if (!completionSource.TrySetResult(completed))
-                    Logger.Log(LogLevel.Error, $"Cannot set result of async request. [{nameof(SequenceCompleted)}]");
+                {
+                    Logger.Log(LogLevel.Error, "Cannot set result of async request for session {0}. [{1}]", completed.Id,
+                            nameof(SequenceCompleted));
+                }
+                // session was started async: do NOT forward SequenceCompleted to SequenceCompleted()!
                 return;
             }
 
@@ -109,28 +145,42 @@ namespace Moryx.ControlSystem.Cells
         /// Publish a <see cref="ReadyToWork"/> from the resource.
         /// Returns the <see cref="ActivityStart"/> or <see cref="Moryx.ControlSystem.Cells.SequenceCompleted"/> when returned.
         /// </summary>
-        public async Task<Session> PublishReadyToWorkAsync(ReadyToWork readyToWork, CancellationToken cancellationToken)
+        public Task<Session> PublishReadyToWorkAsync(ReadyToWork readyToWork, CancellationToken cancellationToken)
         {
-            Logger.Log(LogLevel.Trace, $"PublishReadyToWorkAsync Session {readyToWork.Id} Type {readyToWork.ReadyToWorkType}, Classification {readyToWork.AcceptedClassification}, {readyToWork.Reference}");
+            Logger.Log(LogLevel.Trace, "PublishReadyToWorkAsync Session {0} Type {1}, Classification {2}, {3}", readyToWork.Id,
+                    readyToWork.ReadyToWorkType, readyToWork.AcceptedClassification, readyToWork.Reference);
             using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(LifeCycleTokenSource.Token, cancellationToken);
             var linkedToken = linkedTokenSource.Token;
+
+            var completionSource = new TaskCompletionSource<Session>();
+            linkedToken.Register(() => completionSource.TrySetCanceled());
             // throw exception if cancellation via token was requested
             linkedToken.ThrowIfCancellationRequested();
-            // double check if any of the combined Tokens are already canceled.
-            cancellationToken.ThrowIfCancellationRequested();
-            LifeCycleTokenSource.Token.ThrowIfCancellationRequested();
 
-            var completionSource = new TaskCompletionSource<Session>(linkedToken);
-            _sessionCompletionSources.Add(readyToWork.Id, completionSource);
-            ReadyToWork!.Invoke(this, readyToWork);
-            var result = await completionSource.Task;
-            if (completionSource.Task.IsCanceled)
+            // check event to be wired
+            if (ReadyToWork == null)
             {
-                Logger.Log(LogLevel.Information, $"PublishReadyToWorkAsync canceled! Session {readyToWork.Id} Publish NotReadyToWork");
+                Logger.Log(LogLevel.Error, "PublishReadyToWorkAsync for session {0} canceled! ReadyToWork-Event not wired. Make sure to await ControlSystemAttached before starting any sessions!", readyToWork.Id);
+                completionSource.TrySetCanceled();
+                return completionSource.Task;
+            }
+
+            _sessionCompletionSources.TryAdd(readyToWork, completionSource);
+            ReadyToWork.Invoke(this, readyToWork);
+
+            try
+            {
+                // now waiting for StartActivity() or SequenceCompleted()
+                completionSource.Task.GetAwaiter().GetResult();
+            }
+            catch (TaskCanceledException e)
+            {
+                Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {0} Publish NotReadyToWork", readyToWork.Id);
+                // NotReadyToWork must be wired because we raised ReadyToWork before!
                 NotReadyToWork!.Invoke(this,readyToWork.PauseSession());
             }
 
-            return result;
+            return completionSource.Task;
         }
 
         /// <summary>
@@ -150,9 +200,8 @@ namespace Moryx.ControlSystem.Cells
         /// </summary>
         public void PublishNotReadyToWork(NotReadyToWork notReadyToWork)
         {
-            if (_sessionCompletionSources.TryGetValue(notReadyToWork.Id, out var completionSource))
+            if (_sessionCompletionSources.TryRemove(notReadyToWork, out var completionSource))
             {
-                _sessionCompletionSources.Remove(notReadyToWork.Id);
                 completionSource.TrySetCanceled();
                 // cancellation of the completionSource will send a NotReadyToWork 
                 return;
@@ -179,17 +228,18 @@ namespace Moryx.ControlSystem.Cells
         /// <param name="cancellationToken"></param>
         public Task<Session> PublishActivityCompletedAsync(ActivityCompleted activityResult, CancellationToken cancellationToken)
         {
-            Logger.Log(LogLevel.Trace, $"PublishActivityCompletedAsync Session {activityResult.Id}, Classification {activityResult.AcceptedClassification}, {activityResult.Reference}");
+            Logger.Log(LogLevel.Trace,"PublishActivityCompletedAsync Session {0}, Classification {1}, {2}", activityResult.Id,
+                    activityResult.AcceptedClassification, activityResult.Reference);
             using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(LifeCycleTokenSource.Token, cancellationToken);
             var linkedToken = linkedTokenSource.Token;
-            // throw exception if cancellation via token was requested
-            linkedToken.ThrowIfCancellationRequested();
-            // double check if any of the combined Tokens are already canceled.
-            cancellationToken.ThrowIfCancellationRequested();
-            LifeCycleTokenSource.Token.ThrowIfCancellationRequested();
 
             var completionSource = new TaskCompletionSource<Session>();
-            _sessionCompletionSources.Add(activityResult.Id, completionSource);
+            linkedToken.Register(() => completionSource.TrySetCanceled());
+            // throw exception if cancellation via token was requested
+            linkedToken.ThrowIfCancellationRequested();
+
+            _sessionCompletionSources.TryAdd(activityResult, completionSource);
+            // ActivityCompleted must be wired because we received the ActivityStart before!
             ActivityCompleted!.Invoke(this, activityResult);
             return completionSource.Task;
         }
@@ -205,5 +255,25 @@ namespace Moryx.ControlSystem.Cells
 
         /// <inheritdoc />
         public event EventHandler<ActivityCompleted> ActivityCompleted;
+
+        /// <summary>
+        /// IEqualityComparer to compare different sessions in a dictionary by their Id.
+        /// </summary>
+        private class SessionComparer : IEqualityComparer<Session>
+        {
+            /// <inheritdoc />
+            public bool Equals(Session x, Session y)
+            {
+                if (x == null || y == null)
+                    return false;
+                return x.Id.Equals(y.Id);
+            }
+
+            /// <inheritdoc />
+            public int GetHashCode(Session obj)
+            {
+                return obj.Id.GetHashCode();
+            }
+        }
     }
 }
