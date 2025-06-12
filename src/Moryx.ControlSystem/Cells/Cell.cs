@@ -136,6 +136,11 @@ namespace Moryx.ControlSystem.Cells
         /// Publish a <see cref="ReadyToWork"/> from the resource.
         /// Returns the <see cref="ActivityStart"/> or <see cref="Moryx.ControlSystem.Cells.SequenceCompleted"/> when returned.
         /// </summary>
+        /// <exception cref="OperationCanceledException">
+        /// Operation might be canceled due to Lifecycle-CancellationToken,
+        /// Personal-CancellationToken, request was not able to execute or
+        /// <see cref="PublishNotReadyToWork"/> was called for the related session.
+        /// </exception>
         public Task<Session> PublishReadyToWorkAsync(ReadyToWork readyToWork)
         {
             return PublishReadyToWorkAsync(readyToWork, CancellationToken.None);
@@ -145,6 +150,11 @@ namespace Moryx.ControlSystem.Cells
         /// Publish a <see cref="ReadyToWork"/> from the resource.
         /// Returns the <see cref="ActivityStart"/> or <see cref="Moryx.ControlSystem.Cells.SequenceCompleted"/> when returned.
         /// </summary>
+        /// <exception cref="OperationCanceledException">
+        /// Operation might be canceled due to Lifecycle-CancellationToken,
+        /// Personal-CancellationToken, request was not able to execute or
+        /// <see cref="PublishNotReadyToWork"/> was called for the related session.
+        /// </exception>
         public Task<Session> PublishReadyToWorkAsync(ReadyToWork readyToWork, CancellationToken cancellationToken)
         {
             Logger.Log(LogLevel.Trace, "PublishReadyToWorkAsync Session {0} Type {1}, Classification {2}, {3}", readyToWork.Id,
@@ -220,8 +230,12 @@ namespace Moryx.ControlSystem.Cells
 
         /// <summary>
         /// Publish <see cref="ActivityCompleted"/> from the resource
+        /// Returns the <see cref="Moryx.ControlSystem.Cells.SequenceCompleted"/> when returned.
         /// </summary>
-        /// <param name="activityResult"></param>
+        /// <exception cref="OperationCanceledException">
+        /// Operation might be canceled due to Lifecycle-CancellationToken,
+        /// Personal-CancellationToken or request was not able to execute.
+        /// </exception>
         public Task<Session> PublishActivityCompletedAsync(ActivityCompleted activityResult)
         {
             return PublishActivityCompletedAsync(activityResult, CancellationToken.None);
@@ -229,9 +243,12 @@ namespace Moryx.ControlSystem.Cells
 
         /// <summary>
         /// Publish <see cref="ActivityCompleted"/> from the resource
+        /// Returns the <see cref="Moryx.ControlSystem.Cells.SequenceCompleted"/> when returned.
         /// </summary>
-        /// <param name="activityResult"></param>
-        /// <param name="cancellationToken"></param>
+        /// <exception cref="OperationCanceledException">
+        /// Operation might be canceled due to Lifecycle-CancellationToken,
+        /// Personal-CancellationToken or request was not able to execute.
+        /// </exception>
         public Task<Session> PublishActivityCompletedAsync(ActivityCompleted activityResult, CancellationToken cancellationToken)
         {
             Logger.Log(LogLevel.Trace,"PublishActivityCompletedAsync Session {0}, Classification {1}, {2}", activityResult.Id,
@@ -258,7 +275,6 @@ namespace Moryx.ControlSystem.Cells
         /// <summary>
         /// Publish <see cref="ActivityCompleted"/> from the resource
         /// </summary>
-        /// <param name="activityResult"></param>
         public void PublishActivityCompleted(ActivityCompleted activityResult)
         {
             ActivityCompleted?.Invoke(this, activityResult);
