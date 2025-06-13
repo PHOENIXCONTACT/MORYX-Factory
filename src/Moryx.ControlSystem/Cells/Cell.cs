@@ -105,7 +105,7 @@ namespace Moryx.ControlSystem.Cells
             // check if session was started async
             if (_sessionCompletionSources.TryRemove(completed, out var completionSource))
             {
-                // by setting the result teh related async call (PublishReadyToWorkAsync or PublishActivityCompletedAsync) will be completed.
+                // by setting the result the related async call (PublishReadyToWorkAsync or PublishActivityCompletedAsync) will be completed.
                 if (!completionSource.TrySetResult(completed))
                 {
                     Logger.Log(LogLevel.Error, "Cannot set result of async request for session {sessionId}. [{sessionType}]", completed.Id,
