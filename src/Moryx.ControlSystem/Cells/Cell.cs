@@ -53,7 +53,7 @@ namespace Moryx.ControlSystem.Cells
                 // by setting the result PublishReadyToWorkAsync will be completed.
                 if (!completionSource.TrySetResult(activityStart))
                 {
-                    Logger.Log(LogLevel.Error,"Cannot set result of async request with session {0}. [{1}]", activityStart.Id,
+                    Logger.Log(LogLevel.Error,"Cannot set result of async request with session {sessionId}. [{sessionType}]", activityStart.Id,
                             nameof(ActivityStart));
                 }
                 // session was started async: do NOT forward activity start to StartActivity()!
@@ -82,7 +82,7 @@ namespace Moryx.ControlSystem.Cells
                 completed.CompletedActivity.Id == affectedActivity.Id);
             if (asyncResult.Key != null)
             {
-                Logger.Log(LogLevel.Information, "ProcessAborting of activity {0} [{1}] was suppressed due to a pending async activity result. Session {2}!", affectedActivity.Id, affectedActivity.GetType().Name, asyncResult.Key.Id);
+                Logger.Log(LogLevel.Information, "ProcessAborting of activity {activityId} [{activityType}] was suppressed due to a pending async activity result. Session {sessionId}!", affectedActivity.Id, affectedActivity.GetType().Name, asyncResult.Key.Id);
                 return;
             }
             ProcessAborting(affectedActivity);
@@ -108,7 +108,7 @@ namespace Moryx.ControlSystem.Cells
                 // by setting the result teh related async call (PublishReadyToWorkAsync or PublishActivityCompletedAsync) will be completed.
                 if (!completionSource.TrySetResult(completed))
                 {
-                    Logger.Log(LogLevel.Error, "Cannot set result of async request for session {0}. [{1}]", completed.Id,
+                    Logger.Log(LogLevel.Error, "Cannot set result of async request for session {sessionId}. [{sessionType}]", completed.Id,
                             nameof(SequenceCompleted));
                 }
                 // session was started async: do NOT forward SequenceCompleted to SequenceCompleted()!
@@ -119,9 +119,8 @@ namespace Moryx.ControlSystem.Cells
         }
 
         /// <summary>
-        /// Callback from the control system, that the sequence was completed.
+        /// Callback to complete a sequence on the cell after a <see cref="ReadyToWork"/> or <see cref="ActivityCompleted"/> event was raised.
         /// </summary>
-        /// <param name="completed"></param>
         public abstract void SequenceCompleted(SequenceCompleted completed);
 
         /// <inheritdoc />
@@ -157,7 +156,7 @@ namespace Moryx.ControlSystem.Cells
         /// </exception>
         public Task<Session> PublishReadyToWorkAsync(ReadyToWork readyToWork, CancellationToken cancellationToken)
         {
-            Logger.Log(LogLevel.Trace, "PublishReadyToWorkAsync Session {0} Type {1}, Classification {2}, {3}", readyToWork.Id,
+            Logger.Log(LogLevel.Trace, "PublishReadyToWorkAsync Session {sessionId} Type {rtwType}, Classification {classification}, {reference}", readyToWork.Id,
                     readyToWork.ReadyToWorkType, readyToWork.AcceptedClassification, readyToWork.Reference);
             using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(LifeCycleTokenSource.Token, cancellationToken);
             var linkedToken = linkedTokenSource.Token;
@@ -170,14 +169,14 @@ namespace Moryx.ControlSystem.Cells
             // check event to be wired
             if (ReadyToWork == null)
             {
-                Logger.Log(LogLevel.Error, "PublishReadyToWorkAsync for session {0} canceled! ReadyToWork-Event not wired. Make sure to await ControlSystemAttached before starting any sessions!", readyToWork.Id);
+                Logger.Log(LogLevel.Error, "PublishReadyToWorkAsync for session {sessionId} canceled! ReadyToWork-Event not wired. Make sure to await ControlSystemAttached before starting any sessions!", readyToWork.Id);
                 completionSource.TrySetCanceled();
                 return completionSource.Task;
             }
 
             if (!_sessionCompletionSources.TryAdd(readyToWork, completionSource))
             {
-                Logger.Log(LogLevel.Error, "There is already a running async operation for Session {0}! Cancel the current request!", readyToWork.Id);
+                Logger.Log(LogLevel.Error, "There is already a running async operation for Session {sessionId}! Cancel the current request!", readyToWork.Id);
                 completionSource.TrySetCanceled();
                 return completionSource.Task;
             }
@@ -189,9 +188,9 @@ namespace Moryx.ControlSystem.Cells
                 // now waiting for StartActivity() or SequenceCompleted()
                 completionSource.Task.GetAwaiter().GetResult();
             }
-            catch (TaskCanceledException e)
+            catch (TaskCanceledException)
             {
-                Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {0} Publish NotReadyToWork", readyToWork.Id);
+                Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {sessionId} Publish NotReadyToWork", readyToWork.Id);
                 // NotReadyToWork must be wired because we raised ReadyToWork before!
                 NotReadyToWork!.Invoke(this,readyToWork.PauseSession());
             }
@@ -251,7 +250,7 @@ namespace Moryx.ControlSystem.Cells
         /// </exception>
         public Task<Session> PublishActivityCompletedAsync(ActivityCompleted activityResult, CancellationToken cancellationToken)
         {
-            Logger.Log(LogLevel.Trace,"PublishActivityCompletedAsync Session {0}, Classification {1}, {2}", activityResult.Id,
+            Logger.Log(LogLevel.Trace,"PublishActivityCompletedAsync Session {sessionId}, Classification {classification}, {reference}", activityResult.Id,
                     activityResult.AcceptedClassification, activityResult.Reference);
             using var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(LifeCycleTokenSource.Token, cancellationToken);
             var linkedToken = linkedTokenSource.Token;
@@ -263,7 +262,7 @@ namespace Moryx.ControlSystem.Cells
 
             if (_sessionCompletionSources.TryAdd(activityResult, completionSource))
             {
-                Logger.Log(LogLevel.Warning, "There is already a running async operation for Session {0}! Cancel current request!", activityResult.Id);
+                Logger.Log(LogLevel.Warning, "There is already a running async operation for Session {sessionId}! Cancel current request!", activityResult.Id);
                 completionSource.TrySetCanceled();
                 return completionSource.Task;
             }
