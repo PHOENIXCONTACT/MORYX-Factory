@@ -183,19 +183,17 @@ namespace Moryx.ControlSystem.Cells
 
             ReadyToWork.Invoke(this, readyToWork);
 
-            try
-            {
-                // now waiting for StartActivity() or SequenceCompleted()
-                completionSource.Task.GetAwaiter().GetResult();
-            }
-            catch (TaskCanceledException)
+            Session PublishNotReadyToWorkIfCanceled(Task<Session> task)
             {
                 Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {sessionId} Publish NotReadyToWork", readyToWork.Id);
                 // NotReadyToWork must be wired because we raised ReadyToWork before!
-                NotReadyToWork!.Invoke(this,readyToWork.PauseSession());
+                NotReadyToWork!.Invoke(this, readyToWork.PauseSession());
+                return task.Result;
             }
 
-            return completionSource.Task;
+            // now waiting for StartActivity() or SequenceCompleted()
+            return completionSource.Task
+                .ContinueWith(PublishNotReadyToWorkIfCanceled, TaskContinuationOptions.OnlyOnCanceled);
         }
 
         /// <summary>
