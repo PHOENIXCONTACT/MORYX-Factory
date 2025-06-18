@@ -185,15 +185,18 @@ namespace Moryx.ControlSystem.Cells
 
             Session PublishNotReadyToWorkIfCanceled(Task<Session> task)
             {
-                Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {sessionId} Publish NotReadyToWork", readyToWork.Id);
-                // NotReadyToWork must be wired because we raised ReadyToWork before!
-                NotReadyToWork!.Invoke(this, readyToWork.PauseSession());
+                if (task.IsCanceled)
+                {
+                    Logger.Log(LogLevel.Information, "PublishReadyToWorkAsync canceled! Session {sessionId} Publish NotReadyToWork", readyToWork.Id);
+                    // NotReadyToWork must be wired because we raised ReadyToWork before!
+                    NotReadyToWork!.Invoke(this, readyToWork.PauseSession());
+                }
+
                 return task.Result;
             }
 
             // now waiting for StartActivity() or SequenceCompleted()
-            return completionSource.Task
-                .ContinueWith(PublishNotReadyToWorkIfCanceled, TaskContinuationOptions.OnlyOnCanceled);
+            return completionSource.Task.ContinueWith(PublishNotReadyToWorkIfCanceled);
         }
 
         /// <summary>
