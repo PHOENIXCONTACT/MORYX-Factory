@@ -2,13 +2,17 @@
 // Licensed under the Apache License, Version 2.0
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Moryx.AbstractionLayer.Resources;
+using Moryx.ControlSystem.Localizations;
 
 namespace Moryx.ControlSystem.Processes
 {
     /// <summary>
     /// Default implementation for <see cref="IProcessHolderGroup{IProcessHolderPosition}"/>
     /// </summary>
+    [ResourceRegistration]
+    [Display(Name = nameof(Strings.PROCESS_HOLDER_GROUP), Description = nameof(Strings.PROCESS_HOLDER_GROUP_DESCRIPTION), ResourceType = typeof(Localizations.Strings))]
     public class ProcessHolderGroup : Resource, IProcessHolderGroup
     {
         /// <summary>
