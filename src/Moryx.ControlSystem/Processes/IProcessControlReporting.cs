@@ -1,4 +1,5 @@
 // Copyright (c) 2025, Phoenix Contact GmbH & Co. KG
+// Licensed under the Apache License, Version 2.0
 
 using Moryx.AbstractionLayer;
 
@@ -22,11 +23,11 @@ namespace Moryx.ControlSystem.Processes
     /// <summary>
     /// Facade interface to get more information from the control system.
     /// </summary>
-    public interface IProcessControlV10 : IProcessControl
+    public interface IProcessControlReporting : IProcessControl
     {
 
         /// <summary>
-        /// Reports a process as broken or removed
+        /// Report a specific <see cref="ReportAction"/> to have been executed on the <paramref name="process"/>
         /// </summary>
         /// <param name="process">The process to report</param>
         /// <param name="action">The action to perform</param>
