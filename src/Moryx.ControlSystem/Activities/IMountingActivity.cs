@@ -36,4 +36,17 @@ namespace Moryx.ControlSystem.Activities
         /// </summary>
         MountOperation Operation { get; }
     }
+
+    /// <summary>
+    /// Special interface to identify activities that perform mount operations
+    /// </summary>
+    public interface IMountingActivityExtended : IMountingActivity
+    {
+        /// <summary>
+        /// Flag to trigger wpc routing to provide a empty wpc for this activity.
+        /// </summary>
+        bool EmptyWpcRequired { get; }
+    }
+
+
 }
