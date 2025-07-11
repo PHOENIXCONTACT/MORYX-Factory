@@ -18,13 +18,17 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         Unknown,
         /// <summary>
-        /// Simple text instruction
+        /// Simple text and Markdown instruction 
         /// </summary>
         Text,
         /// <summary>
         /// Media instruction
         /// </summary>
-        Media
+        Media,
+        /// <summary>
+        /// Html instruction 
+        /// </summary>
+        Html
     }
 
     /// <summary>
