@@ -1,6 +1,7 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System;
 using Moryx.AbstractionLayer;
 
 namespace Moryx.ControlSystem.Activities
@@ -40,7 +41,8 @@ namespace Moryx.ControlSystem.Activities
     /// <summary>
     /// Special interface to identify activities that perform mount operations
     /// </summary>
-    public interface IMountingActivityExtended : IMountingActivity
+    [Obsolete("Will be merged into IMountingActivity within the next Major version!")]
+    public interface IEmptyWpcRequiredMountingActivity : IMountingActivity
     {
         /// <summary>
         /// Flag to trigger wpc routing to provide a empty wpc for this activity.
