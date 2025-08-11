@@ -24,6 +24,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// <summary>
         /// Determine possible string buttons from enum result
         /// </summary>
+        [Obsolete("Use the 'InstructionResults' method instead!'")]
         public static IReadOnlyList<InstructionResult> PossibleInstructionResults(Type resultEnum, params string[] exceptions)
         {
             return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
@@ -31,6 +32,18 @@ namespace Moryx.ControlSystem.VisualInstructions
                 Key = pair.Value.ToString("D"),
                 DisplayValue = pair.Key
             }).ToList();
+        }
+
+        /// <summary>
+        /// Determine possible string buttons from enum result
+        /// </summary>
+        public static InstructionResult[] InstructionResults(Type resultEnum, params string[] exceptions)
+        {
+            return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
+            {
+                Key = pair.Value.ToString("D"),
+                DisplayValue = pair.Key
+            }).ToArray();
         }
 
         /// <summary>
