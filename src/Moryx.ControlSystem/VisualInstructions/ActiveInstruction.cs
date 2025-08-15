@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 using System;
+using System.Collections.Generic;
 
 namespace Moryx.ControlSystem.VisualInstructions
 {
@@ -34,7 +35,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// Results of the instruction
         /// </summary>
         [Obsolete("Use the result objects in 'Results' property instead!")]
-        public string[] PossibleResults { get; set; } = Array.Empty<string>();
+        public IReadOnlyList<string> PossibleResults { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Possible results of the instruction

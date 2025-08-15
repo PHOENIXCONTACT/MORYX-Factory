@@ -10,7 +10,7 @@ namespace Moryx.ControlSystem.Cells
     /// <summary>
     /// Interface for all cells
     /// </summary>
-    public interface ICell : IPublicResource, IControlSystemBound
+    public interface ICell : IResource, IControlSystemBound
     {
         /// <summary>
         /// Start an activity in the cell

@@ -8,7 +8,7 @@ namespace Moryx.Factory
     /// <summary>
     /// Group of resources inside the factory
     /// </summary>
-    public interface IMachineGroup : IPublicResource
+    public interface IMachineGroup : IResource
     {
         /// <summary>
         /// Default icon for this resource group

@@ -9,43 +9,88 @@ using System.Linq;
 namespace Moryx.ControlSystem.VisualInstructions
 {
     /// <summary>
-    /// Represents an <see cref="IInstructionResults"/> which will handle enums to generate results and convert them back
+    /// Static helper class to convert result enums to button lables and parse the response to numeric values
     /// </summary>
-    public class EnumInstructionResult : IInstructionInputResults, IInstructionKeyResults
+    public static class EnumInstructionResult
     {
-        private readonly Action<int, object> _callback;
-        private readonly Dictionary<string, int> _valueMap = new Dictionary<string, int>();
-
-        /// <inheritdoc />
-        public string[] Results => _valueMap.Keys.ToArray();
-
-        /// <inheritdoc />
-        public InstructionResult[] PossibleResults => _valueMap.Select(pair => new InstructionResult
-        {
-            Key = pair.Value.ToString("D"),
-            DisplayValue = pair.Key
-        }).ToArray();
-
         /// <summary>
-        /// Creates a new instance of <see cref="EnumInstructionResult"/>
+        /// Determine possbile string buttons from enum result
         /// </summary>
-        public EnumInstructionResult(Type resultEnum, Action<int> callback, params string[] exceptions)
-            : this(resultEnum, (result, input) => callback(result), exceptions)
+        public static IReadOnlyList<string> PossibleResults(Type resultEnum, params string[] exceptions)
         {
+            return ParseEnum(resultEnum, exceptions).Keys.ToList();
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="EnumInstructionResult"/>
+        /// Determine possible string buttons from enum result
         /// </summary>
-        /// <param name="resultEnum">Enum type which will be used to create instruction results</param>
-        /// <param name="callback">Callback with enum result value of the executed instruction</param>
-        /// <param name="exceptions">Excepted enum value names. Will be ignored for result</param>
-        public EnumInstructionResult(Type resultEnum, Action<int, object> callback, params string[] exceptions)
+        public static IReadOnlyList<InstructionResult> PossibleInstructionResults(Type resultEnum, params string[] exceptions)
         {
-            _callback = callback;
+            return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
+            {
+                Key = pair.Value.ToString("D"),
+                DisplayValue = pair.Key
+            }).ToList();
+        }
 
-            var allHidden = true;
+        /// <summary>
+        /// Parse the given result back to an enum value
+        /// </summary>
+        public static int ResultToEnumValue(Type resultEnum, string result)
+        {
+            return ParseEnum(resultEnum)[result];
+        }
+
+        /// <summary>
+        /// Parse the given result back to an enum value
+        /// </summary>
+        public static int ResultToEnumValue(Type resultEnum, InstructionResult result)
+        {
+            return int.Parse(result.Key);
+        }
+
+        /// <summary>
+        /// Extract result from response object depending on what values is present
+        /// </summary>
+        public static int ResultToEnumValue(Type resultEnum, ActiveInstructionResponse response)
+        {
+            if(response.SelectedResult != null)
+                return ResultToEnumValue(resultEnum, response.SelectedResult);
+
+            if (response.Result != null)
+                return ResultToEnumValue(resultEnum, response.Result);
+
+            throw new ArgumentException("No result found on response", nameof(response));
+        }
+
+        /// <summary>
+        /// Convert string result to typed enum
+        /// </summary>
+        public static TEnum ResultToGenericEnumValue<TEnum>(string result)
+            where TEnum : Enum
+        {
+            var numeric = ResultToEnumValue(typeof(TEnum), result);
+            return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
+        }
+
+        /// <summary>
+        /// Convert string result to typed enum
+        /// </summary>
+        public static TEnum ResultToGenericEnumValue<TEnum>(InstructionResult result)
+            where TEnum : Enum
+        {
+            var numeric = int.Parse(result.Key);
+            return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
+        }
+
+        /// <summary>
+        /// Parse the given enum to an dictionary of button text and value
+        /// </summary>
+        private static IDictionary<string, int> ParseEnum(Type resultEnum, params string[] exceptions)
+        {
             var allValues = new Dictionary<string, int>();
+            var displayValues = new Dictionary<string, int>();
+            var hiddenValues = new Dictionary<string, int>();
             foreach (var name in Enum.GetNames(resultEnum).Except(exceptions))
             {
                 var member = resultEnum.GetMember(name)[0];
@@ -53,53 +98,41 @@ namespace Moryx.ControlSystem.VisualInstructions
                 var displayName = member.GetDisplayName();
                 var attribute = (EnumInstructionAttribute)member.GetCustomAttributes(typeof(EnumInstructionAttribute), false).FirstOrDefault();
 
-                var text = displayName ?? attribute?.Title ?? name;
-                allValues[text] = (int)Enum.Parse(resultEnum, name);
+                var text = displayName ?? name;
+                var numericValue = (int)Enum.Parse(resultEnum, name);
+                allValues[text] = numericValue;
 
-                if(attribute == null)
+                if (attribute?.Hide == true)
                 {
-                    allHidden = false;
+                    hiddenValues[text] = numericValue;
                 }
-                else if(!attribute.Hide)
+                else if (attribute?.Hide == false)
                 {
-                    allHidden = false;
-                    _valueMap[text] = allValues[text];
+                    displayValues[text] = numericValue;
                 }
             }
 
-            // If we found no entries, the display attribute was not used and we take all entries
-            if (_valueMap.Count == 0 && !allHidden)
-                _valueMap = allValues;
-        }
+            // We have different cases
+            // Case 1: A few values are explicity decorated => only display those
+            // Note: In all following cases displayValues is 0
+            if (displayValues.Count > 0)
+            {
+                return displayValues;
+            }
+            // Case 2: Nothing decorated or hidden => display all values
+            if (hiddenValues.Count == 0)
+            {
+                return allValues;
+            }
 
-        /// <summary>
-        /// Invokes the callback with the given string result
-        /// Will parse the string to the enum value
-        /// </summary>
-        public virtual void Invoke(string result)
-        {
-            var enumValue = _valueMap[result];
-            _callback(enumValue, null);
-        }
-
-        /// <summary>
-        /// Invokes the callback with the given string result
-        /// Will parse the string to the enum value
-        /// </summary>
-        public void Invoke(string result, object input)
-        {
-            var enumValue = _valueMap[result];
-            _callback(enumValue, input);
-        }
-
-        /// <summary>
-        /// Invokes the callback with the given string result
-        /// Will parse the string to the enum value
-        /// </summary>
-        public void Invoke(InstructionResult result, object input)
-        {
-            var enumValue = int.Parse(result.Key);
-            _callback(enumValue, input);
+            // Case 3: All values are explicitly hidden => display nothing 
+            if (allValues.Count == hiddenValues.Count)
+            {
+                return displayValues;
+            }
+            // Case 4: Some values hidden, nothing explicitly displayed => display all except hidden
+            // This case does not a condition, since it's the only remaining option
+            return allValues.Except(hiddenValues).ToDictionary(p => p.Key, p => p.Value);
         }
     }
 }
