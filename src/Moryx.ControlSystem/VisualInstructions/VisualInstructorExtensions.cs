@@ -26,6 +26,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = parameter.Instructions,
+                //TODO: remove the casting in MORYX 10
                 Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             });
         }
@@ -40,6 +41,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = parameter.Instructions,
+                //TODO: remove the casting in MORYX 10
                 Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             }, autoClearMs);
         }
@@ -54,6 +56,7 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = instructions,
+                //TODO: remove the casting in MORYX 10
                 Inputs = (activityStart.Activity.Parameters as VisualInstructionParameters)?.Inputs,
             });
         }
@@ -127,6 +130,8 @@ namespace Moryx.ControlSystem.VisualInstructions
                 Title = title,
                 Instructions = parameter.Instructions,
                 PossibleResults = results,
+                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray(),
+                //TODO: remove the casting in MORYX 10
                 Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             }, callback);
         }
@@ -163,6 +168,7 @@ namespace Moryx.ControlSystem.VisualInstructions
                 Instructions = instructions,
                 PossibleResults = results,
                 Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray(),
+                //TODO: remove the casting in MORYX 10
                 Inputs = (activityStart.Activity.Parameters as VisualInstructionParameters)?.Inputs,
             }, callback);
         }
