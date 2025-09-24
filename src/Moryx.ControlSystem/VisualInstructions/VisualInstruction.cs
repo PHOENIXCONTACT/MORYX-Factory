@@ -54,6 +54,7 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// <summary>
     /// Interface for classes that define instructions
     /// </summary>
+    //TODO: remove  in MORYX 10, will be replaced by VisualInstructionParameters
     public interface IVisualInstructions
     {
         /// <summary>

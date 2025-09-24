@@ -1,10 +1,11 @@
-﻿// Copyright (c) 2024, Phoenix Contact GmbH & Co. KG
+// Copyright (c) 2024, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using Moryx.AbstractionLayer;
 using Moryx.ControlSystem.Cells;
 
@@ -24,7 +25,9 @@ namespace Moryx.ControlSystem.VisualInstructions
             return instructor.Display(new ActiveInstruction
             {
                 Title = title,
-                Instructions = parameter.Instructions
+                Instructions = parameter.Instructions,
+                //TODO: remove the casting in MORYX 10
+                Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             });
         }
 
@@ -37,7 +40,9 @@ namespace Moryx.ControlSystem.VisualInstructions
             instructor.Display(new ActiveInstruction
             {
                 Title = title,
-                Instructions = parameter.Instructions
+                Instructions = parameter.Instructions,
+                //TODO: remove the casting in MORYX 10
+                Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             }, autoClearMs);
         }
 
@@ -50,7 +55,9 @@ namespace Moryx.ControlSystem.VisualInstructions
             return instructor.Display(new ActiveInstruction
             {
                 Title = title,
-                Instructions = instructions
+                Instructions = instructions,
+                //TODO: remove the casting in MORYX 10
+                Inputs = (activityStart.Activity.Parameters as VisualInstructionParameters)?.Inputs,
             });
         }
 
@@ -122,7 +129,10 @@ namespace Moryx.ControlSystem.VisualInstructions
             {
                 Title = title,
                 Instructions = parameter.Instructions,
-                PossibleResults = results
+                PossibleResults = results,
+                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray(),
+                //TODO: remove the casting in MORYX 10
+                Inputs = (parameter as VisualInstructionParameters)?.Inputs,
             }, callback);
         }
 
@@ -157,7 +167,9 @@ namespace Moryx.ControlSystem.VisualInstructions
                 Title = title,
                 Instructions = instructions,
                 PossibleResults = results,
-                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray()
+                Results = results.Select(r => new InstructionResult { Key = r, DisplayValue = r }).ToArray(),
+                //TODO: remove the casting in MORYX 10
+                Inputs = (activityStart.Activity.Parameters as VisualInstructionParameters)?.Inputs,
             }, callback);
         }
 
