@@ -1,8 +1,10 @@
 // Copyright (c) 2021, Phoenix Contact GmbH & Co. KG
 // Licensed under the Apache License, Version 2.0
 
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Moryx.Serialization;
+using Moryx.ControlSystem.Localizations;
 
 namespace Moryx.ControlSystem.VisualInstructions
 {
@@ -28,7 +30,6 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// <summary>
     /// Interface of a single instruction
     /// </summary>
-    [DataContract]
     public class VisualInstruction
     {
         /// <summary>
@@ -53,6 +54,7 @@ namespace Moryx.ControlSystem.VisualInstructions
     /// <summary>
     /// Interface for classes that define instructions
     /// </summary>
+    //TODO: remove  in MORYX 10, will be replaced by VisualInstructionParameters
     public interface IVisualInstructions
     {
         /// <summary>
