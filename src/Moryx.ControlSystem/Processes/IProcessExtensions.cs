@@ -1,8 +1,7 @@
-﻿using Moryx.AbstractionLayer.Products;
+﻿using System;
 using Moryx.AbstractionLayer;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Moryx.AbstractionLayer.Products;
+using Moryx.ControlSystem.Recipes;
 
 namespace Moryx.ControlSystem.Processes
 {
@@ -65,6 +64,38 @@ namespace Moryx.ControlSystem.Processes
                 return false;
             setter.Invoke(instance);
             return true;
+        }
+
+        /// <summary>
+        /// Returns <see cref="IOrderBasedRecipe.OrderNumber"/> on the <see cref="IProcess"/> using the given <paramref name="process"/>. 
+        /// </summary>
+        /// <param name="process">The process holding the order number</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// process.GetOrderNumber()
+        /// ]]>
+        /// </code>
+        /// </example>
+        public static string GetOrderNumber(this IProcess process)
+        {
+            return (process.Recipe as IOrderBasedRecipe)?.OrderNumber;
+        }
+
+        /// <summary>
+        /// Returns <see cref="IOrderBasedRecipe.OperationNumber"/> on the <see cref="IProcess"/> using the given <paramref name="process"/>. 
+        /// </summary>
+        /// <param name="process">The process holding the operation number</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// process.GetOperationNumber()
+        /// ]]>
+        /// </code>
+        /// </example>
+        public static string GetOperationNumber(this IProcess process)
+        {
+            return (process.Recipe as IOrderBasedRecipe)?.OperationNumber;
         }
     }
 }
