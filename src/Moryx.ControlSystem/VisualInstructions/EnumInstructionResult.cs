@@ -5,6 +5,7 @@ using Moryx.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace Moryx.ControlSystem.VisualInstructions
 {
@@ -29,7 +30,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         {
             return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
             {
-                Key = pair.Value.ToString("D"),
+                Key = pair.Value.ToString("D", CultureInfo.InvariantCulture),
                 DisplayValue = pair.Key
             }).ToList();
         }
@@ -41,7 +42,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         {
             return ParseEnum(resultEnum, exceptions).Select(pair => new InstructionResult
             {
-                Key = pair.Value.ToString("D"),
+                Key = pair.Value.ToString("D", CultureInfo.InvariantCulture),
                 DisplayValue = pair.Key
             }).ToArray();
         }
@@ -59,7 +60,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         /// </summary>
         public static int ResultToEnumValue(Type resultEnum, InstructionResult result)
         {
-            return int.Parse(result.Key);
+            return int.Parse(result.Key, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace Moryx.ControlSystem.VisualInstructions
         public static TEnum ResultToGenericEnumValue<TEnum>(InstructionResult result)
             where TEnum : Enum
         {
-            var numeric = int.Parse(result.Key);
+            var numeric = int.Parse(result.Key, CultureInfo.InvariantCulture);
             return (TEnum)Enum.ToObject(typeof(TEnum), numeric);
         }
 
