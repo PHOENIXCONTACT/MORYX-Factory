@@ -35,6 +35,7 @@ namespace Moryx.ControlSystem.Activities
         /// <summary>
         /// Operation this activity performs
         /// </summary>
+        [Obsolete("Use IMountingActivityExtended.ExecutedMountOperation")]
         MountOperation Operation { get; }
     }
 
@@ -42,12 +43,17 @@ namespace Moryx.ControlSystem.Activities
     /// Special interface to identify activities that perform mount operations
     /// </summary>
     [Obsolete("Will be merged into IMountingActivity within the next Major version!")]
-    public interface IEmptyWpcRequiredMountingActivity : IMountingActivity
+    public interface IMountingActivityExtended : IMountingActivity
     {
         /// <summary>
-        /// Flag to trigger wpc routing to provide a empty wpc for this activity.
+        /// MountOperation that is the intended target of the Activity.
         /// </summary>
-        bool EmptyWpcRequired { get; }
+        MountOperation IntendedMountOperation { get; }
+
+        /// <summary>
+        /// MountOperation that was reached within the result of the Activity.
+        /// </summary>
+        MountOperation ExecutedMountOperation { get; }
     }
 
 
